@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint --fix"
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write src"
   },
   "dependencies": {
     "next": "12.3.1",
@@ -20,6 +21,8 @@
     "@types/react-dom": "18.0.6",
     "eslint": "8.26.0",
     "eslint-config-next": "12.3.1",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.7.1",
     "typescript": "4.8.4"
   }
 }
