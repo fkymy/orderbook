@@ -5,5 +5,13 @@
     "react/display-name": "off",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "off"
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ]
   }
 }
