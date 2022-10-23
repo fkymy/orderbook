@@ -1,2 +1,5 @@
-#!/bin/bash
-echo hello pre-commit
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+cd demo
+yarn lint-staged
