@@ -1,11 +1,17 @@
-import { Button, Icon, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react";
+import { HStack, Button, Icon, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react";
 import { Box, Container, Stack, Text } from "@chakra-ui/layout";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { ethers } from 'ethers';
 import MarketPlaceFacotory from "../../../../backend/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json"
 
 
-export function CreateForm() {
+interface Props {
+  previewMode: string;
+  setPreviewMode: Dispatch<SetStateAction<string>>;
+};
+
+
+export function CreateForm(props: Props) {
   const format = (val) => val + `%`
   const parse = (val) => val.replace(/%$/, '')
 
@@ -95,6 +101,51 @@ export function CreateForm() {
               <NumberDecrementStepper/>
             </NumberInputStepper>
           </NumberInput>
+        </Stack>
+        <Stack width={'100%'}>
+          <Text as="b" fontSize="1xl">
+            Preview Mode
+          </Text>
+          <Container style={{
+            backgroundColor: '#ffffff',
+            height: '46px',
+            borderRadius: '10px',
+            padding: 7
+          }}>
+            <HStack height='100%' spacing={2} style={{
+              padding: 0
+            }}>
+              {/* <Box width='50%' textAlign="center">
+                
+              </Box> */}
+              <Button
+                style={{
+                  width: '50%',
+                  height: '35px',
+                  backgroundColor: props.previewMode == 'market' ? '#0f0f0f' : '#ffffff',
+                  color: props.previewMode == 'market' ? '#f0f0f0': '#0f0f0f',
+                }}
+                onClick={() => {
+                  props.setPreviewMode('market');
+                }}
+              >
+                MarketPlace
+              </Button>
+              <Button
+                style={{
+                  width: '50%',
+                  height: '36px',
+                  backgroundColor: props.previewMode == 'item' ? '#0f0f0f' : '#ffffff',
+                  color: props.previewMode == 'item' ? '#f0f0f0': '#0f0f0f',
+                }}
+                onClick={() => {
+                  props.setPreviewMode('item');
+                }}
+              >
+                Item
+              </Button>
+            </HStack>
+          </Container>
         </Stack>
         <Button
           style={{

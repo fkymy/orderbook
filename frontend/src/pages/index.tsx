@@ -16,16 +16,16 @@ declare global {
 
 
 const Home: NextPage = () => {
-  const [isConnected, setIsConnected] = useState(false);
-  const connectWallet = async () => {
-    if (!window.ethereum)
-      return;
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
-    console.log(accounts[0]);
-    setIsConnected(true);
-  }
+  // const [isConnected, setIsConnected] = useState(false);
+  // const connectWallet = async () => {
+  //   if (!window.ethereum)
+  //     return;
+  //   const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+  //   console.log(accounts[0]);
+  //   setIsConnected(true);
+  // }
 
-  if (isConnected) {
+  if (true) {
     return (
       <div>
         {/* <Head>
@@ -54,23 +54,24 @@ const Home: NextPage = () => {
         </footer> */}
       </div>
     )
-  } else {
-    return (
-      <div>
-        <main>
-          <ChakraProvider>
-            <Center>
-              <Button
-                onClick={connectWallet}
-              >
-                Connect
-              </Button>
-            </Center>
-          </ChakraProvider>
-        </main>
-      </div>
-    )
-  }
+  } 
+  //   else {
+  //   return (
+  //     <div>
+  //       <main>
+  //         <ChakraProvider>
+  //           <Center>
+  //             <Button
+  //               onClick={connectWallet}
+  //             >
+  //               Connect
+  //             </Button>
+  //           </Center>
+  //         </ChakraProvider>
+  //       </main>
+  //     </div>
+  //   )
+  // }
 }
 
 export default Home
