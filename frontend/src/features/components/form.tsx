@@ -8,6 +8,10 @@ import MarketPlaceFacotory from "../../../../backend/artifacts/contracts/MarketP
 interface Props {
   previewMode: string;
   setPreviewMode: Dispatch<SetStateAction<string>>;
+  collectionAddress: string;
+  setCollectionAddress: Dispatch<SetStateAction<string>>;
+  // isGotCollectionData: boolean;
+  // setIsGotCollectionData: Dispatch<SetStateAction<boolean>>; 
 };
 
 
@@ -15,16 +19,16 @@ export function CreateForm(props: Props) {
   const format = (val) => val + `%`
   const parse = (val) => val.replace(/%$/, '')
 
-  const [contractAddress, setContractAddress] = useState('');
+  // const [contractAddress, setContractAddress] = useState('');
   const [creatorFee, setCreatorFee] = useState(0);
 
   const marketPlaceFactoryAddress = "0x0be934D7f224E559CD02eC604C543aEc3eAAAD10";
 
-  console.log(MarketPlaceFacotory);
+  // console.log(MarketPlaceFacotory);
   async function createMarketPlace() {
     if (!window.ethereum) {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
-      console.log(accounts[0]);
+      // console.log(accounts[0]);
     }
     // if (window.ethereum) {
     //   return;
@@ -48,7 +52,7 @@ export function CreateForm(props: Props) {
       accounts[0]
     )
     // console.log(tx);
-    console.log(tx2);
+    // console.log(tx2);
   }
 
   return (
@@ -71,9 +75,11 @@ export function CreateForm(props: Props) {
               backgroundColor: '#ffffff',
               width: '100%',
             }}
-            value={contractAddress}
+            value={props.collectionAddress}
             onChange={(event) => {
-              setContractAddress(event.target.value);
+              // props.setIsGotCollectionData(false);
+              // setContractAddress(event.target.value);
+              props.setCollectionAddress(event.target.value);
             }}
           />
         </Stack>
