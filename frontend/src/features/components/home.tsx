@@ -10,13 +10,14 @@ import { MarketPlace } from "./marketPlace";
 
 export function ConnectedTop() {
   const [previewMode, setPreviewMode] = useState('market');
+  const [collectionData, setCollectionData] = useState<any>();
+  const [collectionAddress, setCollectionAddress] = useState<string>("");
+  const [collectionDescription, setCollectionDescription] = useState<string>("");
 
   // const [isGotCollectionData, setIsGotCollectionData] = useState(false);
   // const { assetsData, getAssetsData } = useOpenseaAssetsData("0x5d424ce3fe2c56f2cee681f0c44ae965b41e9043");
   // const { collectionData, getCollectionData } = useCollectionData("0x5d424ce3fe2c56f2cee681f0c44ae965b41e9043");
   // const { collectionData, getCollectionData } = useCollectionData("0x0429ac207f335E1e90C36A860404195e7b1Eb11F");
-  const [collectionData, setCollectionData] = useState<any>();
-  const [collectionAddress, setCollectionAddress] = useState<string>("");
 
   useEffect(() => {
     // getAssetsData();
@@ -48,15 +49,18 @@ export function ConnectedTop() {
       >
         <Box style={{
           width: '350px',
-          minHeight: '100vh',
+          height: '100vh',
           backgroundColor: '#f0f0f0',
           // maxHeight: '250px'
+          overflowY: 'scroll',
         }}>
           <CreateForm
             previewMode={previewMode}
             setPreviewMode={setPreviewMode}
             collectionAddress={collectionAddress}
             setCollectionAddress={setCollectionAddress}
+            collectionDescription={collectionDescription}
+            setCollectionDescription={setCollectionDescription}
             // isGotCollectionData={isGotCollectionData}
             // setIsGotCollectionData={setIsGotCollectionData}
           />
@@ -71,7 +75,14 @@ export function ConnectedTop() {
           {
             collectionAddress != ""
               ? (
-                  previewMode == 'market' ? <MarketPlace collectionData={collectionData}/> : <Item/>
+                  previewMode == 'market'
+                    ? <MarketPlace 
+                        collectionData={collectionData}
+                        style={{
+                          collectionDescription: collectionDescription
+                        }}
+                      />
+                    : <Item/>
                 )
               : "Loading" 
           }

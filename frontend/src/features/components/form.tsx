@@ -1,4 +1,4 @@
-import { HStack, Button, Icon, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react";
+import { HStack, Button, Icon, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Textarea } from "@chakra-ui/react";
 import { Box, Container, Stack, Text } from "@chakra-ui/layout";
 import { Dispatch, SetStateAction, useState } from "react";
 import { ethers } from 'ethers';
@@ -10,6 +10,8 @@ interface Props {
   setPreviewMode: Dispatch<SetStateAction<string>>;
   collectionAddress: string;
   setCollectionAddress: Dispatch<SetStateAction<string>>;
+  collectionDescription: string;
+  setCollectionDescription: Dispatch<SetStateAction<string>>;
   // isGotCollectionData: boolean;
   // setIsGotCollectionData: Dispatch<SetStateAction<boolean>>; 
 };
@@ -162,6 +164,18 @@ export function CreateForm(props: Props) {
         >
           Create
         </Button>
+        <Stack>
+          <Text as="b" fontSize="1xl">
+            Discription
+          </Text>
+          <Textarea
+            backgroundColor='#ffffff'
+            height="100px"
+            borderRadius='10px'
+            resize='none'
+            onChange={(event) => props.setCollectionDescription(event.target.value)}
+          />
+        </Stack>
       </Stack>
     </Container>
   )
