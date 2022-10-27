@@ -1,4 +1,4 @@
-import { Avatar, Box, Center, Container, Grid, GridItem, Image, SimpleGrid, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
+import { AspectRatio, Avatar, Box, Center, Container, Grid, GridItem, Image, SimpleGrid, Square, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import { Nft } from "alchemy-sdk";
 
 interface Props {
@@ -19,20 +19,24 @@ export function MarketPlace(props: Props) {
     lg: '33%', 
     xl: '25%',
   }
+  console.log(props.collectionData?.data?.nfts[0]?.media[0]?.gateway);
 
   return (
-    <>
+    <Box style={{backgroundColor: '#ffffff'}}>
       <Stack spacing={0}>
-        <Box backgroundColor='#ffffff'>
+        <Box>
           <Image
             width='100px'
             height='100px'
             borderRadius='10'
             margin='40px'
-            src={`${props.collectionData?.data?.nfts[0]?.metadata?.image}`}
+            objectFit='contain'
+            shadow='md'
+            src={`${props.collectionData?.data?.nfts[0]?.media[0]?.gateway}`}
+            // src={`${props.collectionData?.data?.nfts[0]?.metadata?.image}`}
           />
         </Box>
-        <Box backgroundColor='#ffffff' padding='24px 40px 24px 40px'>
+        <Box padding='24px 40px 24px 40px'>
           <Box marginBottom='8px'>
             <Text as="b" fontSize='2xl'>
               {props.collectionData?.data?.nfts[0]?.contractMetadata?.name}
@@ -50,7 +54,7 @@ export function MarketPlace(props: Props) {
               : <></>
           }
         </Box>
-        <Box backgroundColor='#ffffff' minHeight='calc(100vh - 141px - 142px)'>
+        <Box minHeight='calc(100vh - 141px - 142px)'>
           {/* item list, my Item */}
           <Tabs colorScheme='black'>
             <TabList style={{paddingLeft: '30px'}}>
@@ -62,25 +66,47 @@ export function MarketPlace(props: Props) {
                 <SimpleGrid minChildWidth='250px' spacing={4}>
                   {
                     props.collectionData?.data?.nfts.map((nft: any, n: number) => {
-                      // if (n > 1) {
-                      //   return <></>
-                      // }
                       return (
                         <Box bg="#ffffff" maxWidth='510px' shadow='md' rounded='10px'>
                           <Stack marginBottom='10px'>
-                            <Image
-                              src={nft?.metadata?.image}
-                              style={{
-                                borderTopRightRadius: '10px',
-                                borderTopLeftRadius: '10px',
-                              }}
-                            />
+                            {/* <Square style={{width: "100%"}}> */}
+                            {/* <AspectRatio maxW="100%" ratio={1}> */}
+                            <Box style={{
+                              paddingTop: '100%',
+                              overflow: 'hidden',
+                              position: 'relative',
+                            }}>
+                              <Image
+                                // src={nft?.metadata?.image}
+                                src={nft?.media[0]?.gateway}
+                                // boxSize="100%"
+                                // height="1000px"
+                                // width="1000px"
+                                // objectFit="contain"
+                                style={{
+                                  borderTopRightRadius: '10px',
+                                  borderTopLeftRadius: '10px',
+                                  objectFit: 'contain',
+                                  width: '100%',
+                                  height: '100%',
+                                  position: 'absolute',
+                                  top: 0,
+                                  left: 0,
+                                  // width: '100%',
+                                  // height: '100%'
+                                  // paddingBottom: '100%',
+                                  // height: '0'
+                                }}
+                              />
+                            </Box>
+                            {/* </AspectRatio> */}
+                            {/* </Square> */}
                             <Container>
                               <Text as='b'>
                                 {nft?.metadata?.name}
                               </Text>
                               <Text color="gray">
-                                {'　'}
+                                {'　price'}
                               </Text>
                             </Container>
                           </Stack>
@@ -95,6 +121,6 @@ export function MarketPlace(props: Props) {
           </Tabs>
         </Box>
       </Stack>
-    </>
+    </Box>
   );
 }

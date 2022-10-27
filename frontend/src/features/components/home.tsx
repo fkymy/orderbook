@@ -26,7 +26,8 @@ export function ConnectedTop() {
     // if (collectionAddress != "") {
     if (collectionAddress != "") {
       axios
-        .get(`${constUrl.alchemyMumbaiNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForCollection/`, {
+        // .get(`${constUrl.alchemyMumbaiNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForCollection/`, {
+        .get(`${constUrl.alchemyGoerliNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForCollection/`, {
           params: {
             contractAddress: collectionAddress,
             withMetadata: true,
@@ -82,7 +83,9 @@ export function ConnectedTop() {
                           collectionDescription: collectionDescription
                         }}
                       />
-                    : <Item/>
+                    : <Item
+                        nftdata={collectionData?.data?.nfts[0]}
+                      />
                 )
               : "Loading" 
           }

@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
-import { Network, Alchemy } from "alchemy-sdk";
+// import { Network, Alchemy } from "alchemy-sdk";
 import axios from "axios";
 import { constUrl } from "../constant/constURL";
-import { createAlchemyWeb3 } from "@alch/alchemy-web3";
+// import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 
 export const useCollectionData = (address: string, owner?: string, offset: number = 0, limit: number = 100) => {
   const [collectionData, setData] = useState<any>();
@@ -21,8 +21,10 @@ export const useCollectionData = (address: string, owner?: string, offset: numbe
       //   constUrl.alchemyMumbaiNetApiURL + `/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
       // );
       // const nfts = await web3.alchemy.getNFTsFor({ contractAddresses: address });
+      // console.log(`${constUrl.alchemyGoerliNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForCollection/`);
       axios
-        .get(`${constUrl.alchemyMumbaiNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForCollection/`, {
+        // .get(`${constUrl.alchemyMumbaiNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForCollection/`, {
+          .get(`${constUrl.alchemyGoerliNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForCollection`, {
           params: {
             contractAddress: address,
             withMetadata: true,
