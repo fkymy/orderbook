@@ -5,7 +5,6 @@ import * as pactum from 'pactum'
 import { CreateBookmarkDto, EditBookmarkDto } from 'src/bookmark/dto'
 import { EditUserDto } from 'src/user/dto'
 import * as request from 'supertest'
-
 import { AppModule } from './../src/app.module'
 import { AuthDto } from './../src/auth/dto'
 import { PrismaService } from './../src/prisma/prisma.service'
