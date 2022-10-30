@@ -15,18 +15,7 @@ export class AdminController {
 
   constructor(private adminService: AdminService) {}
 
-  // Management
-  // - API key rate limit
-  // Orders
-  // - listings for a collection
-  // - bids for a collection
-  // Collections
-  // - token(s) with full metadata
-  // - collection source stats
   // Collection Sets
-  // Stats
-  // - aggregated stats
-  // - daily collection volume
   // Transfers
   // - historical token transfers
   // Activity
@@ -56,10 +45,34 @@ export class AdminController {
     return this.adminService.bids()
   }
 
+  @Get('collections')
+  @ApiOperation({ summary: 'Collection overview' })
+  collections() {
+    return this.adminService.collections()
+  }
+
   @Get('collections/sources')
   @ApiOperation({ summary: 'Aggregated listings info per source' })
   sources() {
     return this.adminService.sources()
+  }
+
+  @Get('stats')
+  @ApiOperation({ summary: 'Get aggregate stats for a particular set' })
+  stats() {
+    return this.adminService.stats()
+  }
+
+  @Get('daily-volumes')
+  @ApiOperation({ summary: 'Daily volumes, rank, sales' })
+  dailyVolume() {
+    return this.adminService.dailyVolume()
+  }
+
+  @Get('tokens')
+  @ApiOperation({ summary: 'Get a list of tokens with full metadata' })
+  tokens() {
+    return this.adminService.tokens()
   }
 
   @Get('test')

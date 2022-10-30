@@ -71,7 +71,6 @@ export class AdminService {
       url,
       res,
       data,
-      client,
     })
     return data
   }
@@ -95,7 +94,29 @@ export class AdminService {
       url,
       res,
       data,
-      client,
+    })
+    return data
+  }
+
+  async collections() {
+    const client = getClient()
+    const url =
+      `${this.testBaseUrl}/collections/v5` +
+      `?contract=${this.testCollectionAddress}` +
+      '&includeTopBid=false&sortBy=allTimeVolume&limit=20'
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        accept: '*/*',
+        'x-api-key': this.testApiKey,
+      },
+    })
+    const data = await res.json()
+    console.log({
+      url,
+      res,
+      data,
     })
     return data
   }
@@ -118,7 +139,73 @@ export class AdminService {
       url,
       res,
       data,
-      client,
+    })
+    return data
+  }
+
+  async stats() {
+    const client = getClient()
+    const url =
+      `${this.testBaseUrl}/stats/v2` +
+      `?collection=${this.testCollectionAddress}`
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        accept: '*/*',
+        'x-api-key': this.testApiKey,
+      },
+    })
+    const data = await res.json()
+    console.log({
+      url,
+      res,
+      data,
+    })
+    return data
+  }
+
+  async dailyVolume() {
+    const client = getClient()
+    const url =
+      `${this.testBaseUrl}/collections/daily-volume/v1` +
+      `?collection=${this.testCollectionAddress}`
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        accept: '*/*',
+        'x-api-key': this.testApiKey,
+      },
+    })
+    const data = await res.json()
+    console.log({
+      url,
+      res,
+      data,
+    })
+    return data
+  }
+
+  async tokens() {
+    const client = getClient()
+    const url =
+      `${this.testBaseUrl}/tokens/v5` +
+      `?collection=${this.testCollectionAddress}` +
+      '&sortBy=floorAskPrice&limit=20&includeTopBid=false&includeAttributes=false'
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        accept: '*/*',
+        'x-api-key': this.testApiKey,
+      },
+    })
+    const data = await res.json()
+    console.log({
+      url,
+      res,
+      data,
     })
     return data
   }
