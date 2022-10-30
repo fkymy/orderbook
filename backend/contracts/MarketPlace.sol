@@ -8,7 +8,7 @@ contract MarketPlace is ReentrancyGuard {
 	address payable public	owner;
 	uint public				feePercent;
 	string public			name;
-	uint					itemCount;
+	uint public				itemCount;
 
 	struct Item {
 		uint			itemId;
@@ -25,6 +25,7 @@ contract MarketPlace is ReentrancyGuard {
 		owner = payable(_owner);
 		name = _name;
 		feePercent = _feePercent;
+		itemCount = 0;
 	}
 
 	event Listed(uint itemId, address collection, uint tokenId, uint price, address seller);
@@ -47,7 +48,7 @@ contract MarketPlace is ReentrancyGuard {
 	}
 
 	function purchaseItem(uint _itemId) external payable nonReentrant {
-		require(0 < _itemId && _itemId <= itemCount, "item does not exist");
+		require(0 <= _itemId && _itemId < itemCount, "item does not exist");
 		Item memory item = items[_itemId];
 		uint totalPrice = getTotalPrice(_itemId);
 		require(msg.value >= totalPrice, "not enough currency to buy this item");
