@@ -15,6 +15,7 @@ export class AdminController {
 
   constructor(private adminService: AdminService) {}
 
+  // TODO:
   // Collection Sets
   // Transfers
   // - historical token transfers
@@ -31,6 +32,11 @@ export class AdminController {
   @ApiOperation({ summary: 'Test reservoir kit client' })
   testKet() {
     return this.adminService.testKit()
+  }
+
+  @Get('test-alchemy-sdk')
+  test() {
+    return this.adminService.testAlchemySdk()
   }
 
   @Get('orders/asks')
@@ -73,14 +79,5 @@ export class AdminController {
   @ApiOperation({ summary: 'Get a list of tokens with full metadata' })
   tokens() {
     return this.adminService.tokens()
-  }
-
-  @Get('test')
-  test() {
-    console.log({
-      test: 'test',
-    })
-
-    return 'test'
   }
 }
