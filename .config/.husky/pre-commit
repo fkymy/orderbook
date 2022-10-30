@@ -3,5 +3,5 @@
 
 echo "frontend: lint and format staged files"
 (cd ./frontend && yarn lint-staged)
-echo "api: lint and format staged files"
-(cd ./api && yarn lint-staged)
+echo "backend: lint and format staged files"
+(cd ./backend && yarn lint-staged)
