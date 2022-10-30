@@ -121,7 +121,7 @@ export function YuGiOhItem(props: Props) {
     /**
      * BuyItem
      */
-     const marketPlaceContract = new ethers.Contract(
+    const marketPlaceContract = new ethers.Contract(
       constAddress.marketPlaceAddress, 
       MarketPlace.abi,
       provider
