@@ -20,7 +20,7 @@ export function YuGiOhItem(props: Props) {
   // const [nftAbi, setNftAbi] = useState<any>();
 
 
-  async function listingItem() {
+  async function listingItem(value) {
     // console.log('click listingItem');
     if (!window.ethereum) {
       return;
@@ -36,20 +36,20 @@ export function YuGiOhItem(props: Props) {
     /**
      * create MarketPlace
      */
-    const marketPlaceFactoryContract = new ethers.Contract(
-      constAddress.marketPlaceFactoryAddress, 
-      MarketPlaceFacotory.abi,
-      provider
-    );
+    // const marketPlaceFactoryContract = new ethers.Contract(
+    //   constAddress.marketPlaceFactoryAddress, 
+    //   MarketPlaceFacotory.abi,
+    //   provider
+    // );
     // const tx = await marketPlaceFactoryContract.connect(signer).createMarketPlace(
     //   "firstMarket",
     //   1,
     // );
     // console.log(tx);
-    const marketAddress = await marketPlaceFactoryContract.connect(signer).listOfMarketPlaces(
-      accounts[0]
-    );
-    console.log(marketAddress);
+    // const marketAddress = await marketPlaceFactoryContract.connect(signer).listOfMarketPlaces(
+    //   accounts[0]
+    // );
+    // console.log(marketAddress);
 
     /**
      * get NFT Contract and approval all
@@ -86,45 +86,58 @@ export function YuGiOhItem(props: Props) {
     /**
      * listItem
      */
-    // const marketPlaceContract = new ethers.Contract(
-    //   constAddress.marketPlaceAddress, 
-    //   MarketPlace.abi,
-    //   provider
-    // );
-    // const tx = await marketPlaceContract.connect(signer).listItem(
-    //   props.contractAddress,
-    //   props.tokenId,
-    //   1,
-    //   { gasLimit: 1 * 10 ** 6 }
-    // );
-    // console.log(tx);
-    // console.log(await(tx).wait());
-
-    /**
-     * BuyItem
-     */
     const marketPlaceContract = new ethers.Contract(
       constAddress.marketPlaceAddress, 
       MarketPlace.abi,
       provider
     );
-    const itemCount = await marketPlaceContract.connect(signer).itemCount();
-    console.log(itemCount);
-    const tx = await marketPlaceContract.connect(signer).purchaseItem(
-      // props.tokenId,
-      2,
-      {
-        value: 1,
-        gasLimit: 1 * 10 ** 6,
-      }
+    const tx = await marketPlaceContract.connect(signer).listItem(
+      props.contractAddress,
+      props.tokenId,
+      value,
+      { gasLimit: 1 * 10 ** 6 }
     );
     console.log(tx);
+    // console.log(await(tx).wait());
   
     // const item = await marketPlaceContract.connect(signer).items(
     //   1
     // );
     // console.log(item);
   }
+
+  async function purchaseItem(tokenId, value) {
+    if (!window.ethereum) {
+      return;
+    }
+    const accounts = await window.ethereum.request({
+      method: 'eth_requestAccounts'
+    });
+    console.log(accounts, constAddress.marketPlaceAddress);
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+
+    /**
+     * BuyItem
+     */
+     const marketPlaceContract = new ethers.Contract(
+      constAddress.marketPlaceAddress, 
+      MarketPlace.abi,
+      provider
+    );
+    // const itemCount = await marketPlaceContract.connect(signer).itemCount();
+    // console.log(itemCount);
+    const tx = await marketPlaceContract.connect(signer).purchaseItem(
+      // props.tokenId,
+      tokenId,
+      {
+        value: value,
+        gasLimit: 1 * 10 ** 6,
+      }
+    );
+    console.log(tx);
+  } 
 
   // console.log(nftAbi);
 
@@ -172,7 +185,13 @@ export function YuGiOhItem(props: Props) {
                 </Box>
                 <Spacer/>
                 <Box h="100%">
-                  <Button h="100%" bg="#3772ff" color="#ffffff" borderRadius="full">
+                  <Button 
+                    h="100%" 
+                    bg="#3772ff" 
+                    color="#ffffff" 
+                    borderRadius="full" 
+                    onClick={() => purchaseItem(3, 1)}
+                  >
                     Buy now
                   </Button>
                 </Box>
@@ -187,7 +206,7 @@ export function YuGiOhItem(props: Props) {
                     bg="#3772ff" 
                     color="#ffffff" 
                     borderRadius="full"
-                    onClick={listingItem}
+                    onClick={() => listingItem(1)}
                   >
                     Fixed Price
                   </Button>
