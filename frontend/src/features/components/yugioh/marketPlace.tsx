@@ -1,6 +1,18 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, AspectRatio, Avatar, Box, Center, Checkbox, CheckboxGroup, Container, Grid, GridItem, HStack, Image, Input, InputGroup, InputLeftElement, SimpleGrid, Spacer, Square, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import { AiOutlineSearch } from 'react-icons/ai';
+import NextImage, { StaticImageData } from 'next/image';
 import { Nft } from "alchemy-sdk";
+import DeckIcon from "./assets/headerIcon/deck.png";
+import FreeBattleIcon from "./assets/headerIcon/free_battle.png";
+import FriendIcon from "./assets/headerIcon/friend.png";
+import RankBattleIcon from "./assets/headerIcon/rank_battle.png";
+import SearchIcon from "./assets/headerIcon/search.png";
+import ShopIcon from "./assets/headerIcon/shop.png";
+import NormalIcon from "./assets/rarityIcon/Normal.png";
+import RareIcon from "./assets/rarityIcon/Rare.png";
+import SuperRareIcon from "./assets/rarityIcon/SuperRare.png";
+import UltraRareIcon from "./assets/rarityIcon/UltraRare.png";
+import Banner from "./assets/banner.png";
 
 interface Props {
   collectionData: any;
@@ -17,7 +29,7 @@ function CheckboxList(props: listProps) {
     <AccordionItem>
       <h2>
         <AccordionButton>
-          <Box flex='1' textAlign='left'>
+          <Box as="b" flex='1' textAlign='left'>
             {props.title}
           </Box>
           <AccordionIcon/>
@@ -34,6 +46,60 @@ function CheckboxList(props: listProps) {
   );
 }
 
+function rarityIcon(rarity: string) {
+  if (rarity === "normal") {
+    return NormalIcon;
+  } else if (rarity === "rare") {
+    return RareIcon;
+  } else if (rarity === "superRare") {
+    return SuperRareIcon;
+  } else {
+    return UltraRareIcon;
+  }
+}
+
+interface headerIcon {
+  icon: string;
+  name: string;
+}
+
+function HeaderIcon(props: headerIcon) {
+  let img: StaticImageData;
+  if (props.icon === "shop") {
+    img = ShopIcon;
+  } else if (props.icon === "freeBattle") {
+    img = FreeBattleIcon;
+  } else if (props.icon === "rankBattle") {
+    img = RankBattleIcon;
+  } else if (props.icon === "friend") {
+    img = FriendIcon;
+  } else if (props.icon === "deck") {
+    img = DeckIcon;
+  } else {
+    img = SearchIcon;
+  }
+  return (
+    <Box as="button">
+      <Stack>
+        <Box
+          height="42px"
+        >
+          <Center>
+            <NextImage
+              // height="42px"
+              // width="auto"
+              src={img}
+              // src={`./assets/headerIcon/${props.icon}`}
+              // src={`${window.location.origin}/assets/headerIcon/${props.icon}`}
+            />
+          </Center>
+        </Box>
+        <Text color="#ffffff">{props.name}</Text>
+      </Stack>
+    </Box>
+  );
+}
+
 
 export function YuGiOhMarketPlace(props: Props) {
   const width: any = {
@@ -45,58 +111,83 @@ export function YuGiOhMarketPlace(props: Props) {
   console.log(props.collectionData);
 
   return (
-    <Box style={{backgroundColor: '#1E183E'}}>
+    <Box style={{backgroundColor: '#0B0134'}}>
       <Stack spacing={0}>
-        <Box>
-          {/* <Image
-            width='100px'
-            height='100px'
-            borderRadius='10'
-            margin='40px'
-            objectFit='contain'
-            shadow='md'
-            // src={`${props.collectionData?.data?.nfts[0]?.media[0]?.gateway}`}
-            src={`${props.collectionData?.data?.nfts[0]?.metadata?.image}`}
-          /> */}
-          <HStack>
-            <Text color="#ffffff">ランク戦</Text>
-            <Text color="#ffffff">フリー戦</Text>
-            <Text color="#ffffff">フレンド対戦</Text>
-            <Text color="#ffffff">ロゴ</Text>
-            <Text color="#ffffff">ショップ</Text>
-            <Text color="#ffffff">マイデッキ</Text>
-            <Text color="#ffffff">カード検索</Text>
-          </HStack>
+        <Box 
+          background="linear-gradient(180deg, #103565 0%, #07172C 100%)"
+          paddingTop="18px"
+          paddingBottom="8px"
+        >
+          <Grid 
+            templateColumns='repeat(7, 1fr)' 
+            justifyItems="space-evenly"
+          >
+            <HeaderIcon
+              name="ランク戦"
+              icon="rankBattle"
+            />
+            <HeaderIcon
+              name="フリー戦"
+              icon="freeBattle"
+            />
+            <HeaderIcon
+              name="フレンド対戦"
+              icon="friend"
+            />
+            <Center>
+              <Text color="#ffffff">遊戯王</Text>
+            </Center>
+            <HeaderIcon
+              name="ショップ"
+              icon="shop"
+            />
+            <HeaderIcon
+              name="マイデッキ"
+              icon="deck"
+            />
+            <HeaderIcon
+              name="カード検索"
+              icon="search"
+            />
+          </Grid>
         </Box>
-        <Box paddingLeft="100px" paddingRight="100px">
-          <HStack spacing={0}>
-            <Box width="300px" minHeight="100vh">
-              <Stack>
+        <Box paddingTop="72px" paddingLeft="80px" paddingRight="80px">
+          <Grid templateColumns="290px auto" gap={16}>
+            <Box minHeight="100vh">
+              <Stack spacing={5}>
                 <InputGroup>
                   <InputLeftElement
                     pointerEvents='none'
                     children={<AiOutlineSearch color="#ffffff"/>}
                   />
                   <Input
-                    borderColor="#4d4d4d" 
+                    borderColor="#4C4C4C" 
                     borderWidth="1.5px" 
-                    focusBorderColor="gray.500"
+                    borderRadius="10px"
+                    focusBorderColor="#7517EC"
                     color="#ffffff"
                     placeholder="キーワードで検索"
                     _placeholder={{ opacity: 0.4, color: '#ffffff' }}
                   />
                 </InputGroup>
-                <Box>
+                <Box borderColor="#4C4C4C" borderWidth="1px" borderRadius="15px">
                   <Stack color="#ffffff">
-                    <Text>
-                      フィルター
-                    </Text>
-                    <Box>
-                      <Accordion allowMultiple defaultIndex={[0, 1, 2, 3, 4]}>
+                    <Box style={{padding: "20px 20px 5px 20px"}}>
+                      <Text as="b" fontSize="2xl">
+                        フィルター
+                      </Text>
+                    </Box>
+                    <Box paddingBottom="15px">
+                      <Accordion 
+                        allowMultiple 
+                        defaultIndex={[0, 1, 2, 3, 4]}
+                        colorScheme="red"
+                      >
+
                         <AccordionItem>
                           <h2>
                             <AccordionButton>
-                              <Box flex='1' textAlign='left'>
+                              <Box as="b" flex='1' textAlign='left'>
                                 世代
                               </Box>
                               <AccordionIcon/>
@@ -104,12 +195,6 @@ export function YuGiOhMarketPlace(props: Props) {
                           </h2>
                           <AccordionPanel>
                             <Box>
-                              {/* <Stack>
-                                
-                                <Text>第1世代</Text>
-                                <Text>第2世代</Text>
-                                <Text>第3世代</Text>
-                              </Stack> */}
                               <CheckboxGroup>
                                 <Stack>
                                   <Checkbox marginRight="10px">第1世代</Checkbox>
@@ -121,104 +206,20 @@ export function YuGiOhMarketPlace(props: Props) {
                           </AccordionPanel>
                         </AccordionItem>
 
-
-                        {/* <AccordionItem>
-                          <h2>
-                            <AccordionButton>
-                              <Box flex='1' textAlign='left'>
-                                レア度
-                              </Box>
-                              <AccordionIcon/>
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            <Box lineHeight="30px">
-                              <Checkbox marginRight="10px">ノーマル</Checkbox>
-                              <Checkbox marginRight="10px">レア</Checkbox>
-                              <Checkbox marginRight="10px">スーパーレア</Checkbox>
-                              <Checkbox marginRight="10px">ウルトラレア</Checkbox>
-                            </Box>
-                          </AccordionPanel>
-                        </AccordionItem> */}
-
                         <CheckboxList
                           title="レア度"
                           elemArray={["ノーマル", "レア", "スーパーレア", "ウルトラレア"]}
                         />
-
-                        {/* <AccordionItem>
-                          <h2>
-                            <AccordionButton>
-                              <Box flex='1' textAlign='left'>
-                                カード
-                              </Box>
-                              <AccordionIcon/>
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            <Box lineHeight="30px">
-                                <Checkbox marginRight="10px">モンスター</Checkbox>
-                                <Checkbox marginRight="10px">魔法</Checkbox>
-                                <Checkbox marginRight="10px">罠</Checkbox>
-                            </Box>
-                          </AccordionPanel>
-                        </AccordionItem> */}
 
                         <CheckboxList
                           title="カード"
                           elemArray={["モンスター", "魔法", "罠"]}
                         />
 
-
-                        {/* <AccordionItem>
-                          <h2>
-                            <AccordionButton>
-                              <Box flex='1' textAlign='left'>
-                                属性
-                              </Box>
-                              <AccordionIcon/>
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            <Box lineHeight="30px">
-                                <Checkbox marginRight="10px">闇</Checkbox>
-                                <Checkbox marginRight="10px">光</Checkbox>
-                                <Checkbox marginRight="10px">池</Checkbox>
-                                <Checkbox marginRight="10px">水</Checkbox>
-                                <Checkbox marginRight="10px">炎</Checkbox>
-                                <Checkbox marginRight="10px">風</Checkbox>
-                                <Checkbox marginRight="10px">神</Checkbox>
-                            </Box>
-                          </AccordionPanel>
-                        </AccordionItem> */}
-
                         <CheckboxList
                           title="属性"
                           elemArray={["闇", "光", "池", "水", "炎", "風", "神"]}
                         />
-
-
-                        {/* <AccordionItem>
-                          <h2>
-                            <AccordionButton>
-                              <Box flex='1' textAlign='left'>
-                                効果
-                              </Box>
-                              <AccordionIcon/>
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            <Box lineHeight="30px">
-                                <Checkbox marginRight="10px">武装</Checkbox>
-                                <Checkbox marginRight="10px">フィールド</Checkbox>
-                                <Checkbox marginRight="10px">速攻</Checkbox>
-                                <Checkbox marginRight="10px">儀式</Checkbox>
-                                <Checkbox marginRight="10px">存続</Checkbox>
-                                <Checkbox marginRight="10px">カウンター</Checkbox>
-                                <Checkbox marginRight="10px">通常</Checkbox>
-                            </Box>
-                          </AccordionPanel>
-                        </AccordionItem> */}
 
                         <CheckboxList
                           title="効果"
@@ -230,121 +231,158 @@ export function YuGiOhMarketPlace(props: Props) {
                           elemArray={["魔法使い族", "ドラゴン族", "アンデット族", "戦士族", "獣戦士族", "獣族", "鳥獣族", "悪魔族", "天使族", "昆虫族", "恐竜族", "爬虫類族", "魚族", "海竜族", "水族", "炎族", "雷族", "岩石族", "植物族", "機械族", "サイキック族", "幻竜族", "サイバース族", "サイボーグ族", "魔導騎士族", "ハイドラゴン族", "天界戦士族", "オメガサイキック族", "ギャラクシー族"]}
                         />
 
-
-                        {/* <AccordionItem>
-                          <h2>
-                            <AccordionButton>
-                              <Box flex='1' textAlign='left'>
-                                効果
-                              </Box>
-                              <AccordionIcon/>
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel>
-                            <Box>
-                              魔法使い族
-                              ドラゴン族
-                              アンデット族
-                              戦士族
-                              獣戦士族
-                              獣族
-                              鳥獣族
-                              悪魔族
-                              天使族
-                              昆虫族
-                              恐竜族
-                              爬虫類族
-                              魚族
-                              海竜族
-                              水族
-                              炎族
-                              雷族
-                              岩石族
-                              植物族
-                              機械族
-                              サイキック族
-                              幻竜族
-                              サイバース族
-                              サイボーグ族
-                              魔導騎士族
-                              ハイドラゴン族
-                              天界戦士族
-                              オメガサイキック族
-                              ギャラクシー族
-                            </Box>
-                          </AccordionPanel>
-                        </AccordionItem> */}
-
                       </Accordion>
                     </Box>
                   </Stack>
                 </Box>
               </Stack>
             </Box>
-            <Box width="calc(100% - 300px)" height="100vh" >
+            <Box height="100vh">
+              <Stack color="#ffffff">
+                <Box marginBottom="10px">
+                  <NextImage
+                    src={Banner}
+                    // src="/assets/img.png"
+                    // src={`${window.location.origin}/assets/banner.png`}
+                  />
+                  {/* ガチャ広告 (TODO) */}
+                </Box>
+                <Box>
+                  <HStack spacing={5}>
+                    <Box marginRight="25px">
+                      <Text as="b" fontSize="2xl">
+                        トレンド
+                      </Text>
+                    </Box>
+                    <Box as="b" bg="#1E183E" width="72px" height="40px" borderRadius="8px">
+                      <Center height="40px">
+                        <Text>
+                          デッキ
+                        </Text>
+                      </Center>
+                    </Box>
+                    <Box minWidth="72px" height="40px" borderRadius="8px">
+                      <Center height="40px">
+                        <Text>
+                          世代
+                        </Text>
+                      </Center>
+                    </Box>
+                    <Box minWidth="72px" height="40px" borderRadius="8px">
+                      <Center height="40px">
+                        <Text>
+                          モンスター
+                        </Text>
+                      </Center>
+                    </Box>
+                    <Box minWidth="72px" height="40px" borderRadius="8px">
+                      <Center height="40px">
+                        <Text>
+                          魔法
+                        </Text>
+                      </Center>
+                    </Box>
+                    <Box minWidth="72px" height="40px" borderRadius="8px">
+                      <Center height="40px">
+                        <Text>
+                          罠
+                        </Text>
+                      </Center>
+                    </Box>
+                  </HStack>
+                  <Box width="100%" bg="#1E183E" height="288px" marginTop="18px" marginBottom="30px" borderRadius="16px">
+                    <Box>
+                    </Box>
+                  </Box>
+                </Box>
+                <Box paddingBottom="12px">
+                  <HStack spacing={5}>
+                    <Box marginRight="25px">
+                      <Text as="b" fontSize="2xl">
+                        マーケットプレイス
+                      </Text>
+                    </Box>
+                    <Box as="b" bg="#1E183E" width="72px" height="40px" borderRadius="8px">
+                      <Center height="40px">
+                        <Text>
+                          すべて
+                        </Text>
+                      </Center>
+                    </Box>
+                    <Box minWidth="72px" height="40px" borderRadius="8px">
+                      <Center height="40px">
+                        <Text>
+                          第1世代
+                        </Text>
+                      </Center>
+                    </Box>
+                    <Box minWidth="72px" height="40px" borderRadius="8px">
+                      <Center height="40px">
+                        <Text>
+                          第2世代
+                        </Text>
+                      </Center>
+                    </Box>
+                    <Box minWidth="72px" height="40px" borderRadius="8px">
+                      <Center height="40px">
+                        <Text>
+                          第3世代
+                        </Text>
+                      </Center>
+                    </Box>
+                  </HStack>
+                </Box>
+                <Box>
+                  <SimpleGrid minChildWidth='122px' spacing={3}>
+                    {
+                      props.collectionData?.data?.nfts.map((nft: any, n: number) => {
+                        return (
+                          <Box 
+                            maxWidth='150px' 
+                            shadow='md' 
+                            as="button"
+                            onClick={() => {
+                              console.log(n)
+                            }}
+                          >
+                            <Grid templateColumns="1fr 64px" gap={2.5}>
+                              <Box>
+                                <Image
+                                  src={nft?.media[0]?.gateway}
+                                />
+                              </Box>
+                              <Box>
+                                <Grid alignContent="space-between" height="100%">
+                                  <Box textAlign='left'>
+                                    <NextImage
+                                      // width="28px"
+                                      src={rarityIcon("normal")}
+                                      // src="/assets/img.png"
+                                      // src={`${window.location.origin}/assets/rarityIcon/SuperRare.png`}
+                                    />
+                                  </Box>
+                                  <Box>
+                                    <Image
+                                      width="16px"
+                                      src={"https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.png"}
+                                    />
+                                    <Text>
+                                      {`${(1 + 0.01 * n).toFixed(2)} ETH`}
+                                    </Text>
+                                  </Box>
+                                </Grid>
+                              </Box>
+                            </Grid>
+                          </Box>
+                        )
+                      })
+                    }
+                  </SimpleGrid>
+                </Box>
+              </Stack>
             </Box>
-          </HStack>
+          </Grid>
         </Box>
-        {/* <Box padding='24px 40px 24px 40px'>
-          <Box marginBottom='8px'>
-            <Text as="b" fontSize='2xl'>
-              {props.collectionData?.data?.nfts[0]?.contractMetadata?.name}
-            </Text>
-          </Box>
-        </Box> */}
-        {/* <Box minHeight='calc(100vh - 141px - 142px)'> */}
-          {/* item list, my Item */}
-          {/* <Tabs colorScheme='black'>
-            <TabList style={{paddingLeft: '30px'}}>
-              <Tab>Items</Tab>
-              <Tab>My NFTs</Tab>
-            </TabList>
-            <TabPanels style={{padding: '24px 40px 40px 40px'}}>
-              <TabPanel style={{padding: '0'}} maxWidth={`${props.collectionData?.data?.nfts?.length * 300}px`}>
-                <SimpleGrid minChildWidth='250px' spacing={4}>
-                  {
-                    props.collectionData?.data?.nfts.map((nft: any, n: number) => {
-                      return (
-                        <Box bg="#ffffff" maxWidth='510px' shadow='md' rounded='10px'>
-                          <Stack marginBottom='10px'>
-                            <Box style={{
-                              paddingTop: '100%',
-                              overflow: 'hidden',
-                              position: 'relative',
-                            }}>
-                              <Image
-                                src={nft?.media[0]?.gateway}
-                                style={{
-                                  borderTopRightRadius: '10px',
-                                  borderTopLeftRadius: '10px',
-                                  objectFit: 'contain',
-                                  width: '100%',
-                                  height: '100%',
-                                  position: 'absolute',
-                                  top: 0,
-                                  left: 0,
-                                }}
-                              />
-                            </Box>
-                            <Container>
-                              <Text as='b'>
-                                {nft?.metadata?.name}
-                              </Text>
-                              <Text color="gray">
-                                {'　price'}
-                              </Text>
-                            </Container>
-                          </Stack>
-                        </Box>
-                      )
-                    })
-                  }
-                </SimpleGrid>
-              </TabPanel>
-              <TabPanel>My NFTs</TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Box> */}
       </Stack>
     </Box>
   );
