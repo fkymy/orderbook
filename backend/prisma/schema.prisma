@@ -29,8 +29,8 @@ model User {
 model Marketplace {
   id        Int                       @id @default(autoincrement())
   address   String?
-  name      String
-  slug      String
+  name      String                    @unique
+  slug      String                    @unique
   image     String?
   contracts ContractsOnMarketplaces[]
   createdAt DateTime                  @default(now())
