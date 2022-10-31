@@ -7,11 +7,18 @@ import {
   Param,
   Delete,
 } from '@nestjs/common'
+import {
+  ApiTags,
+  ApiOperation,
+  ApiCreatedResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger'
 import { CreateMarketplaceDto } from './dto/create-marketplace.dto'
 import { UpdateMarketplaceDto } from './dto/update-marketplace.dto'
 import { MarketplaceService } from './marketplace.service'
 
-@Controller('marketplace')
+@Controller('marketplaces')
+@ApiTags('marketplaces')
 export class MarketplaceController {
   constructor(private readonly marketplaceService: MarketplaceService) {}
 
@@ -24,6 +31,7 @@ export class MarketplaceController {
   //   2. Fetch listings from reservoir API
 
   @Post()
+  @ApiOperation({ summary: 'Create marketplaces with contracts' })
   create(@Body() createMarketplaceDto: CreateMarketplaceDto) {
     return this.marketplaceService.create(createMarketplaceDto)
   }

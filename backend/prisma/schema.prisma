@@ -28,6 +28,7 @@ model User {
 
 model Marketplace {
   id        Int                       @id @default(autoincrement())
+  address   String?
   name      String
   slug      String
   image     String?
