@@ -203,6 +203,13 @@ export class AdminService {
       network: Network.ETH_GOERLI,
     }
     const alchemy = new Alchemy(settings)
+
+    // const test = await alchemy.nft.getContractMetadata(
+    //   this.testCollectionAddress,
+    // )
+    // console.log(test)
+    // return test
+
     // Print nfts owned
     const ownerAddr = '0x96b1bd9E8aF7e3a0d840080690Ca7e30a7b3C852'
     console.log('fetching FNTs for address:', ownerAddr)

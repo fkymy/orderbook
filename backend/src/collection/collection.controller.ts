@@ -23,14 +23,6 @@ import { UpdateCollectionDto } from './dto/update-collection.dto'
 export class CollectionController {
   constructor(private readonly collectionService: CollectionService) {}
 
-  // - Create marketplace
-  //   1. Get collection addresses in an array and market fee
-  //   2. Fetch collection data and save in database
-  //   3. Get all tokens and save in database
-  // - Get list of tokens and listings
-  //   1. Get all tokens saved in database
-  //   2. Fetch listings from reservoir API
-
   @Post()
   createSet(@Body() createCollectionSetDto: CreateCollectionSetDto) {
     return 'test'
