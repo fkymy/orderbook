@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config'
 import { createClient, getClient } from '@reservoir0x/reservoir-kit-client'
 import { Network, Alchemy, Nft } from 'alchemy-sdk'
 import axios from 'axios'
+import { OrderService } from 'src/order/order.service'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { MarketplaceService } from '../marketplace/marketplace.service'
 import { NftQueryDto } from './dto'
@@ -14,13 +15,17 @@ import { CreateNftDto } from './dto/create-nft.dto'
 import { UpdateNftDto } from './dto/update-nft.dto'
 
 const testCollectionAddress = '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741'
+const apiKey = 'dc90c81b-ef38-5355-9d6d-5fa316360197'
+const testApiKey = 'demo-api-key'
+const testBaseUrl = 'https://api-goerli.reservoir.tools'
 
 @Injectable()
 export class NftService {
   constructor(
+    private config: ConfigService,
     private prisma: PrismaService,
     private marketpalceService: MarketplaceService,
-    private config: ConfigService,
+    private orderService: OrderService,
   ) {}
   // getNftsForMarketplace(nftQuery: NftQueryDto) {
   //   return 'get nft'
@@ -78,12 +83,14 @@ export class NftService {
         res.push(nft)
       }
       // console.log('===')
-
-      // Get orders
     }
+
+    const orderRes = this.orderService.getSampleOrders()
+    // add orders to nfts
 
     return res
   }
+
   findAll() {
     return `This action returns all nft`
   }

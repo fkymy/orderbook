@@ -6,6 +6,7 @@ import { BookmarkModule } from './bookmark/bookmark.module'
 import { DemoModule } from './demo/demo.module'
 import { MarketplaceModule } from './marketplace/marketplace.module'
 import { NftModule } from './nft/nft.module'
+import { OrderModule } from './order/order.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { UserModule } from './user/user.module'
 
@@ -20,6 +21,7 @@ import { UserModule } from './user/user.module'
     DemoModule,
     MarketplaceModule,
     NftModule,
+    OrderModule,
   ],
 })
 export class AppModule {}
