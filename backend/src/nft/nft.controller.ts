@@ -7,6 +7,8 @@ import {
   Param,
   Query,
   Delete,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common'
 import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger'
 import { Request } from 'express'
@@ -26,15 +28,15 @@ export class NftController {
 
   @Get()
   @ApiOperation({ summary: 'Get a list of NFTs for a marketplace' })
-  @ApiQuery({ name: 'marketplace', required: false, type: Number })
+  @ApiQuery({ name: 'marketplace', required: true, type: Number })
   @ApiQuery({ name: 'contractAddress', required: false, type: String })
   @ApiQuery({ name: 'withMetadata', required: false, type: Boolean })
   @ApiQuery({ name: 'limit', required: false, type: Number })
   getNftsForMarketplace(
-    @Query('marketplace') marketplaceId: number,
+    @Query('marketplace', ParseIntPipe) marketplaceId: number,
     @Query('contractAddress') contractAddress: string,
     @Query('withMetadata') withMetadata: boolean,
-    @Query('limit') limit: number,
+    @Query('limit', new DefaultValuePipe(100), ParseIntPipe) limit: number,
   ) {
     return this.nftService.getNftsForMarketplace(
       marketplaceId,

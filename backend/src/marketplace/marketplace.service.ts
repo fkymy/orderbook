@@ -75,8 +75,20 @@ export class MarketplaceService {
     return `This action returns all marketplace`
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} marketplace`
+  async findOne(id: number) {
+    const marketplace = await this.prisma.marketplace.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        contracts: {
+          include: {
+            contract: true,
+          },
+        },
+      },
+    })
+    return marketplace
   }
 
   update(id: number, updateMarketplaceDto: UpdateMarketplaceDto) {

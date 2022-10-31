@@ -5,5 +5,6 @@ import { MarketplaceService } from './marketplace.service'
 @Module({
   controllers: [MarketplaceController],
   providers: [MarketplaceService],
+  exports: [MarketplaceService],
 })
 export class MarketplaceModule {}
