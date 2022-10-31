@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module'
 import { BookmarkModule } from './bookmark/bookmark.module'
 import { DemoModule } from './demo/demo.module'
 import { MarketplaceModule } from './marketplace/marketplace.module'
+import { NftModule } from './nft/nft.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { UserModule } from './user/user.module'
 
@@ -18,6 +19,7 @@ import { UserModule } from './user/user.module'
     AdminModule,
     DemoModule,
     MarketplaceModule,
+    NftModule,
   ],
 })
 export class AppModule {}

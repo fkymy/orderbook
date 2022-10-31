@@ -11,6 +11,7 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import { GetUser } from '../auth/decorator'
 import { JwtGuard } from '../auth/guard'
 import { BookmarkService } from './bookmark.service'
@@ -18,6 +19,7 @@ import { CreateBookmarkDto, EditBookmarkDto } from './dto'
 
 @UseGuards(JwtGuard)
 @Controller('bookmarks')
+@ApiTags('bookmarks')
 export class BookmarkController {
   constructor(private bookmarkService: BookmarkService) {}
 

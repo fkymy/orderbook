@@ -16,6 +16,7 @@ type Contract = {
 
 export class MarketplaceEntity implements Marketplace {
   id: number
+  address: string | null
   name: string
   slug: string
   image: string | null
