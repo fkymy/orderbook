@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
+import { BuyListingDto } from './dto/buy-listing.dto'
 import { CreateListingDto } from './dto/create-listing.dto'
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
@@ -45,6 +46,32 @@ export class OrderService {
     })
 
     return createdListing
+  }
+
+  async buyListing(dto: BuyListingDto) {
+    const listing = await this.prisma.order.findUnique({
+      where: {
+        id: dto.id,
+      },
+    })
+    if (!listing) {
+      throw new NotFoundException('listing not found')
+    }
+    if (listing.status !== 'ACTIVE' || listing.finalized === true) {
+      throw new NotFoundException('listing is not active')
+    }
+
+    const updateListing = await this.prisma.order.update({
+      where: {
+        id: dto.id,
+      },
+      data: {
+        status: 'INACTIVE',
+        finalized: true,
+        taker: dto.taker,
+      },
+    })
+    return updateListing
   }
 
   getSampleOrders() {

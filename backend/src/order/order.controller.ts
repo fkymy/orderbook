@@ -7,7 +7,8 @@ import {
   Param,
   Delete,
 } from '@nestjs/common'
-import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger'
+import { ApiTags, ApiOperation, ApiBody } from '@nestjs/swagger'
+import { BuyListingDto } from './dto/buy-listing.dto'
 import { CreateListingDto } from './dto/create-listing.dto'
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
@@ -24,13 +25,14 @@ export class OrderController {
   }
 
   @Post('listings')
+  @ApiOperation({ summary: 'Create an Orderbook listing' })
   createListing(@Body() dto: CreateListingDto) {
     return this.orderService.createListing(dto)
   }
 
   @Post('buy')
-  buy() {
-    return 'buy'
+  buy(@Body() dto: BuyListingDto) {
+    return this.orderService.buyListing(dto)
   }
 
   @Post()
