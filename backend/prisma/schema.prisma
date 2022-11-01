@@ -50,7 +50,7 @@ model Contract {
   name         String?
   symbol       String?
   totalSupply  Int?
-  tokenType    String?
+  tokenType    TokenType?
   slug         String?                   @unique
   image        String?
   marketplaces ContractsOnMarketplaces[]
@@ -71,28 +71,36 @@ model ContractsOnMarketplaces {
   @@id([marketplaceId, contractId])
 }
 
+enum OrderSide {
+  ASK
+  BUY
+}
+enum OrderStatus {
+  ACTIVE
+  INACTIVE
+}
+
 model Order {
   id                 Int      @id @default(autoincrement())
-  kind               String
-  side               String
-  status             String
-  tokenSetId         String
-  tokenSetSchemaHash String
+  kind               String // seaport, looks-rare, xy2y, yugidama
+  side               OrderSide // ask, buy
+  status             OrderStatus // active, inactive
+  cancelled          Boolean
+  finalized          Boolean
+  signature          String?
   contract           String
+  tokenId            Int
+  tokenSetId         String
+  // tokenSetSchemaHash String
   maker              String
-  taker              String
+  taker              String?
   currencyName       String
   currencySymbol     String
   decimals           Int
-  rawAmount          String
+  rawAmount          String?
   decimalAmount      Float
-  isUsd              Float
   isOrderbook        Boolean
   isReservoir        Boolean
-  validFrom          Int
-  validUntil         Int
-  quantityFilled     Int
-  quantityRemaining  Int
   source             Source?
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt

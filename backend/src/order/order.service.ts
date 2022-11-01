@@ -1,14 +1,50 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
+import { CreateListingDto } from './dto/create-listing.dto'
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
+
+const testCollectionAddress = '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741'
+const apiKey = 'dc90c81b-ef38-5355-9d6d-5fa316360197'
+const testApiKey = 'demo-api-key'
+const testBaseUrl = 'https://api-goerli.reservoir.tools'
 
 @Injectable()
 export class OrderService {
   constructor(private prisma: PrismaService) {}
 
-  async list() {
-    return 'list'
+  async createListing(dto: CreateListingDto) {
+    console.log({
+      dto,
+    })
+
+    const data: any = {
+      kind: 'orderbook',
+      side: 'ASK',
+      status: 'ACTIVE',
+      cancelled: false,
+      finalized: false,
+      signature: 'none',
+      contract: dto.contract,
+      tokenId: dto.tokenId,
+      tokenSetId: `token:${dto.contract}:${dto.tokenId}`,
+      maker: dto.maker,
+      taker: undefined,
+      currencyName: 'Ether',
+      currencySymbol: 'ETH',
+      decimals: 18,
+      rawAmount: undefined,
+      decimalAmount: dto.decimalAmount,
+      isOrderbook: true,
+      isReservoir: false,
+      source: undefined,
+    }
+
+    const createdListing = await this.prisma.order.create({
+      data,
+    })
+
+    return createdListing
   }
 
   getSampleOrders() {
