@@ -7,13 +7,25 @@ import {
   Param,
   Delete,
 } from '@nestjs/common'
+import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger'
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
 import { OrderService } from './order.service'
 
-@Controller('order')
+@Controller('orders')
+@ApiTags('orders')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
+
+  @Post('list')
+  list(@Body() createOrderDto: CreateOrderDto) {
+    return this.orderService.list()
+  }
+
+  @Post('buy')
+  buy() {
+    return 'buy'
+  }
 
   @Post()
   create(@Body() createOrderDto: CreateOrderDto) {

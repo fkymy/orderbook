@@ -71,6 +71,47 @@ model ContractsOnMarketplaces {
   @@id([marketplaceId, contractId])
 }
 
+model Order {
+  id                 Int      @id @default(autoincrement())
+  kind               String
+  side               String
+  status             String
+  tokenSetId         String
+  tokenSetSchemaHash String
+  contract           String
+  maker              String
+  taker              String
+  currencyName       String
+  currencySymbol     String
+  decimals           Int
+  rawAmount          String
+  decimalAmount      Float
+  isUsd              Float
+  isOrderbook        Boolean
+  isReservoir        Boolean
+  validFrom          Int
+  validUntil         Int
+  quantityFilled     Int
+  quantityRemaining  Int
+  source             Source?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("orders")
+}
+
+model Source {
+  id      Int    @id @default(autoincrement())
+  domain  String
+  name    String
+  icon    String
+  url     String
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId Int    @unique
+
+  @@map("sources")
+}
+
 // Belongs to a contract
 model Token {
   id          Int       @id @default(autoincrement())
