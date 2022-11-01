@@ -99,9 +99,9 @@ export class NftService {
       // console.log('===')
     }
 
-    // add orders to nfts
+    // add aggregaed orders to nfts
     // Get orders
-    const orderRes = this.orderService.getSampleOrders()
+    const orderRes = await this.orderService.getSampleOrders()
     const orders = orderRes.orders
     for (let i = 0; i < orders.length; i++) {
       const split = orders[i].tokenSetId.split(':')
@@ -116,6 +116,26 @@ export class NftService {
             res[j].orders.push(orders[i])
           } else {
             res[j].orders = [orders[i]]
+          }
+        }
+      }
+    }
+
+    // add native orders to nfts
+    const nativeOrders = await this.orderService.findAllNativeListings()
+    console.log({
+      nativeOrders,
+    })
+    for (let i = 0; i < nativeOrders.length; i++) {
+      for (let j = 0; j < res.length; j++) {
+        if (
+          res[j].contract.address === nativeOrders[i].contract &&
+          res[j].tokenId === nativeOrders[i].tokenId.toString()
+        ) {
+          if (res[j].nativeOrders) {
+            res[j].nativeOrders.push(nativeOrders[i])
+          } else {
+            res[j].nativeOrders = [nativeOrders[i]]
           }
         }
       }

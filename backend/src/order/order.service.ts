@@ -1,4 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import { createClient, getClient } from '@reservoir0x/reservoir-kit-client'
+import { Network, Alchemy, Nft } from 'alchemy-sdk'
+import axios from 'axios'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { BuyListingDto } from './dto/buy-listing.dto'
 import { CreateListingDto } from './dto/create-listing.dto'
@@ -6,6 +9,7 @@ import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
 
 const testCollectionAddress = '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741'
+const testYugidamaAddress = '0x24e5bba6218d711ee675a844fc237f1ebfe83fe9'
 const apiKey = 'dc90c81b-ef38-5355-9d6d-5fa316360197'
 const testApiKey = 'demo-api-key'
 const testBaseUrl = 'https://api-goerli.reservoir.tools'
@@ -13,6 +17,18 @@ const testBaseUrl = 'https://api-goerli.reservoir.tools'
 @Injectable()
 export class OrderService {
   constructor(private prisma: PrismaService) {}
+
+  async findAllNativeListings() {
+    const orders = this.prisma.order.findMany({
+      where: {
+        kind: 'orderbook',
+        side: 'ASK',
+        status: 'ACTIVE',
+        finalized: false,
+      },
+    })
+    return orders
+  }
 
   async createListing(dto: CreateListingDto) {
     console.log({
@@ -74,31 +90,33 @@ export class OrderService {
     return updateListing
   }
 
-  getSampleOrders() {
+  async getSampleOrders() {
     // Get orders
-    // const orderUrl =
-    //   `${testBaseUrl}/orders/asks/v3` + `?contracts=${contract.address}`
-    // const orderRes = await axios.get(orderUrl, {
-    //   params: {
-    //     includePrivate: false,
-    //     includeMetadata: false,
-    //     includeRawData: false,
-    //     sortBy: 'createdAt',
-    //     limit: 50,
-    //   },
-    //   headers: {
-    //     accept: '*/*',
-    //     'x-api-key': apiKey,
-    //   },
-    // })
-    // console.log(orderRes.data)
-    // if (orderRes.data.orders) {
-    //   for (let i = 0; i < orderRes.data.length; i++) {
-    //     console.log(orderRes.data.orders[i])
-    //   }
-    // } else {
-    //   console.log('no orders')
-    // }
+    const orderUrl =
+      `${testBaseUrl}/orders/asks/v3` + `?contracts=${testYugidamaAddress}`
+    const orderRes = await axios.get(orderUrl, {
+      params: {
+        includePrivate: false,
+        includeMetadata: false,
+        includeRawData: false,
+        sortBy: 'createdAt',
+        limit: 50,
+      },
+      headers: {
+        accept: '*/*',
+        'x-api-key': apiKey,
+      },
+    })
+    console.log(orderRes.data)
+    if (orderRes.data.orders) {
+      for (let i = 0; i < orderRes.data.length; i++) {
+        console.log(orderRes.data.orders[i])
+      }
+    } else {
+      console.log('no orders')
+    }
+    return orderRes.data
+
     return {
       orders: [
         {
@@ -330,16 +348,12 @@ export class OrderService {
     }
   }
 
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order'
-  }
-
-  findAll() {
-    return `This action returns all order`
-  }
-
   findOne(id: number) {
     return `This action returns a #${id} order`
+  }
+
+  create(createOrderDto: CreateOrderDto) {
+    return 'This action adds a new order'
   }
 
   update(id: number, updateOrderDto: UpdateOrderDto) {

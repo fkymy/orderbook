@@ -19,35 +19,35 @@ import { OrderService } from './order.service'
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Get('listings')
-  getListings() {
-    return 'get listings'
+  @Get('orderbook/listings')
+  findAllNative() {
+    return this.orderService.findAllNativeListings()
   }
 
-  @Post('listings')
+  @Post('orderbook/listings')
   @ApiOperation({ summary: 'Create an Orderbook listing' })
   createListing(@Body() dto: CreateListingDto) {
     return this.orderService.createListing(dto)
   }
 
-  @Post('buy')
+  @Post('orderbook/buy')
   buy(@Body() dto: BuyListingDto) {
     return this.orderService.buyListing(dto)
   }
 
-  @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto)
-  }
-
-  @Get()
-  findAll() {
-    return this.orderService.findAll()
+  @Get('sample')
+  getSampleOrders() {
+    return this.orderService.getSampleOrders()
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.orderService.findOne(+id)
+  }
+
+  @Post()
+  create(@Body() createOrderDto: CreateOrderDto) {
+    return this.orderService.create(createOrderDto)
   }
 
   @Patch(':id')
