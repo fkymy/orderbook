@@ -3,12 +3,6 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { MdArrowForwardIos } from 'react-icons/md';
 import NextImage, { StaticImageData } from 'next/image';
 import { Nft } from "alchemy-sdk";
-import DeckIcon from "./assets/headerIcon/deck.png";
-import FreeBattleIcon from "./assets/headerIcon/free_battle.png";
-import FriendIcon from "./assets/headerIcon/friend.png";
-import RankBattleIcon from "./assets/headerIcon/rank_battle.png";
-import SearchIcon from "./assets/headerIcon/search.png";
-import ShopIcon from "./assets/headerIcon/shop.png";
 import NormalIcon from "./assets/rarityIcon/Normal.png";
 import RareIcon from "./assets/rarityIcon/Rare.png";
 import SuperRareIcon from "./assets/rarityIcon/SuperRare.png";
@@ -17,6 +11,7 @@ import Banner from "./assets/banner.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { TrendDataListType, TrendDataType } from "src/types/trendData";
+import { YugidamaHeader } from "./header";
 
 interface Props {
   collectionData: any;
@@ -47,44 +42,6 @@ function CheckboxList(props: listProps) {
         </Box>
       </AccordionPanel>
     </AccordionItem>
-  );
-}
-
-interface headerIcon {
-  icon: string;
-  name: string;
-}
-
-function HeaderIcon(props: headerIcon) {
-  let img: StaticImageData;
-  if (props.icon === "shop") {
-    img = ShopIcon;
-  } else if (props.icon === "freeBattle") {
-    img = FreeBattleIcon;
-  } else if (props.icon === "rankBattle") {
-    img = RankBattleIcon;
-  } else if (props.icon === "friend") {
-    img = FriendIcon;
-  } else if (props.icon === "deck") {
-    img = DeckIcon;
-  } else {
-    img = SearchIcon;
-  }
-  return (
-    <Box as="button">
-      <Stack>
-        <Box
-          height="42px"
-        >
-          <Center>
-            <NextImage
-              src={img}
-            />
-          </Center>
-        </Box>
-        <Text color="#ffffff">{props.name}</Text>
-      </Stack>
-    </Box>
   );
 }
 
@@ -192,7 +149,7 @@ export function YuGiOhMarketPlace(props: Props) {
   return (
     <Box style={{backgroundColor: '#0B0134'}}>
       <Stack spacing={0}>
-        <Box 
+        {/* <Box 
           background="linear-gradient(180deg, #103565 0%, #07172C 100%)"
           paddingTop="18px"
           paddingBottom="8px"
@@ -229,7 +186,8 @@ export function YuGiOhMarketPlace(props: Props) {
               icon="search"
             />
           </Grid>
-        </Box>
+        </Box> */}
+        <YugidamaHeader/>
         <Box paddingTop="72px" paddingLeft="80px" paddingRight="80px">
           <Grid templateColumns="290px auto" gap={16}>
             <Box minHeight="100vh">

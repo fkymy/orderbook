@@ -44,7 +44,7 @@ const Item: NextPage = () => {
           <YuGiOhItem
             nftdata={nftData}
             contractAddress={router.query.contractAddress as string}
-            tokenId={parseInt(router.query.tokenid as string, 10)}
+            tokenId={parseInt(router.query.tokenId as string, 10)}
           />
         </ChakraProvider>
       </>
