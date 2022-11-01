@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "frontend: lint and format staged files"
+(cd ./frontend && yarn lint-staged)
+echo "backend: lint and format staged files"
+(cd ./backend && yarn lint-staged)

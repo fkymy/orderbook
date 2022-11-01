@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int        @id @default(autoincrement())
+  email       String     @unique
+  hash        String
+  displayName String?
+  bookmarks   Bookmark[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("users")
+}
+
+model Marketplace {
+  id        Int                       @id @default(autoincrement())
+  address   String?
+  name      String                    @unique
+  slug      String                    @unique
+  image     String?
+  contracts ContractsOnMarketplaces[]
+  createdAt DateTime                  @default(now())
+  updatedAt DateTime                  @updatedAt
+
+  @@map("marketplaces")
+}
+
+enum TokenType {
+  ERC721
+  ERC1155
+}
+
+model Contract {
+  id           Int                       @id @default(autoincrement())
+  address      String                    @unique
+  name         String?
+  symbol       String?
+  totalSupply  Int?
+  tokenType    String?
+  slug         String?                   @unique
+  image        String?
+  marketplaces ContractsOnMarketplaces[]
+  createdAt    DateTime                  @default(now())
+  updatedAt    DateTime                  @updatedAt
+
+  @@map("contracts")
+}
+
+model ContractsOnMarketplaces {
+  marketplace   Marketplace @relation(fields: [marketplaceId], references: [id])
+  marketplaceId Int // relation scalar field (used in the @relation attribute above)
+  contract      Contract    @relation(fields: [contractId], references: [id])
+  contractId    Int // relation scalar field (used in the @relation attribute aboce)
+  assignedAt    DateTime    @default(now())
+  assignedBy    String
+
+  @@id([marketplaceId, contractId])
+}
+
+// Belongs to a contract
+model Token {
+  id          Int       @id @default(autoincrement())
+  tokenId     Int // check big number
+  tokenType   TokenType
+  title       String?
+  description String?
+  // rawMetadata
+  // tokenUri
+
+  @@map("tokens")
+}
+
+model Bookmark {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  link        String
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("bookmarks")
+}

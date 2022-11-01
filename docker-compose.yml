@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:13.2
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=orderbook
+    ports:
+      - 5432:5432
+    networks:
+      - local
+  postgres-test:
+    image: postgres:13.2
+    container_name: postgres-test
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=orderbook
+    ports:
+      - 5434:5432
+    networks:
+      - local
+networks:
+  local:
