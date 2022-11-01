@@ -16,9 +16,6 @@ import { CreateNftDto } from './dto/create-nft.dto'
 import { UpdateNftDto } from './dto/update-nft.dto'
 
 const testCollectionAddress = '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741'
-const apiKey = 'dc90c81b-ef38-5355-9d6d-5fa316360197'
-const testApiKey = 'demo-api-key'
-const testBaseUrl = 'https://api-goerli.reservoir.tools'
 
 type Order = {
   id: string

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { createClient, getClient } from '@reservoir0x/reservoir-kit-client'
+import { ConfigService } from '@nestjs/config'
 import { Network, Alchemy, Nft } from 'alchemy-sdk'
 import axios from 'axios'
 import { PrismaService } from 'src/prisma/prisma.service'
@@ -10,13 +10,11 @@ import { UpdateOrderDto } from './dto/update-order.dto'
 
 const testCollectionAddress = '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741'
 const testYugidamaAddress = '0x24e5bba6218d711ee675a844fc237f1ebfe83fe9'
-const apiKey = 'dc90c81b-ef38-5355-9d6d-5fa316360197'
 const testApiKey = 'demo-api-key'
-const testBaseUrl = 'https://api-goerli.reservoir.tools'
 
 @Injectable()
 export class OrderService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private config: ConfigService) {}
 
   async findAllNativeListings() {
     const orders = this.prisma.order.findMany({
@@ -93,7 +91,8 @@ export class OrderService {
   async getSampleOrders() {
     // Get orders
     const orderUrl =
-      `${testBaseUrl}/orders/asks/v3` + `?contracts=${testYugidamaAddress}`
+      `${this.config.get('ORDERBOOK_BASE_URL')}/orders/asks/v3` +
+      `?contracts=${testYugidamaAddress}`
     const orderRes = await axios.get(orderUrl, {
       params: {
         includePrivate: false,
@@ -104,7 +103,7 @@ export class OrderService {
       },
       headers: {
         accept: '*/*',
-        'x-api-key': apiKey,
+        'x-api-key': this.config.get('ORDERBOOK_API_KEY'),
       },
     })
     console.log(orderRes.data)
