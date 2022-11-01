@@ -1,5 +1,6 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, AspectRatio, Avatar, Box, Center, Checkbox, CheckboxGroup, Container, Grid, GridItem, HStack, Image, Input, InputGroup, InputLeftElement, SimpleGrid, Spacer, Square, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, AspectRatio, Avatar, Box, Center, Checkbox, CheckboxGroup, Container, Grid, GridItem, HStack, Image, Input, InputGroup, InputLeftElement, Select, SimpleGrid, Spacer, Square, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import { AiOutlineSearch } from 'react-icons/ai';
+import { MdArrowForwardIos } from 'react-icons/md';
 import NextImage, { StaticImageData } from 'next/image';
 import { Nft } from "alchemy-sdk";
 import DeckIcon from "./assets/headerIcon/deck.png";
@@ -13,6 +14,9 @@ import RareIcon from "./assets/rarityIcon/Rare.png";
 import SuperRareIcon from "./assets/rarityIcon/SuperRare.png";
 import UltraRareIcon from "./assets/rarityIcon/UltraRare.png";
 import Banner from "./assets/banner.png";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { TrendDataListType, TrendDataType } from "src/types/trendData";
 
 interface Props {
   collectionData: any;
@@ -46,18 +50,6 @@ function CheckboxList(props: listProps) {
   );
 }
 
-function rarityIcon(rarity: string) {
-  if (rarity === "normal") {
-    return NormalIcon;
-  } else if (rarity === "rare") {
-    return RareIcon;
-  } else if (rarity === "superRare") {
-    return SuperRareIcon;
-  } else {
-    return UltraRareIcon;
-  }
-}
-
 interface headerIcon {
   icon: string;
   name: string;
@@ -86,11 +78,7 @@ function HeaderIcon(props: headerIcon) {
         >
           <Center>
             <NextImage
-              // height="42px"
-              // width="auto"
               src={img}
-              // src={`./assets/headerIcon/${props.icon}`}
-              // src={`${window.location.origin}/assets/headerIcon/${props.icon}`}
             />
           </Center>
         </Box>
@@ -100,15 +88,106 @@ function HeaderIcon(props: headerIcon) {
   );
 }
 
+function rarityIcon(rarity: string) {
+  if (rarity === "normal") {
+    return NormalIcon;
+  } else if (rarity === "rare") {
+    return RareIcon;
+  } else if (rarity === "superRare") {
+    return SuperRareIcon;
+  } else {
+    return UltraRareIcon;
+  }
+}
+
+interface CardInterface {
+  collectionAddress: string;
+  tokenId: number;
+}
+
+interface TrendDeckCardProps {
+  title: string;
+  subTitle: string;
+  deck: CardInterface[],
+  collectionData: any;
+};
+
+function TrendDeckCard(props: TrendDeckCardProps) {
+  const deckUrl = props.deck.map((v: CardInterface, idx) => {
+    const card = props.collectionData?.data?.nfts?.filter((elem) => {
+      console.log(v, elem);
+      return elem?.contract?.address === v.collectionAddress && parseInt(elem?.id?.tokenId) === v.tokenId;
+    });
+    if (card?.length >= 1) {
+      return card[0]?.media[0]?.gateway;
+    }
+    // return undefined;
+  });
+  console.log(deckUrl);
+
+  return (
+    <Box as="button" bg="#1E183E" borderRadius="8px" padding="8px 9px" sx={{
+      _hover: {
+        backgroundColor: "#353052"
+      }
+    }}>
+      <Grid templateColumns="190px 1fr 24px">
+        <HStack spacing="5px">
+          {
+            deckUrl.map((elem, idx) => {
+              return (
+                <Box key={idx} paddingTop={idx === 0 ? "0px" : "8px"}>
+                  <Image
+                    src={elem}
+                    height={idx === 0 ? "64px" : "56px"}
+                  />
+                </Box>
+              )
+            })
+          }
+        </HStack>
+        <Box>
+          <Box textAlign="left">
+            <Text as="b" fontSize="24px">
+              {props.title}
+            </Text>
+          </Box>
+          <Box textAlign="left">
+            <Text as="b" fontSize="20px">
+              {props.subTitle}
+            </Text>
+          </Box>
+        </Box>
+        <Box height="64px" width="24px">
+          <Center height="100%">
+            <MdArrowForwardIos size="24px"/>
+          </Center>
+        </Box>
+      </Grid>
+    </Box>
+  );
+}
+
 
 export function YuGiOhMarketPlace(props: Props) {
+  const [trendData, setTrendData] = useState<TrendDataListType>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("/api/trend");
+      const data = await res.json();
+      setTrendData(data);
+    }
+    fetchData();
+  }, []);
+
   const width: any = {
     sm: '100%', 
     md: '50%', 
     lg: '33%', 
     xl: '25%',
   }
-  console.log(props.collectionData);
+  // console.log(props.collectionData);
 
   return (
     <Box style={{backgroundColor: '#0B0134'}}>
@@ -180,7 +259,7 @@ export function YuGiOhMarketPlace(props: Props) {
                     <Box paddingBottom="15px">
                       <Accordion 
                         allowMultiple 
-                        defaultIndex={[0, 1, 2, 3, 4]}
+                        defaultIndex={[0, 1, 2, 3, 4, 5]}
                         colorScheme="red"
                       >
 
@@ -242,10 +321,7 @@ export function YuGiOhMarketPlace(props: Props) {
                 <Box marginBottom="10px">
                   <NextImage
                     src={Banner}
-                    // src="/assets/img.png"
-                    // src={`${window.location.origin}/assets/banner.png`}
                   />
-                  {/* ガチャ広告 (TODO) */}
                 </Box>
                 <Box>
                   <HStack spacing={5}>
@@ -290,8 +366,22 @@ export function YuGiOhMarketPlace(props: Props) {
                       </Center>
                     </Box>
                   </HStack>
-                  <Box width="100%" bg="#1E183E" height="288px" marginTop="18px" marginBottom="30px" borderRadius="16px">
-                    <Box>
+                  <Box width="100%" bg="#1E183E" marginTop="18px" marginBottom="30px" borderRadius="16px">
+                    <Box padding="16px 36px">
+                      <Stack spacing="8px">
+                        {
+                          trendData?.map((elem: TrendDataType) => {
+                            return (
+                              <TrendDeckCard
+                                title={elem.title}
+                                subTitle={elem.subTitle}
+                                deck={elem.deck}
+                                collectionData={props.collectionData}
+                              />
+                            );
+                          })
+                        }
+                      </Stack>
                     </Box>
                   </Box>
                 </Box>
@@ -330,6 +420,22 @@ export function YuGiOhMarketPlace(props: Props) {
                         </Text>
                       </Center>
                     </Box>
+                    <Spacer/>
+                    <Box 
+                      minWidth="72px" 
+                      height="40px" 
+                      borderRadius="8px"
+                    >
+                      <Select 
+                        borderColor="#4C4C4C"
+                        _expanded={{
+                          bg: "#353052"
+                        }}
+                      >
+                        <option value="low">値段：安い</option>
+                        <option value="hight">値段：高い</option>
+                      </Select>
+                    </Box>
                   </HStack>
                 </Box>
                 <Box>
@@ -355,10 +461,7 @@ export function YuGiOhMarketPlace(props: Props) {
                                 <Grid alignContent="space-between" height="100%">
                                   <Box textAlign='left'>
                                     <NextImage
-                                      // width="28px"
                                       src={rarityIcon("normal")}
-                                      // src="/assets/img.png"
-                                      // src={`${window.location.origin}/assets/rarityIcon/SuperRare.png`}
                                     />
                                   </Box>
                                   <Box>

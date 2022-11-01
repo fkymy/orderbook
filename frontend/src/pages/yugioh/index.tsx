@@ -39,7 +39,7 @@ const Home: NextPage = () => {
 
   const providerTheme = extendTheme({
     components: {
-      Accordion: accordionTheme
+      Accordion: accordionTheme,
     },
   });
 
