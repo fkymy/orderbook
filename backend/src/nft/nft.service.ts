@@ -16,9 +16,6 @@ import { CreateNftDto } from './dto/create-nft.dto'
 import { UpdateNftDto } from './dto/update-nft.dto'
 
 const testCollectionAddress = '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741'
-const apiKey = 'dc90c81b-ef38-5355-9d6d-5fa316360197'
-const testApiKey = 'demo-api-key'
-const testBaseUrl = 'https://api-goerli.reservoir.tools'
 
 type Order = {
   id: string
@@ -99,9 +96,9 @@ export class NftService {
       // console.log('===')
     }
 
-    // add orders to nfts
+    // add aggregaed orders to nfts
     // Get orders
-    const orderRes = this.orderService.getSampleOrders()
+    const orderRes = await this.orderService.getSampleOrders()
     const orders = orderRes.orders
     for (let i = 0; i < orders.length; i++) {
       const split = orders[i].tokenSetId.split(':')
@@ -116,6 +113,26 @@ export class NftService {
             res[j].orders.push(orders[i])
           } else {
             res[j].orders = [orders[i]]
+          }
+        }
+      }
+    }
+
+    // add native orders to nfts
+    const nativeOrders = await this.orderService.findAllNativeListings()
+    console.log({
+      nativeOrders,
+    })
+    for (let i = 0; i < nativeOrders.length; i++) {
+      for (let j = 0; j < res.length; j++) {
+        if (
+          res[j].contract.address === nativeOrders[i].contract &&
+          res[j].tokenId === nativeOrders[i].tokenId.toString()
+        ) {
+          if (res[j].nativeOrders) {
+            res[j].nativeOrders.push(nativeOrders[i])
+          } else {
+            res[j].nativeOrders = [nativeOrders[i]]
           }
         }
       }

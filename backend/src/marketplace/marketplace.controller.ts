@@ -22,14 +22,6 @@ import { MarketplaceService } from './marketplace.service'
 export class MarketplaceController {
   constructor(private readonly marketplaceService: MarketplaceService) {}
 
-  // - Create marketplace
-  //   1. Get collection addresses in an array and market fee
-  //   2. Fetch collection data and save in database
-  //   3. Get all tokens and save in database
-  // - Get list of tokens and listings
-  //   1. Get all tokens saved in database
-  //   2. Fetch listings from reservoir API
-
   @Post()
   @ApiOperation({ summary: 'Create marketplaces with contracts' })
   create(@Body() createMarketplaceDto: CreateMarketplaceDto) {

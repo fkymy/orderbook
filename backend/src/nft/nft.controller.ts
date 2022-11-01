@@ -20,12 +20,6 @@ import { NftService } from './nft.service'
 export class NftController {
   constructor(private readonly nftService: NftService) {}
 
-  // Query
-  // marketplace=id
-  // contractAddress=address
-  // withMetadata=false
-  // limit=100
-
   @Get()
   @ApiOperation({ summary: 'Get a list of NFTs for a marketplace' })
   @ApiQuery({ name: 'marketplace', required: true, type: Number })

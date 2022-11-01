@@ -1,34 +1,121 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { Network, Alchemy, Nft } from 'alchemy-sdk'
+import axios from 'axios'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { BuyListingDto } from './dto/buy-listing.dto'
+import { CreateListingDto } from './dto/create-listing.dto'
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
 
+const testCollectionAddress = '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741'
+const testYugidamaAddress = '0x24e5bba6218d711ee675a844fc237f1ebfe83fe9'
+const testApiKey = 'demo-api-key'
+
 @Injectable()
 export class OrderService {
-  getSampleOrders() {
+  constructor(private prisma: PrismaService, private config: ConfigService) {}
+
+  async findAllNativeListings() {
+    const orders = this.prisma.order.findMany({
+      where: {
+        kind: 'orderbook',
+        side: 'ASK',
+        status: 'ACTIVE',
+        finalized: false,
+      },
+    })
+    return orders
+  }
+
+  async createListing(dto: CreateListingDto) {
+    console.log({
+      dto,
+    })
+
+    const data: any = {
+      kind: 'orderbook',
+      side: 'ASK',
+      status: 'ACTIVE',
+      cancelled: false,
+      finalized: false,
+      signature: 'none',
+      contract: dto.contract,
+      tokenId: dto.tokenId,
+      tokenSetId: `token:${dto.contract}:${dto.tokenId}`,
+      maker: dto.maker,
+      taker: undefined,
+      currencyName: 'Ether',
+      currencySymbol: 'ETH',
+      decimals: 18,
+      rawAmount: undefined,
+      decimalAmount: dto.decimalAmount,
+      isOrderbook: true,
+      isReservoir: false,
+      source: undefined,
+    }
+
+    const createdListing = await this.prisma.order.create({
+      data,
+    })
+
+    return createdListing
+  }
+
+  async buyListing(dto: BuyListingDto) {
+    const listing = await this.prisma.order.findUnique({
+      where: {
+        id: dto.id,
+      },
+    })
+    if (!listing) {
+      throw new NotFoundException('listing not found')
+    }
+    if (listing.status !== 'ACTIVE' || listing.finalized === true) {
+      throw new NotFoundException('listing is not active')
+    }
+
+    const updateListing = await this.prisma.order.update({
+      where: {
+        id: dto.id,
+      },
+      data: {
+        status: 'INACTIVE',
+        finalized: true,
+        taker: dto.taker,
+      },
+    })
+    return updateListing
+  }
+
+  async getSampleOrders() {
     // Get orders
-    // const orderUrl =
-    //   `${testBaseUrl}/orders/asks/v3` + `?contracts=${contract.address}`
-    // const orderRes = await axios.get(orderUrl, {
-    //   params: {
-    //     includePrivate: false,
-    //     includeMetadata: false,
-    //     includeRawData: false,
-    //     sortBy: 'createdAt',
-    //     limit: 50,
-    //   },
-    //   headers: {
-    //     accept: '*/*',
-    //     'x-api-key': apiKey,
-    //   },
-    // })
-    // console.log(orderRes.data)
-    // if (orderRes.data.orders) {
-    //   for (let i = 0; i < orderRes.data.length; i++) {
-    //     console.log(orderRes.data.orders[i])
-    //   }
-    // } else {
-    //   console.log('no orders')
-    // }
+    const orderUrl =
+      `${this.config.get('ORDERBOOK_BASE_URL')}/orders/asks/v3` +
+      `?contracts=${testYugidamaAddress}`
+    const orderRes = await axios.get(orderUrl, {
+      params: {
+        includePrivate: false,
+        includeMetadata: false,
+        includeRawData: false,
+        sortBy: 'createdAt',
+        limit: 50,
+      },
+      headers: {
+        accept: '*/*',
+        'x-api-key': this.config.get('ORDERBOOK_API_KEY'),
+      },
+    })
+    console.log(orderRes.data)
+    if (orderRes.data.orders) {
+      for (let i = 0; i < orderRes.data.length; i++) {
+        console.log(orderRes.data.orders[i])
+      }
+    } else {
+      console.log('no orders')
+    }
+    return orderRes.data
+
     return {
       orders: [
         {
@@ -260,16 +347,12 @@ export class OrderService {
     }
   }
 
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order'
-  }
-
-  findAll() {
-    return `This action returns all order`
-  }
-
   findOne(id: number) {
     return `This action returns a #${id} order`
+  }
+
+  create(createOrderDto: CreateOrderDto) {
+    return 'This action adds a new order'
   }
 
   update(id: number, updateOrderDto: UpdateOrderDto) {

@@ -50,7 +50,7 @@ model Contract {
   name         String?
   symbol       String?
   totalSupply  Int?
-  tokenType    String?
+  tokenType    TokenType?
   slug         String?                   @unique
   image        String?
   marketplaces ContractsOnMarketplaces[]
@@ -69,6 +69,55 @@ model ContractsOnMarketplaces {
   assignedBy    String
 
   @@id([marketplaceId, contractId])
+}
+
+enum OrderSide {
+  ASK
+  BUY
+}
+enum OrderStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Order {
+  id                 Int      @id @default(autoincrement())
+  kind               String // seaport, looks-rare, xy2y, yugidama
+  side               OrderSide // ask, buy
+  status             OrderStatus // active, inactive
+  cancelled          Boolean
+  finalized          Boolean
+  signature          String?
+  contract           String
+  tokenId            Int
+  tokenSetId         String
+  // tokenSetSchemaHash String
+  maker              String
+  taker              String?
+  currencyName       String
+  currencySymbol     String
+  decimals           Int
+  rawAmount          String?
+  decimalAmount      Float
+  isOrderbook        Boolean
+  isReservoir        Boolean
+  source             Source?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("orders")
+}
+
+model Source {
+  id      Int    @id @default(autoincrement())
+  domain  String
+  name    String
+  icon    String
+  url     String
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId Int    @unique
+
+  @@map("sources")
 }
 
 // Belongs to a contract

@@ -27,8 +27,8 @@
     "db:dev:up": "docker compose up postgres -d",
     "db:dev:restart": "yarn db:dev:rm && yarn db:dev:up && sleep 1 && yarn prisma:dev:deploy",
     "prisma:test:deploy": "dotenv -e .env.test -- prisma migrate deploy",
-    "db:test:rm": "docker compose rm postgres-test -s -f -v",
-    "db:test:up": "docker compose up postgres-test -d",
+    "db:test:rm": "docker compose rm postgres_test -s -f -v",
+    "db:test:up": "docker compose up postgres_test -d",
     "db:test:restart": "yarn db:test:rm && yarn db:test:up && sleep 1 && yarn prisma:test:deploy"
   },
   "lint-staged": {

@@ -20,14 +20,11 @@ export const constUrl = {
 @Injectable()
 export class AdminService {
   sdk: any
-  apiKey = 'dc90c81b-ef38-5355-9d6d-5fa316360197'
   testApiKey = 'demo-api-key'
-  testBaseUrl = 'https://api-goerli.reservoir.tools'
   testCollectionAddress = '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741'
   testCollectionSetId =
     '5c93e3b29f2072a7d4206fb9c5602376822c602843186f05846d7d0c3dbe3ccf'
 
-  baseUrl = 'https://api.reservoir.tools'
   collectionAddress = '0x629a673a8242c2ac4b7b8c5d8735fbeac21a6205'
   collectionSet =
     'f7255476e3a86310e688307089d85d4a73c05b64642bd2f0a82f5ca91e8cbeb0'
@@ -42,7 +39,9 @@ export class AdminService {
 
   async manage() {
     const client = getClient()
-    const url = this.testBaseUrl + `/api-keys/${this.apiKey}/rate-limits`
+    const url =
+      this.config.get('ORDERBOOK_BASE_URL') +
+      `/api-keys/${this.config.get('ORDERBOOK_API_KEY')}/rate-limits`
     const res = await fetch(url, {
       method: 'GET',
       headers: {
@@ -249,7 +248,7 @@ export class AdminService {
   async asks() {
     const client = getClient()
     const url =
-      `${this.testBaseUrl}/orders/asks/v3` +
+      `${this.config.get('ORDERBOOK_BASE_URL')}/orders/asks/v3` +
       `?contracts=${this.testCollectionAddress}` +
       `&token=${this.testCollectionAddress}:4` +
       '&includePrivate=false&includeMetadata=false&includeRawData=false&sortBy=createdAt&limit=50'
@@ -258,7 +257,7 @@ export class AdminService {
       method: 'GET',
       headers: {
         accept: '*/*',
-        'x-api-key': this.apiKey,
+        'x-api-key': this.config.get('ORDERBOOK_API_KEY'),
       },
     })
     const data = await res.json()
@@ -273,7 +272,7 @@ export class AdminService {
   async bids() {
     const client = getClient()
     const url =
-      `${this.testBaseUrl}/orders/bids/v4` +
+      `${this.config.get('ORDERBOOK_BASE_URL')}/orders/bids/v4` +
       `?contracts=${this.testCollectionAddress}` +
       '&includeMetadata=false&includeRawData=false&sortBy=createdAt&limit=50'
 
@@ -281,7 +280,7 @@ export class AdminService {
       method: 'GET',
       headers: {
         accept: '*/*',
-        'x-api-key': this.apiKey,
+        'x-api-key': this.config.get('ORDERBOOK_API_KEY'),
       },
     })
     const data = await res.json()
@@ -296,7 +295,7 @@ export class AdminService {
   async collections() {
     const client = getClient()
     const url =
-      `${this.testBaseUrl}/collections/v5` +
+      `${this.config.get('ORDERBOOK_BASE_URL')}/collections/v5` +
       `?contract=${this.testCollectionAddress}` +
       '&includeTopBid=false&sortBy=allTimeVolume&limit=20'
 
@@ -319,7 +318,7 @@ export class AdminService {
   async sources() {
     const client = getClient()
     const url =
-      `${this.testBaseUrl}/collections/sources/v1` +
+      `${this.config.get('ORDERBOOK_BASE_URL')}/collections/sources/v1` +
       `?collection=${this.testCollectionAddress}`
 
     const res = await fetch(url, {
@@ -341,7 +340,7 @@ export class AdminService {
   async stats() {
     const client = getClient()
     const url =
-      `${this.testBaseUrl}/stats/v2` +
+      `${this.config.get('ORDERBOOK_BASE_URL')}/stats/v2` +
       `?collection=${this.testCollectionAddress}`
 
     const res = await fetch(url, {
@@ -363,7 +362,7 @@ export class AdminService {
   async dailyVolume() {
     const client = getClient()
     const url =
-      `${this.testBaseUrl}/collections/daily-volume/v1` +
+      `${this.config.get('ORDERBOOK_BASE_URL')}/collections/daily-volume/v1` +
       `?collection=${this.testCollectionAddress}`
 
     const res = await fetch(url, {
@@ -385,7 +384,7 @@ export class AdminService {
   async tokens() {
     const client = getClient()
     const url =
-      `${this.testBaseUrl}/tokens/v5` +
+      `${this.config.get('ORDERBOOK_BASE_URL')}/tokens/v5` +
       `?collection=${this.testCollectionAddress}` +
       '&sortBy=floorAskPrice&limit=20&includeTopBid=false&includeAttributes=false'
 
@@ -408,7 +407,7 @@ export class AdminService {
   async test() {
     // Get API key rate limit
     const url =
-      `${this.testBaseUrl}/collections/v5` +
+      `${this.config.get('ORDERBOOK_BASE_URL')}/collections/v5` +
       `?id=${this.testCollectionAddress}` +
       `&includeTopBid=false&sortBy=allTimeVolume&limit=20`
 
