@@ -29,7 +29,6 @@ export class OrderService {
     // } else {
     //   console.log('no orders')
     // }
-
     return {
       orders: [
         {
@@ -43,14 +42,45 @@ export class OrderService {
           contract: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           maker: '0x96b1bd9e8af7e3a0d840080690ca7e30a7b3c852',
           taker: '0x0000000000000000000000000000000000000000',
-          price: [Object],
+          price: {
+            currency: {
+              contract: '0x0000000000000000000000000000000000000000',
+              name: 'Ether',
+              symbol: 'ETH',
+              decimals: 18,
+            },
+            amount: {
+              raw: '422000000000000000000',
+              decimal: 422,
+              usd: null,
+              native: 422,
+            },
+            netAmount: {
+              raw: '415670000000000000000',
+              decimal: 415.67,
+              usd: null,
+              native: 415.67,
+            },
+          },
           validFrom: 1667097134,
           validUntil: 1669689124,
           quantityFilled: 0,
           quantityRemaining: 1,
-          source: [Object],
+          source: {
+            id: '0x5924a28caaf1cc016617874a2f0c3710d881f3c1',
+            domain: 'looksrare.org',
+            name: 'LooksRare',
+            icon: 'https://raw.githubusercontent.com/reservoirprotocol/indexer/v5/src/models/sources/looksrare-logo.svg',
+            url: 'https://rinkeby.looksrare.org/collections/0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741/1',
+          },
           feeBps: 150,
-          feeBreakdown: [Array],
+          feeBreakdown: [
+            {
+              bps: 150,
+              kind: 'marketplace',
+              recipient: '0x5924a28caaf1cc016617874a2f0c3710d881f3c1',
+            },
+          ],
           expiration: 1669689124,
           isReservoir: null,
           isDynamic: false,
@@ -68,14 +98,45 @@ export class OrderService {
           contract: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           maker: '0x96b1bd9e8af7e3a0d840080690ca7e30a7b3c852',
           taker: '0x0000000000000000000000000000000000000000',
-          price: [Object],
+          price: {
+            currency: {
+              contract: '0x0000000000000000000000000000000000000000',
+              name: 'Ether',
+              symbol: 'ETH',
+              decimals: 18,
+            },
+            amount: {
+              raw: '42000000000000000',
+              decimal: 0.042,
+              usd: null,
+              native: 0.042,
+            },
+            netAmount: {
+              raw: '40950000000000000',
+              decimal: 0.04095,
+              usd: null,
+              native: 0.04095,
+            },
+          },
           validFrom: 1667096939,
           validUntil: 1669775339,
           quantityFilled: 0,
           quantityRemaining: 1,
-          source: [Object],
+          source: {
+            id: '0xca0e98ce2e85641beb7c30352121fa2cc14761e1',
+            domain: 'opensea.io',
+            name: 'OpenSea',
+            icon: 'https://raw.githubusercontent.com/reservoirprotocol/indexer/v5/src/models/sources/opensea-logo.svg',
+            url: 'https://testnets.opensea.io/assets/goerli/0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741/0',
+          },
           feeBps: 250,
-          feeBreakdown: [Array],
+          feeBreakdown: [
+            {
+              bps: 250,
+              kind: 'marketplace',
+              recipient: '0x0000a26b00c1f0df003000390027140000faa719',
+            },
+          ],
           expiration: 1669775339,
           isReservoir: null,
           isDynamic: false,
@@ -93,14 +154,45 @@ export class OrderService {
           contract: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           maker: '0x96b1bd9e8af7e3a0d840080690ca7e30a7b3c852',
           taker: '0x0000000000000000000000000000000000000000',
-          price: [Object],
+          price: {
+            currency: {
+              contract: '0x0000000000000000000000000000000000000000',
+              name: 'Ether',
+              symbol: 'ETH',
+              decimals: 18,
+            },
+            amount: {
+              raw: '42000000000000000000',
+              decimal: 42,
+              usd: null,
+              native: 42,
+            },
+            netAmount: {
+              raw: '41370000000000000000',
+              decimal: 41.37,
+              usd: null,
+              native: 41.37,
+            },
+          },
           validFrom: 1667095356,
           validUntil: 1669687288,
           quantityFilled: 0,
           quantityRemaining: 1,
-          source: [Object],
+          source: {
+            id: '0x5924a28caaf1cc016617874a2f0c3710d881f3c1',
+            domain: 'looksrare.org',
+            name: 'LooksRare',
+            icon: 'https://raw.githubusercontent.com/reservoirprotocol/indexer/v5/src/models/sources/looksrare-logo.svg',
+            url: 'https://rinkeby.looksrare.org/collections/0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741/4',
+          },
           feeBps: 150,
-          feeBreakdown: [Array],
+          feeBreakdown: [
+            {
+              bps: 150,
+              kind: 'marketplace',
+              recipient: '0x5924a28caaf1cc016617874a2f0c3710d881f3c1',
+            },
+          ],
           expiration: 1669687288,
           isReservoir: null,
           isDynamic: false,
@@ -118,14 +210,45 @@ export class OrderService {
           contract: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           maker: '0x96b1bd9e8af7e3a0d840080690ca7e30a7b3c852',
           taker: '0x0000000000000000000000000000000000000000',
-          price: [Object],
+          price: {
+            currency: {
+              contract: '0x0000000000000000000000000000000000000000',
+              name: 'Ether',
+              symbol: 'ETH',
+              decimals: 18,
+            },
+            amount: {
+              raw: '420000000000000000',
+              decimal: 0.42,
+              usd: null,
+              native: 0.42,
+            },
+            netAmount: {
+              raw: '409500000000000000',
+              decimal: 0.4095,
+              usd: null,
+              native: 0.4095,
+            },
+          },
           validFrom: 1667074538,
           validUntil: 1669752938,
           quantityFilled: 0,
           quantityRemaining: 1,
-          source: [Object],
+          source: {
+            id: '0xca0e98ce2e85641beb7c30352121fa2cc14761e1',
+            domain: 'opensea.io',
+            name: 'OpenSea',
+            icon: 'https://raw.githubusercontent.com/reservoirprotocol/indexer/v5/src/models/sources/opensea-logo.svg',
+            url: 'https://testnets.opensea.io/assets/goerli/0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741/4',
+          },
           feeBps: 250,
-          feeBreakdown: [Array],
+          feeBreakdown: [
+            {
+              bps: 250,
+              kind: 'marketplace',
+              recipient: '0x0000a26b00c1f0df003000390027140000faa719',
+            },
+          ],
           expiration: 1669752938,
           isReservoir: null,
           isDynamic: false,
