@@ -10,10 +10,10 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write src",
-    "prepare": "cd .. && husky install demo/.husky"
+    "prepare": "cd .. && husky install .config/.husky"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "*.{js,ts,jsx,tsx}": [
       "yarn lint",
       "yarn format",
       "yarn lint:fix"

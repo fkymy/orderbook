@@ -1,0 +1,47 @@
+{
+  contract: {
+    address: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
+  },
+  id: {
+    tokenId:
+      '0x0000000000000000000000000000000000000000000000000000000000000004',
+    tokenMetadata: {
+      tokenType: 'ERC721',
+    },
+  },
+  title: 'OBT#005',
+  description: 'magic_card reborn',
+  tokenUri: {
+    raw: 'ipfs://QmNxZRdMTLhyrcDAUghgoGYRQdg6PQbgK8XSTiwD1E6vaC/4',
+    gateway:
+      'https://ipfs.io/ipfs/QmNxZRdMTLhyrcDAUghgoGYRQdg6PQbgK8XSTiwD1E6vaC/4',
+  },
+  media: [
+    {
+      raw: 'ipfs://QmSD4Ldf9B1iTd8iCEmbhag6mX12aQaH8mVF2KsySJvLgF/4.png',
+      gateway:
+        'https://ipfs.io/ipfs/QmSD4Ldf9B1iTd8iCEmbhag6mX12aQaH8mVF2KsySJvLgF/4.png',
+    },
+  ],
+  metadata: {
+    name: 'OBT#005',
+    description: 'magic_card reborn',
+    image: 'ipfs://QmSD4Ldf9B1iTd8iCEmbhag6mX12aQaH8mVF2KsySJvLgF/4.png',
+    attributes: [
+      {
+        value: 'magic',
+        trait_type: 'type',
+      },
+      {
+        value: 'common',
+        trait_type: 'effect',
+      },
+    ],
+  },
+  timeLastUpdated: '2022-10-30T09:05:11.880Z',
+  contractMetadata: {
+    name: 'orderbook_test',
+    totalSupply: '9',
+    tokenType: 'ERC721',
+  },
+}
