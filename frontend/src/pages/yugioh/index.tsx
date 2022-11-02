@@ -2,13 +2,9 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import axios from "axios";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
-
-/** components */
 import { YuGiOhMarketPlace } from "src/features/components/yugioh/marketPlace";
-import { accordionTheme } from "src/features/theme/accordion";
-
-/** assets */
 import { constUrl } from "src/features/constant/constURL";
+import { accordionTheme } from "src/features/theme/accordion";
 
 const Home: NextPage = () => {
   // const collectionAddress = "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c";
@@ -48,6 +44,7 @@ const Home: NextPage = () => {
         })
     });
     // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // useEffect(() => {

@@ -1,3 +1,4 @@
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { 
   Avatar, 
   Box, 
@@ -13,27 +14,20 @@ import {
   Stack, 
   Text, 
 } from "@chakra-ui/react";
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
 import axios from "axios";
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { ethers } from "ethers";
 import NextImage, { StaticImageData } from 'next/image';
-
-/** components */
-import { MonstorMetadataTable } from "./mostorMetadataTable";
-import { TrapAndMagicMetadataTable } from "./trapAndMagicMetadataTable";
-import { StorePriceCard } from "./storeCard";
+import { useEffect, useState } from "react";
+import MarketPlace from "../../../../../contracts/artifacts/contracts/MarketPlace.sol/MarketPlace.json";
+import MarketPlaceFacotory from "../../../../../contracts/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json";
+import { getRarityIcon } from "./getRarityIcon";
 import { YugidamaHeader } from "./header";
-
-/** types */
-import { CardType, CollectionMetadataType, RarityType } from "src/types/collectionMetadata";
-
-/** assets */
-import MarketPlaceFacotory from "../../../../../backend/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json";
-import MarketPlace from "../../../../../backend/artifacts/contracts/MarketPlace.sol/MarketPlace.json";
+import { MonstorMetadataTable } from "./mostorMetadataTable";
+import { StorePriceCard } from "./storeCard";
+import { TrapAndMagicMetadataTable } from "./trapAndMagicMetadataTable";
 import { constAddress } from "src/features/constant/constAddress";
 import { constUrl } from "src/features/constant/constURL";
-import { getRarityIcon } from "./getRarityIcon";
+import { CardType, CollectionMetadataType, RarityType } from "src/types/collectionMetadata";
 
 interface Props {
   tokenId: number;
@@ -134,6 +128,7 @@ export function YuGiOhItem(props: Props) {
         }
       });
     // console.log();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // console.log(metadata?.image.replace("ipfs://", "https://ipfs.io/ipfs/"));
@@ -313,6 +308,7 @@ export function YuGiOhItem(props: Props) {
               <Image
                 src={metadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                 // src={props.nftdata?.media[0]?.gateway}
+                alt="card image"
                 height="360px"
               />
             </Center>
@@ -456,18 +452,22 @@ export function YuGiOhItem(props: Props) {
                       <Image
                         src="https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/1.jpg"
                         width="63px"
+                        alt="card image"
                       />
                       <Image
                         src="https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/0.jpg"
                         width="63px"
+                        alt="card image"
                       />
                       <Image
                         src="https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/3.jpg"
                         width="63px"
+                        alt="card image"
                       />
                       <Image
                         src="https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/9.jpg"
                         width="63px"
+                        alt="card image"
                       />
                     </HStack>
                   </Box>
@@ -546,6 +546,7 @@ export function YuGiOhItem(props: Props) {
                               bg="#D9D9D9"
                               width="36px"
                               height="36px"
+                              alt="collection icon"
                             />
                           </Center>
                           <Box marginLeft="16px">

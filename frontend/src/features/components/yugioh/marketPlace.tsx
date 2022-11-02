@@ -20,14 +20,14 @@ import {
   Stack, 
   Text 
 } from "@chakra-ui/react";
+import NextImage, { StaticImageData } from 'next/image';
+import { useEffect, useState } from "react";
 import { AiOutlineSearch } from 'react-icons/ai';
 import { MdArrowForwardIos } from 'react-icons/md';
-import NextImage, { StaticImageData } from 'next/image';
 import Banner from "./assets/banner.png";
-import { useEffect, useState } from "react";
-import { TrendDataListType, TrendDataType } from "src/types/trendData";
-import { YugidamaHeader } from "./header";
 import { getRarityIcon } from "./getRarityIcon";
+import { YugidamaHeader } from "./header";
+import { TrendDataListType, TrendDataType } from "src/types/trendData";
 
 interface Props {
   collectionData: any;
@@ -107,6 +107,7 @@ function TrendDeckCard(props: TrendDeckCardProps) {
                   <Image
                     src={elem}
                     height={idx === 0 ? "64px" : "56px"}
+                    alt="trend card"
                   />
                 </Box>
               )
@@ -205,8 +206,9 @@ export function YuGiOhMarketPlace(props: Props) {
                 <InputGroup>
                   <InputLeftElement
                     pointerEvents='none'
-                    children={<AiOutlineSearch color="#ffffff"/>}
-                  />
+                  >
+                    <AiOutlineSearch color="#ffffff"/>
+                  </InputLeftElement>
                   <Input
                     borderColor="#4C4C4C" 
                     borderWidth="1.5px" 
@@ -426,6 +428,7 @@ export function YuGiOhMarketPlace(props: Props) {
                               <Box>
                                 <Image
                                   src={nft?.media[0]?.gateway}
+                                  alt="icon"
                                 />
                               </Box>
                               <Box>
@@ -439,6 +442,7 @@ export function YuGiOhMarketPlace(props: Props) {
                                     <Image
                                       width="16px"
                                       src={"https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.png"}
+                                      alt="icon"
                                     />
                                     <Text>
                                       {`${(1 + 0.01 * n).toFixed(2)} ETH`}

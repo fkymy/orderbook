@@ -1,7 +1,7 @@
 import { Box, Center, Flex, Grid, propNames, Spacer, Text } from "@chakra-ui/react";
-import { CollectionMetadataType } from "src/types/collectionMetadata";
 import NextImage, { StaticImageData } from 'next/image';
 
+import LevelIcon from "./assets/level.png";
 import TypeDarkIcon from "./assets/typeIcon/dark.png";
 import TypeDivineIcon from "./assets/typeIcon/divine.png";
 import TypeEarthIcon from "./assets/typeIcon/earth.png";
@@ -9,7 +9,7 @@ import TypeFireIcon from "./assets/typeIcon/fire.png";
 import TypeLightIcon from "./assets/typeIcon/light.png";
 import TypeWaterIcon from "./assets/typeIcon/water.png";
 import TypeWindIcon from "./assets/typeIcon/wind.png";
-import LevelIcon from "./assets/level.png";
+import { CollectionMetadataType } from "src/types/collectionMetadata";
 
 function getTypeIcon(type: string) {
   switch (type) {

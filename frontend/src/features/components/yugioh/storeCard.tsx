@@ -1,10 +1,10 @@
+import { Box, Center, Flex, Grid, Spacer, Text } from "@chakra-ui/react";
 import NextImage, { StaticImageData } from 'next/image';
 
-import StoreYugidamaIcon from "./assets/storeIcon/yugidama.png";
-import StoreOpenseaIcon from "./assets/storeIcon/opensea.png";
 import StoreLooksrareIcon from "./assets/storeIcon/looksrare.png";
+import StoreOpenseaIcon from "./assets/storeIcon/opensea.png";
 import StoreX2Y2Icon from "./assets/storeIcon/x2y2.png";
-import { Box, Center, Flex, Grid, Spacer, Text } from "@chakra-ui/react";
+import StoreYugidamaIcon from "./assets/storeIcon/yugidama.png";
 
 
 interface StorePriceCardProps {

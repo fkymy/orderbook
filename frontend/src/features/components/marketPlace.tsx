@@ -33,6 +33,7 @@ export function MarketPlace(props: Props) {
             objectFit='contain'
             shadow='md'
             src={`${props.collectionData?.data?.nfts[0]?.media[0]?.gateway}`}
+            alt="card image"
             // src={`${props.collectionData?.data?.nfts[0]?.metadata?.image}`}
           />
         </Box>
@@ -67,7 +68,7 @@ export function MarketPlace(props: Props) {
                   {
                     props.collectionData?.data?.nfts.map((nft: any, n: number) => {
                       return (
-                        <Box bg="#ffffff" maxWidth='510px' shadow='md' rounded='10px'>
+                        <Box bg="#ffffff" maxWidth='510px' shadow='md' rounded='10px' key={n}>
                           <Stack marginBottom='10px'>
                             {/* <Square style={{width: "100%"}}> */}
                             {/* <AspectRatio maxW="100%" ratio={1}> */}
@@ -79,6 +80,7 @@ export function MarketPlace(props: Props) {
                               <Image
                                 // src={nft?.metadata?.image}
                                 src={nft?.media[0]?.gateway}
+                                alt="nft image"
                                 // boxSize="100%"
                                 // height="1000px"
                                 // width="1000px"

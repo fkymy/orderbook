@@ -21,6 +21,7 @@ export function Item(props: Props) {
           >
             <Image
               // src={`${props.nftdata?.metadata?.image}`}
+              alt="card image"
               src={`${props.nftdata?.media[0]?.gateway}`}
               style={{
                 borderRadius: '45px',

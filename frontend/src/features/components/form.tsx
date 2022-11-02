@@ -1,8 +1,8 @@
-import { HStack, Button, Icon, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Textarea } from "@chakra-ui/react";
 import { Box, Container, Stack, Text } from "@chakra-ui/layout";
-import { Dispatch, SetStateAction, useState } from "react";
+import { HStack, Button, Icon, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Textarea } from "@chakra-ui/react";
 import { ethers } from 'ethers';
-import MarketPlaceFacotory from "../../../../backend/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json"
+import { Dispatch, SetStateAction, useState } from "react";
+import MarketPlaceFacotory from "../../../../contracts/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json";
 
 
 interface Props {

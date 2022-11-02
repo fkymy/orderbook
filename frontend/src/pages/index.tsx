@@ -1,10 +1,10 @@
-import type { NextPage } from 'next'
 import { Box, Button, Center, ChakraProvider, HStack, Stack } from '@chakra-ui/react';
+import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState } from 'react';
 import styles from '../styles/Home.module.css'
 import { CreateForm } from 'src/features/components/form';
-import { useState } from 'react';
 import { ConnectedTop } from 'src/features/components/home';
 
 
