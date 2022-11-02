@@ -1,3 +1,8 @@
+### コントラクト
+```
+npm install
+npx hardhat compile
+```
 
 ### バックエンド
 
