@@ -14,10 +14,10 @@ const config: HardhatUserConfig = {
     //   url: "",
     //   accounts: [`0x${PRIVATE_KEY}`]
     // }
-    goerli: {
-      url: process.env.API_URL,
-      accounts: [`0x${process.env.PRIVATE_KEY}`]
-    }
+    // goerli: {
+    //   url: process.env.API_URL,
+    //   accounts: [`0x${process.env.PRIVATE_KEY}`]
+    // }
   }
 };
 
