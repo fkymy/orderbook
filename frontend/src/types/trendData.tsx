@@ -1,6 +1,7 @@
 export type TrendCardDataType = {
   collectionAddress: string
   tokenId: number
+  imageURL: string
 }
 
 export type TrendDataType = {

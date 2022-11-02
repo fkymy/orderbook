@@ -23,11 +23,13 @@ import {
 import NextImage, { StaticImageData } from 'next/image'
 import { useEffect, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
-import { MdArrowForwardIos } from 'react-icons/md'
+import { MdArrowForwardIos, MdDeck } from 'react-icons/md'
 import Banner from './assets/banner.png'
 import { getRarityIcon } from './getRarityIcon'
 import { YugidamaHeader } from './header'
-import { TrendDataListType, TrendDataType } from 'src/types/trendData'
+import { TrendCardDataType, TrendDataListType, TrendDataType } from 'src/types/trendData'
+import { getStoreIcon } from './storeCard'
+import { Router, useRouter } from 'next/router'
 
 interface Props {
   collectionData: any
@@ -73,25 +75,26 @@ interface CardInterface {
 interface TrendDeckCardProps {
   title: string
   subTitle: string
-  deck: CardInterface[]
+  deck: TrendCardDataType[]
   collectionData: any
 }
 
 function TrendDeckCard(props: TrendDeckCardProps) {
-  const deckUrl = props.deck.map((v: CardInterface, idx) => {
-    const card = props.collectionData?.data?.nfts?.filter((elem) => {
-      // console.log(v, elem);
-      return (
-        elem?.contract?.address === v.collectionAddress && parseInt(elem?.id?.tokenId) === v.tokenId
-      )
-    })
-    if (card?.length >= 1) {
-      return card[0]?.media[0]?.gateway
-    }
-    // return undefined;
-  })
-  // console.log(deckUrl);
+  // const deckUrl = props.deck.map((v: CardInterface, idx) => {
+  //   const card = props.collectionData?.data?.nfts?.filter((elem) => {
+  //     // console.log(v, elem);
+  //     return (
+  //       elem?.contract?.address === v.collectionAddress && parseInt(elem?.id?.tokenId) === v.tokenId
+  //     )
+  //   })
+  //   if (card?.length >= 1) {
+  //     return card[0]?.media[0]?.gateway
+  //   }
+  //   // return undefined;
+  // })
+  // // console.log(deckUrl);
 
+  // console.log(props.deck);
   return (
     <Box
       as='button'
@@ -106,13 +109,22 @@ function TrendDeckCard(props: TrendDeckCardProps) {
     >
       <Grid templateColumns='190px 1fr 24px'>
         <HStack spacing='5px'>
-          {deckUrl.map((elem, idx) => {
+          {/* {deckUrl.map((elem, idx) => {
             return (
               <Box key={idx} paddingTop={idx === 0 ? '0px' : '8px'}>
                 <Image src={elem} height={idx === 0 ? '64px' : '56px'} alt='trend card' />
               </Box>
             )
-          })}
+          })} */}
+          {
+            props.deck.map((elem, idx) => {
+              return (
+                <Box key={idx} paddingTop={idx === 0 ? '0px' : '8px'}>
+                  <Image src={elem.imageURL} height={idx === 0 ? '64px' : '56px'} alt='trend card' />
+                </Box>
+              )
+            })
+          }
         </HStack>
         <Box>
           <Box textAlign='left'>
@@ -136,8 +148,43 @@ function TrendDeckCard(props: TrendDeckCardProps) {
   )
 }
 
+interface MarketPageStorePriceProps {
+  nft: any;
+}
+
+function MarketPageStorePrice(props: MarketPageStorePriceProps) {
+  
+  if (props.nft?.orders?.at(-1)?.price?.amount?.native || props.nft?.nativeOrders?.at(-1)?.decimalAmount) {
+    // console.log(
+    //   props.nft?.nativeOrders, 
+    //   props.nft?.nativeOrders?.at(-1)?.kind, 
+    //   props.nft?.orders?.at(-1)?.kind,
+    //   props.nft?.nativeOrders?.at(-1)?.kind ? props.nft?.nativeOrders?.at(-1)?.kind : props.nft?.orders?.at(-1)?.kind,
+    //   props.nft?.nativeOrders?.at(-1)?.decimalAmount ? props.nft?.nativeOrders?.at(-1)?.decimalAmount : props.nft?.orders?.at(-1)?.price?.amount?.native
+    // );
+    return (
+      <Box textAlign="left">
+        <NextImage
+          width='16px'
+          height='16px'
+          src={
+            getStoreIcon(props.nft?.nativeOrders?.at(-1)?.kind ? props.nft?.nativeOrders?.at(-1)?.kind : props.nft?.orders?.at(-1)?.kind)
+          }
+          alt='icon'
+        />
+        <Text>{`${(props.nft?.nativeOrders?.at(-1)?.decimalAmount ? props.nft?.nativeOrders?.at(-1)?.decimalAmount : props.nft?.orders?.at(-1)?.price?.amount?.native)?.toFixed(2)} ETH`}</Text>
+      </Box>
+    )
+  }
+}
+
 export function YuGiOhMarketPlace(props: Props) {
+  const router = useRouter();
   const [trendData, setTrendData] = useState<TrendDataListType>()
+
+  if (props?.collectionData?.length >= 1) {
+    console.log(props?.collectionData[0]?.media?.gateway);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -154,7 +201,27 @@ export function YuGiOhMarketPlace(props: Props) {
     lg: '33%',
     xl: '25%',
   }
-  // console.log(props.collectionData);
+  props?.collectionData?.sort((a, b) => {
+    // console.log(
+    //   a?.orders?.at(-1)?.price?.amount?.native, 
+    //   b?.orders?.at(-1)?.price?.amount?.native
+    // );
+    const f = (nft) => {
+      let amount = nft?.nativeOrders?.at(-1)?.decimalAmount;
+      if (amount) {
+        return amount;
+      }
+      amount = nft?.orders?.at(-1)?.price?.amount?.native;
+      if (amount) {
+        return amount;
+      } else {
+        return 999999999;
+      }
+    }
+    let aAmount = f(a);
+    let bAmount = f(b);
+    return aAmount - bAmount;
+  });
 
   return (
     <Box style={{ backgroundColor: '#0B0134' }}>
@@ -361,14 +428,15 @@ export function YuGiOhMarketPlace(props: Props) {
                       <Stack spacing='8px'>
                         {trendData?.map((elem: TrendDataType, idx) => {
                           return (
-                            <Box key={idx}>
+                            // <span key={idx}>
                               <TrendDeckCard
+                                key={idx}
                                 title={elem.title}
                                 subTitle={elem.subTitle}
                                 deck={elem.deck}
                                 collectionData={props.collectionData}
                               />
-                            </Box>
+                            // {/* </span> */}
                           )
                         })}
                       </Stack>
@@ -418,7 +486,61 @@ export function YuGiOhMarketPlace(props: Props) {
                 </Box>
                 <Box>
                   <SimpleGrid minChildWidth='122px' spacing={3}>
-                    {props.collectionData?.data?.nfts.map((nft: any, n: number) => {
+                    {props.collectionData?.map((nft: any, n: number) => {
+                      const rarity = nft?.rawMetadata?.attributes?.filter((v, i) => {
+                        return v.trait_type === 'rarity'
+                      });
+                      // console.log(nft);
+                      // console.log(nft?.orders?.at(0)?.price?.amount?.native)
+                      return (
+                        <Box
+                          key={n}
+                          maxWidth='150px'
+                          shadow='md'
+                          as='button'
+                          onClick={() => {
+                            router.push({
+                              pathname: `/yugidama/${nft?.contract?.address}/${nft?.tokenId}`,
+                              query: {
+                                nftData: nft
+                              }
+                            });
+                          }}
+                        >
+                          <Grid templateColumns='1fr 64px' gap={2.5}>
+                            <Box>
+                              <Image src={nft?.media[0]?.gateway} alt='icon' />
+                            </Box>
+                            <Box>
+                              <Grid alignContent='space-between' height='100%'>
+                                <Box textAlign='left'>
+                                  <NextImage src={getRarityIcon(rarity.length >= 1 ? rarity[0].value : "N")} />
+                                </Box>
+                                {/* {
+                                  nft?.orders?.at(0)?.price?.amount?.native
+                                    ? <Box textAlign="left">
+                                        <NextImage
+                                          width='16px'
+                                          height='16px'
+                                          src={
+                                            getStoreIcon('seaport')
+                                          }
+                                          alt='icon'
+                                        />
+                                        <Text>{`${(nft?.orders?.at(0)?.price?.amount?.native)?.toFixed(2)} ETH`}</Text>
+                                      </Box>
+                                    : <></>
+                                } */}
+                                <MarketPageStorePrice
+                                  nft={nft}
+                                />
+                              </Grid>
+                            </Box>
+                          </Grid>
+                        </Box>
+                      )
+                    })}
+                    {/* {props.collectionData?.data?.nfts.map((nft: any, n: number) => {
                       return (
                         <Box
                           key={n}
@@ -453,7 +575,7 @@ export function YuGiOhMarketPlace(props: Props) {
                           </Grid>
                         </Box>
                       )
-                    })}
+                    })} */}
                   </SimpleGrid>
                 </Box>
               </Stack>

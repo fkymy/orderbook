@@ -17,18 +17,22 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<TrendD
         {
           collectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           tokenId: 8,
+          imageURL: "https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/8.jpg",
         },
         {
           collectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           tokenId: 1,
+          imageURL: "https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/1.jpg",
         },
         {
           collectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           tokenId: 2,
+          imageURL: "https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/2.jpg",
         },
         {
           collectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           tokenId: 3,
+          imageURL: "https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/3.jpg",
         },
       ],
     },
@@ -39,18 +43,22 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<TrendD
         {
           collectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           tokenId: 4,
+          imageURL: "https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/4.jpg",
         },
         {
           collectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           tokenId: 5,
+          imageURL: "https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/5.jpg",
         },
         {
           collectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           tokenId: 2,
+          imageURL: "https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/2.jpg",
         },
         {
           collectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           tokenId: 1,
+          imageURL: "https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/1.jpg",
         },
       ],
     },
@@ -61,18 +69,22 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<TrendD
         {
           collectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           tokenId: 2,
+          imageURL: "https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/2.jpg",
         },
         {
           collectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           tokenId: 1,
+          imageURL: "https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/1.jpg",
         },
         {
           collectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           tokenId: 7,
+          imageURL: "https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/7.jpg",
         },
         {
           collectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',
           tokenId: 5,
+          imageURL: "https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/5.jpg",
         },
       ],
     },

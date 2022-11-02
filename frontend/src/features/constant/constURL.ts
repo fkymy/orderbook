@@ -4,4 +4,5 @@ export const constUrl = {
   alchemyGoerliNetApiURL: 'https://eth-goerli.g.alchemy.com/nft/v2',
   etherscanGoerliNetApiURL: 'https://api-goerli.etherscan.io/api',
   polygonscanMumbaiNetApiURL: 'https://api-testnet.polygonscan.com/api',
+  orderbookApiURL: "http://localhost:3001",
 }

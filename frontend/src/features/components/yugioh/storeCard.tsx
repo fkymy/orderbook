@@ -11,9 +11,20 @@ interface StorePriceCardProps {
   price: number
 }
 
+export function getStoreIcon(store: 'seaport' | 'looks-rare' | 'orderbook') {
+  switch (store) {
+    case 'orderbook':
+      return StoreYugidamaIcon
+    case 'seaport':
+      return StoreOpenseaIcon
+    case 'looks-rare':
+      return StoreLooksrareIcon
+  }
+}
+
 export function StorePriceCard(props: StorePriceCardProps) {
-  let storeIcon: StaticImageData
   let storeName: string = ''
+  let storeIcon: StaticImageData
 
   switch (props.store) {
     case 'yugidama':

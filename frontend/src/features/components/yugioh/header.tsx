@@ -6,6 +6,7 @@ import FriendIcon from './assets/headerIcon/friend.png'
 import RankBattleIcon from './assets/headerIcon/rank_battle.png'
 import SearchIcon from './assets/headerIcon/search.png'
 import ShopIcon from './assets/headerIcon/shop.png'
+import MainLogo from './assets/mainLogo.png';
 
 interface headerIcon {
   icon: string
@@ -54,7 +55,12 @@ export function YugidamaHeader() {
           <HeaderIcon name='フリー戦' icon='freeBattle' />
           <HeaderIcon name='フレンド対戦' icon='friend' />
           <Center>
-            <Text color='#ffffff'>遊戯王</Text>
+            <NextImage
+              src={MainLogo}
+              width="206px"
+              height="92px"
+            />
+            {/* <Text color='#ffffff'>遊戯王</Text> */}
           </Center>
           <HeaderIcon name='ショップ' icon='shop' />
           <HeaderIcon name='マイデッキ' icon='deck' />

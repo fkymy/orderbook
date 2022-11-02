@@ -38,6 +38,8 @@ const Item: NextPage = () => {
     }
   }, [router.query.tokenId, router.query.contractAddress])
 
+  console.log("nftData", router.query?.nftData);
+
   // console.log(nftData);
 
   if (nftData) {
