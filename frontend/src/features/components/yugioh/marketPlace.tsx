@@ -55,9 +55,9 @@ function CheckboxList(props: listProps) {
           {
             props.elemArray.map((v: string, idx) => {
               return (
-                <Box key={idx}>
+                <span key={idx}>
                   <Checkbox marginRight="10px">{v}</Checkbox>
-                </Box>
+                </span>
               );
             })
           }
