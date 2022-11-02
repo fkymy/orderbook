@@ -13,7 +13,7 @@
     "prepare": "cd .. && husky install .config/.husky"
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,ts,jsx,tsx}": [
       "yarn lint",
       "yarn format",
       "yarn lint:fix"
