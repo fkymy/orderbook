@@ -146,29 +146,28 @@ export class NftService {
   }
 
   async getNft(contractAddress: string, tokenId: number) {
-    // nft metadata with orders and nativeOrders
+    // nft metadata with orders and nativeOrders and owners
     let res: any = {}
 
-    // Optional config object
     const settings = {
       apiKey: this.config.get('ALCHEMY_API_KEY'),
       network: Network.ETH_GOERLI,
     }
     const alchemy = new Alchemy(settings)
 
-    console.log('calling alchemy api')
     const nft = await alchemy.nft.getNftMetadata(contractAddress, tokenId)
     console.log(nft)
     res = nft
 
-    const data = await this.orderService.getOrdersForNft(
+    const owners = await alchemy.nft.getOwnersForNft(contractAddress, tokenId)
+    res.owners = owners.owners
+
+    const orders = await this.orderService.getOrdersForNft(
       contractAddress,
       tokenId,
     )
-    res.orders = data.orders
+    res.orders = orders.orders
 
-    // Add native orders to nfts
-    console.log('finding native listings..')
     const nativeOrder = await this.orderService.findOneNativeListings(
       contractAddress,
       tokenId,

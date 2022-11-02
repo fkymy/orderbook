@@ -135,7 +135,6 @@ export class OrderService {
   }
 
   async getOrdersForNft(contractAddress: string, tokenId: number) {
-    console.log('calling reservoir api')
     const prefix = '?'
     const token = `${contractAddress}:${tokenId.toString()}`
     let url = `${this.config.get('ORDERBOOK_BASE_URL')}/orders/asks/v3`
