@@ -1,7 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { Marketplace } from '@prisma/client'
 import { Network, Alchemy, Nft } from 'alchemy-sdk'
 import axios from 'axios'
+import { add } from 'pactum/src/exports/reporter'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { BuyListingDto } from './dto/buy-listing.dto'
 import { CreateListingDto } from './dto/create-listing.dto'
@@ -86,6 +88,36 @@ export class OrderService {
       },
     })
     return updateListing
+  }
+
+  async getOrdersForContracts(addresses: string[]) {
+    let url = `${this.config.get('ORDERBOOK_BASE_URL')}/orders/asks/v3`
+    for (let i = 0; i < addresses.length; i++) {
+      const prefix = i === 0 ? '?' : '&'
+      url = url + `${prefix}contracts=${addresses[i]}`
+    }
+    const res = await axios.get(url, {
+      params: {
+        includePrivate: false,
+        includeMetadata: false,
+        includeRawData: false,
+        sortBy: 'createdAt',
+        limit: 100,
+      },
+      headers: {
+        accept: '*/*',
+        'x-api-key': this.config.get('ORDERBOOK_API_KEY'),
+      },
+    })
+    console.log(res.data)
+    if (res.data.orders) {
+      for (let i = 0; i < res.data.length; i++) {
+        console.log(res.data.orders[i])
+      }
+    } else {
+      console.log('no orders')
+    }
+    return res.data
   }
 
   async getSampleOrders() {

@@ -40,6 +40,11 @@ export class NftController {
     )
   }
 
+  @Get('owner')
+  getOwnersForNft() {
+    return 'get owners for nft'
+  }
+
   // @Get()
   // @ApiOperation({ summary: 'Get a list of NFTs for a marketplace' })
   // getNftsForMarketplace(@Query() nftQuery: NftQueryDto) {
@@ -50,8 +55,15 @@ export class NftController {
     return this.nftService.findAll()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(':contractAddress/:tokenId')
+  findOne(
+    @Param('contractAddress') address: string,
+    @Param('tokenId') id: string,
+  ) {
+    console.log({
+      address,
+      id,
+    })
     return this.nftService.findOne(+id)
   }
 }
