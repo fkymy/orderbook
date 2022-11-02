@@ -1,9 +1,14 @@
-import axios from "axios";
-import { useCallback, useState } from "react";
-import { constUrl } from "../constant/constURL";
+import axios from 'axios'
+import { useCallback, useState } from 'react'
+import { constUrl } from '../constant/constURL'
 
-export const useOpenseaAssetsData = (address: string, owner?: string, offset: number = 0, limit: number = 20) => {
-  const [assetsData, setData] = useState<any>();
+export const useOpenseaAssetsData = (
+  address: string,
+  owner?: string,
+  offset: number = 0,
+  limit: number = 20
+) => {
+  const [assetsData, setData] = useState<any>()
 
   const getAssetsData = useCallback(() => {
     if (address) {
@@ -16,12 +21,12 @@ export const useOpenseaAssetsData = (address: string, owner?: string, offset: nu
             limit: limit,
             order_direction: 'desc',
             include_orders: 'true',
-          }
+          },
         })
-        .then(res => setData(res))
-        .catch(() => console.log('error'));
+        .then((res) => setData(res))
+        .catch(() => console.log('error'))
     }
     // eslint-disable-next-line
-  }, []);
-  return { assetsData, getAssetsData };
-};
+  }, [])
+  return { assetsData, getAssetsData }
+}

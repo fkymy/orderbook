@@ -1,14 +1,12 @@
 export type TrendCardDataType = {
-  collectionAddress: string;
-  tokenId: number;
+  collectionAddress: string
+  tokenId: number
 }
-
 
 export type TrendDataType = {
-  title: string;
-  subTitle: string;
-  deck: TrendCardDataType[];
+  title: string
+  subTitle: string
+  deck: TrendCardDataType[]
 }
 
-
-export type TrendDataListType = TrendDataType[];
+export type TrendDataListType = TrendDataType[]

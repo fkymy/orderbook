@@ -1,16 +1,31 @@
-import { Box, Button, Center, Container, Flex, Grid, HStack, Image, Spacer, Square, Stack, Text, VStack } from "@chakra-ui/react";
-import ShowMoreText from "react-show-more-text";
+import {
+  Box,
+  Button,
+  Center,
+  Container,
+  Flex,
+  Grid,
+  HStack,
+  Image,
+  Spacer,
+  Square,
+  Stack,
+  Text,
+  VStack,
+} from '@chakra-ui/react'
+import ShowMoreText from 'react-show-more-text'
 
 interface Props {
-  nftdata: any;
+  nftdata: any
 }
 
 export function Item(props: Props) {
   return (
-    <Box padding="80px 96px">
+    <Box padding='80px 96px'>
       <Grid templateColumns='6fr 4fr' gap={10}>
         <Box>
-          <Box style={{
+          <Box
+            style={{
               paddingTop: '100%',
               overflow: 'hidden',
               position: 'relative',
@@ -21,7 +36,7 @@ export function Item(props: Props) {
           >
             <Image
               // src={`${props.nftdata?.metadata?.image}`}
-              alt="card image"
+              alt='card image'
               src={`${props.nftdata?.media[0]?.gateway}`}
               style={{
                 borderRadius: '45px',
@@ -37,45 +52,59 @@ export function Item(props: Props) {
         </Box>
         <Box>
           <Stack>
-            <Text as="b" fontSize='5xl' lineHeight='45px'>
+            <Text as='b' fontSize='5xl' lineHeight='45px'>
               {props.nftdata?.metadata?.name}
             </Text>
-            <Container h="100px" padding="25px" borderRadius='30px' shadow='md' borderWidth="1px" style={{marginTop: '40px'}}>
-              <Flex h="100%">
-                <Box h="100%">
-                  <Center h="100%">
-                    <Text as="b" fontSize='2xl' alignContent='center'>
+            <Container
+              h='100px'
+              padding='25px'
+              borderRadius='30px'
+              shadow='md'
+              borderWidth='1px'
+              style={{ marginTop: '40px' }}
+            >
+              <Flex h='100%'>
+                <Box h='100%'>
+                  <Center h='100%'>
+                    <Text as='b' fontSize='2xl' alignContent='center'>
                       4.0 ETH (TODO)
                     </Text>
                   </Center>
                 </Box>
-                <Spacer/>
-                <Box h="100%">
-                  <Button h="100%" bg="#3772ff" color="#ffffff" borderRadius="full">
+                <Spacer />
+                <Box h='100%'>
+                  <Button h='100%' bg='#3772ff' color='#ffffff' borderRadius='full'>
                     Buy now
                   </Button>
                 </Box>
               </Flex>
             </Container>
-            <Container h="100px" padding="25px" borderRadius='30px' shadow='md' borderWidth="1px" style={{marginTop: '40px'}}>
-              <Flex h="100%">
-                <Box h="100%" w="45%">
-                  <Button h="100%" w="100%" bg="#3772ff" color="#ffffff" borderRadius="full">
+            <Container
+              h='100px'
+              padding='25px'
+              borderRadius='30px'
+              shadow='md'
+              borderWidth='1px'
+              style={{ marginTop: '40px' }}
+            >
+              <Flex h='100%'>
+                <Box h='100%' w='45%'>
+                  <Button h='100%' w='100%' bg='#3772ff' color='#ffffff' borderRadius='full'>
                     Fixed Price
                   </Button>
                 </Box>
-                <Spacer/>
-                <Box h="100%" w="45%">
-                  <Button h="100%" w="100%" bg="#3772ff" color="#ffffff" borderRadius="full">
+                <Spacer />
+                <Box h='100%' w='45%'>
+                  <Button h='100%' w='100%' bg='#3772ff' color='#ffffff' borderRadius='full'>
                     Auction
                   </Button>
                 </Box>
               </Flex>
             </Container>
-            <Box style={{marginTop: '45px'}}>
+            <Box style={{ marginTop: '45px' }}>
               <Stack>
                 {/* <Text as="b">collection 詳細</Text> */}
-                <Text color="gray">
+                <Text color='gray'>
                   {/* MELODY is a Web3 lifestyle application based on BSC chain and OKC chain which completely combines Game-Fi and Social-Fi. With it, players can earn money by singing with NFT equipped with microphones. There are various modes in the game such as solo, chorus ,karaoke and so on. Join the game: https://www.ammelody.com */}
                   {props.nftdata?.metadata?.description}
                 </Text>
@@ -97,5 +126,5 @@ export function Item(props: Props) {
         </Box>
       </Grid>
     </Box>
-  );
+  )
 }

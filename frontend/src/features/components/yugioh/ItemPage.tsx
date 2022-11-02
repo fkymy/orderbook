@@ -1,38 +1,38 @@
-import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { 
-  Avatar, 
-  Box, 
-  Button, 
-  Center, 
-  Divider, 
-  Flex, 
-  Grid, 
-  HStack, 
-  Image, 
-  Link, 
-  Spacer, 
-  Stack, 
-  Text, 
-} from "@chakra-ui/react";
-import axios from "axios";
-import { ethers } from "ethers";
-import NextImage, { StaticImageData } from 'next/image';
-import { useEffect, useState } from "react";
-import MarketPlace from "../../../../../contracts/artifacts/contracts/MarketPlace.sol/MarketPlace.json";
-import MarketPlaceFacotory from "../../../../../contracts/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json";
-import { getRarityIcon } from "./getRarityIcon";
-import { YugidamaHeader } from "./header";
-import { MonstorMetadataTable } from "./mostorMetadataTable";
-import { StorePriceCard } from "./storeCard";
-import { TrapAndMagicMetadataTable } from "./trapAndMagicMetadataTable";
-import { constAddress } from "src/features/constant/constAddress";
-import { constUrl } from "src/features/constant/constURL";
-import { CardType, CollectionMetadataType, RarityType } from "src/types/collectionMetadata";
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+import {
+  Avatar,
+  Box,
+  Button,
+  Center,
+  Divider,
+  Flex,
+  Grid,
+  HStack,
+  Image,
+  Link,
+  Spacer,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
+import axios from 'axios'
+import { ethers } from 'ethers'
+import NextImage, { StaticImageData } from 'next/image'
+import { useEffect, useState } from 'react'
+import MarketPlace from '../../../../../contracts/artifacts/contracts/MarketPlace.sol/MarketPlace.json'
+import MarketPlaceFacotory from '../../../../../contracts/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json'
+import { getRarityIcon } from './getRarityIcon'
+import { YugidamaHeader } from './header'
+import { MonstorMetadataTable } from './mostorMetadataTable'
+import { StorePriceCard } from './storeCard'
+import { TrapAndMagicMetadataTable } from './trapAndMagicMetadataTable'
+import { constAddress } from 'src/features/constant/constAddress'
+import { constUrl } from 'src/features/constant/constURL'
+import { CardType, CollectionMetadataType, RarityType } from 'src/types/collectionMetadata'
 
 interface Props {
-  tokenId: number;
-  contractAddress: string;
-  nftdata: any;
+  tokenId: number
+  contractAddress: string
+  nftdata: any
 }
 
 const OverflowEllipsis = ({ children }: { children: string }) => (
@@ -49,13 +49,13 @@ const OverflowEllipsis = ({ children }: { children: string }) => (
       {children}
     </p>
   </div>
-);
+)
 
 export function YuGiOhItem(props: Props) {
   // const [ attribute, setAttribute ] = useState<string>("");
   // const [ level, setLevel ] = useState<string>("");
-  const [ metadata, setmetadata ] = useState<any>();
-  const [ parsedMetadata, setParsedMetadata ] = useState<CollectionMetadataType>();
+  const [metadata, setmetadata] = useState<any>()
+  const [parsedMetadata, setParsedMetadata] = useState<CollectionMetadataType>()
   // console.log(props.nftdata.tokenUri.gateway);
   // console.log(props.tokenId);
   // console.log(props.nftdata);
@@ -63,94 +63,95 @@ export function YuGiOhItem(props: Props) {
   useEffect(() => {
     // let response;
     // return;
-    axios
-      .get(props.nftdata.tokenUri.gateway)
-      .then((res) => {
-        // response = res?.data;
-        // console.log(res?.data);
-        setmetadata(res?.data);
-        // console.log(res?.data?.attributes)
-        // for (const attribute in res?.data?.attributes) {
-        //   console.log("attr", attribute);
-        // }
-        let type: CardType;
-        let rarity: RarityType;
-        let attribute: string;
-        let level: number;
-        let atk: number;
-        let def: number;
-        let effect: string;
-        // console.log(res?.data);
-        res?.data?.attributes?.map((elem) => {
-          // console.log(elem.trait_type, elem.value);
-          switch (elem.trait_type) {
-            case "type":
-              type = elem.value;
-              break;
-            case "rarity":
-              rarity = elem.value;
-              break;
-            case "attribute":
-              attribute = elem.value;
-              break;
-            case "level":
-              level = elem.value;
-              break;
-            case "atk":
-              atk = elem.value;
-              break;
-            case "def":
-              def = elem.value;
-              break;
-            case "effect":
-              effect = elem.value;
-              break;
-          }
-        });
-        // console.log("def", def);
-        // console.log(type, rarity, level);
-        if (type === "モンスター") {
-          setParsedMetadata({
-            type,
-            rarity,
-            monsterAttributes: {
-              attribute, level, atk, def
-            }
-          });
-        } else {
-          setParsedMetadata({
-            type,
-            rarity,
-            otherAttributes: {
-              effect
-            }
-          });
+    axios.get(props.nftdata.tokenUri.gateway).then((res) => {
+      // response = res?.data;
+      // console.log(res?.data);
+      setmetadata(res?.data)
+      // console.log(res?.data?.attributes)
+      // for (const attribute in res?.data?.attributes) {
+      //   console.log("attr", attribute);
+      // }
+      let type: CardType
+      let rarity: RarityType
+      let attribute: string
+      let level: number
+      let atk: number
+      let def: number
+      let effect: string
+      // console.log(res?.data);
+      res?.data?.attributes?.map((elem) => {
+        // console.log(elem.trait_type, elem.value);
+        switch (elem.trait_type) {
+          case 'type':
+            type = elem.value
+            break
+          case 'rarity':
+            rarity = elem.value
+            break
+          case 'attribute':
+            attribute = elem.value
+            break
+          case 'level':
+            level = elem.value
+            break
+          case 'atk':
+            atk = elem.value
+            break
+          case 'def':
+            def = elem.value
+            break
+          case 'effect':
+            effect = elem.value
+            break
         }
-      });
+      })
+      // console.log("def", def);
+      // console.log(type, rarity, level);
+      if (type === 'モンスター') {
+        setParsedMetadata({
+          type,
+          rarity,
+          monsterAttributes: {
+            attribute,
+            level,
+            atk,
+            def,
+          },
+        })
+      } else {
+        setParsedMetadata({
+          type,
+          rarity,
+          otherAttributes: {
+            effect,
+          },
+        })
+      }
+    })
     // console.log();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   // console.log(metadata?.image.replace("ipfs://", "https://ipfs.io/ipfs/"));
 
   async function listingItem(value) {
     // console.log('click listingItem');
     if (!window.ethereum) {
-      return;
+      return
     }
     const accounts = await window.ethereum.request({
-      method: 'eth_requestAccounts'
-    });
+      method: 'eth_requestAccounts',
+    })
     // console.log(accounts, constAddress.marketPlaceAddress);
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
 
     /**
      * create MarketPlace
      */
     // const marketPlaceFactoryContract = new ethers.Contract(
-    //   constAddress.marketPlaceFactoryAddress, 
+    //   constAddress.marketPlaceFactoryAddress,
     //   MarketPlaceFacotory.abi,
     //   provider
     // );
@@ -200,19 +201,16 @@ export function YuGiOhItem(props: Props) {
      * listItem
      */
     const marketPlaceContract = new ethers.Contract(
-      constAddress.marketPlaceAddress, 
+      constAddress.marketPlaceAddress,
       MarketPlace.abi,
       provider
-    );
-    const tx = await marketPlaceContract.connect(signer).listItem(
-      props.contractAddress,
-      props.tokenId,
-      value,
-      { gasLimit: 1 * 10 ** 6 }
-    );
-    console.log(tx);
+    )
+    const tx = await marketPlaceContract
+      .connect(signer)
+      .listItem(props.contractAddress, props.tokenId, value, { gasLimit: 1 * 10 ** 6 })
+    console.log(tx)
     // console.log(await(tx).wait());
-  
+
     // const item = await marketPlaceContract.connect(signer).items(
     //   1
     // );
@@ -221,24 +219,24 @@ export function YuGiOhItem(props: Props) {
 
   async function purchaseItem(tokenId, value) {
     if (!window.ethereum) {
-      return;
+      return
     }
     const accounts = await window.ethereum.request({
-      method: 'eth_requestAccounts'
-    });
-    console.log(accounts, constAddress.marketPlaceAddress);
+      method: 'eth_requestAccounts',
+    })
+    console.log(accounts, constAddress.marketPlaceAddress)
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
 
     /**
      * BuyItem
      */
     const marketPlaceContract = new ethers.Contract(
-      constAddress.marketPlaceAddress, 
+      constAddress.marketPlaceAddress,
       MarketPlace.abi,
       provider
-    );
+    )
     // const itemCount = await marketPlaceContract.connect(signer).itemCount();
     // console.log(itemCount);
     const tx = await marketPlaceContract.connect(signer).purchaseItem(
@@ -248,8 +246,8 @@ export function YuGiOhItem(props: Props) {
         value: value,
         gasLimit: 1 * 10 ** 6,
       }
-    );
-    console.log(tx);
+    )
+    console.log(tx)
   }
 
   // const metadata = {
@@ -293,60 +291,54 @@ export function YuGiOhItem(props: Props) {
   // }
 
   return (
-    <Box backgroundColor="#0B0134" minHeight="100vh">
+    <Box backgroundColor='#0B0134' minHeight='100vh'>
       <Stack spacing={0}>
-        <YugidamaHeader/>
+        <YugidamaHeader />
         <Box>
           <Box
-            backgroundImage='url("../../assets/back_ground.png")' 
-            backgroundPosition="center"
-            backgroundSize="cover"
-            objectFit="cover"
-            height="432px"
+            backgroundImage='url("../../assets/back_ground.png")'
+            backgroundPosition='center'
+            backgroundSize='cover'
+            objectFit='cover'
+            height='432px'
           >
-            <Center color="white" height="100%">
+            <Center color='white' height='100%'>
               <Image
-                src={metadata?.image?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                src={metadata?.image?.replace('ipfs://', 'https://ipfs.io/ipfs/')}
                 // src={props.nftdata?.media[0]?.gateway}
-                alt="card image"
-                height="360px"
+                alt='card image'
+                height='360px'
               />
             </Center>
           </Box>
         </Box>
-        <Box color="white" padding="24px 230px">
-          <Grid templateColumns="480fr 400fr" gap="108px">
+        <Box color='white' padding='24px 230px'>
+          <Grid templateColumns='480fr 400fr' gap='108px'>
             <Box>
               <Box>
                 <Flex>
-                  <Box marginRight="6px">
-                    <Center height="100%">
+                  <Box marginRight='6px'>
+                    <Center height='100%'>
                       <NextImage
                         src={getRarityIcon(parsedMetadata?.rarity)}
-                        width="42px"
-                        height="24px"
+                        width='42px'
+                        height='24px'
                       />
                     </Center>
                   </Box>
-                  <Text as="b" fontSize="24px">
+                  <Text as='b' fontSize='24px'>
                     {metadata?.name}
                   </Text>
                 </Flex>
               </Box>
-              <Box margin="24px 0px">
-                <Text fontSize="16px">
-                  {metadata?.description}
-                </Text>
+              <Box margin='24px 0px'>
+                <Text fontSize='16px'>{metadata?.description}</Text>
               </Box>
-              {
-                parsedMetadata?.type === "モンスター"
-                  ? <MonstorMetadataTable
-                      metadata={parsedMetadata}
-                    />
-                  : <TrapAndMagicMetadataTable
-                      metadata={parsedMetadata}
-                    />
-              }
+              {parsedMetadata?.type === 'モンスター' ? (
+                <MonstorMetadataTable metadata={parsedMetadata} />
+              ) : (
+                <TrapAndMagicMetadataTable metadata={parsedMetadata} />
+              )}
               {/* <Box>
                 <Grid templateColumns="repeat(4, 1fr)">
                   {
@@ -439,35 +431,33 @@ export function YuGiOhItem(props: Props) {
                   </Box>
                 </Grid>
               </Box> */}
-              <Divider margin="36px 0px" color="#4C4C4C"/>
+              <Divider margin='36px 0px' color='#4C4C4C' />
               <Box>
                 <Stack>
                   <Box>
-                    <Text as="b">
-                      関連カード
-                    </Text>
+                    <Text as='b'>関連カード</Text>
                   </Box>
                   <Box>
-                    <HStack spacing={"24px"}>
+                    <HStack spacing={'24px'}>
                       <Image
-                        src="https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/1.jpg"
-                        width="63px"
-                        alt="card image"
+                        src='https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/1.jpg'
+                        width='63px'
+                        alt='card image'
                       />
                       <Image
-                        src="https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/0.jpg"
-                        width="63px"
-                        alt="card image"
+                        src='https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/0.jpg'
+                        width='63px'
+                        alt='card image'
                       />
                       <Image
-                        src="https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/3.jpg"
-                        width="63px"
-                        alt="card image"
+                        src='https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/3.jpg'
+                        width='63px'
+                        alt='card image'
                       />
                       <Image
-                        src="https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/9.jpg"
-                        width="63px"
-                        alt="card image"
+                        src='https://ipfs.io/ipfs/QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/9.jpg'
+                        width='63px'
+                        alt='card image'
                       />
                     </HStack>
                   </Box>
@@ -476,7 +466,7 @@ export function YuGiOhItem(props: Props) {
             </Box>
             <Box>
               <Box>
-                <Stack spacing="16px">
+                <Stack spacing='16px'>
                   {/* <StorePriceCard
                     price={1.1}
                     store={"opensea"}
@@ -485,41 +475,29 @@ export function YuGiOhItem(props: Props) {
                     price={1.23}
                     store={"looksrare"}
                   /> */}
-                  <StorePriceCard
-                    price={1.1}
-                    store={"yugidama"}
-                  />
-                  <StorePriceCard
-                    price={1.1}
-                    store={"x2y2"}
-                  />
+                  <StorePriceCard price={1.1} store={'yugidama'} />
+                  <StorePriceCard price={1.1} store={'x2y2'} />
                 </Stack>
-                <Button bg="#4114C2" height="51px" width="100%" margin="24px 0px 36px 0px">
+                <Button bg='#4114C2' height='51px' width='100%' margin='24px 0px 36px 0px'>
                   今すぐ購入
                 </Button>
-                <Box width="100%" paddingRight="6px">
+                <Box width='100%' paddingRight='6px'>
                   <Flex>
-                    <Spacer/>
+                    <Spacer />
                     <Center>
-                      <Avatar
-                        width="36px"
-                        height="36px"
-                        bg="#D9D9D9"
-                      />
+                      <Avatar width='36px' height='36px' bg='#D9D9D9' />
                     </Center>
-                    <Box marginLeft="16px">
-                      <Text fontSize="12px">
-                        オーナー
-                      </Text>
+                    <Box marginLeft='16px'>
+                      <Text fontSize='12px'>オーナー</Text>
                       <Box>
-                        <Link href="https://google.com" isExternal>
-                          <Box width="120px">
+                        <Link href='https://google.com' isExternal>
+                          <Box width='120px'>
                             <Flex>
                               <OverflowEllipsis>
-                                {"0x7b9417B4cfcE6788F76367ACf1c4C456EF042524"} 
+                                {'0x7b9417B4cfcE6788F76367ACf1c4C456EF042524'}
                               </OverflowEllipsis>
                               <Center>
-                                <ExternalLinkIcon/>
+                                <ExternalLinkIcon />
                               </Center>
                             </Flex>
                           </Box>
@@ -528,12 +506,10 @@ export function YuGiOhItem(props: Props) {
                     </Box>
                   </Flex>
                 </Box>
-                <Divider margin="36px 0px"/>
-                <Stack spacing="16px">
-                  <Text as="b">
-                    情報
-                  </Text>
-                  <Box marginTop="16px">
+                <Divider margin='36px 0px' />
+                <Stack spacing='16px'>
+                  <Text as='b'>情報</Text>
+                  <Box marginTop='16px'>
                     <Box>
                       <Flex>
                         <Flex>
@@ -542,44 +518,32 @@ export function YuGiOhItem(props: Props) {
                               width="36px"
                               height="36px"
                             /> */}
-                            <Image
-                              bg="#D9D9D9"
-                              width="36px"
-                              height="36px"
-                              alt="collection icon"
-                            />
+                            <Image bg='#D9D9D9' width='36px' height='36px' alt='collection icon' />
                           </Center>
-                          <Box marginLeft="16px">
-                            <Text fontSize="12px">
-                              コレクション
-                            </Text>
-                            <Text as="b">
-                              第二世代
-                            </Text>
+                          <Box marginLeft='16px'>
+                            <Text fontSize='12px'>コレクション</Text>
+                            <Text as='b'>第二世代</Text>
                           </Box>
                         </Flex>
-                        <Spacer/>
+                        <Spacer />
                         <Flex>
                           <Center>
-                            <Avatar
-                              width="36px"
-                              height="36px"
-                              bg="#D9D9D9"
-                            />
+                            <Avatar width='36px' height='36px' bg='#D9D9D9' />
                           </Center>
-                          <Box marginLeft="16px">
-                            <Text fontSize="12px">
-                              クリエイター
-                            </Text>
+                          <Box marginLeft='16px'>
+                            <Text fontSize='12px'>クリエイター</Text>
                             <Box>
-                              <Link href={`https://goerli.etherscan.io/address/0xf6D84F6a47F74Ebbd644a388D64d8cBE7617d9A1`} isExternal>
-                                <Box width="120px">
+                              <Link
+                                href={`https://goerli.etherscan.io/address/0xf6D84F6a47F74Ebbd644a388D64d8cBE7617d9A1`}
+                                isExternal
+                              >
+                                <Box width='120px'>
                                   <Flex>
                                     <OverflowEllipsis>
-                                      {"0xf6D84F6a47F74Ebbd644a388D64d8cBE7617d9A1"} 
+                                      {'0xf6D84F6a47F74Ebbd644a388D64d8cBE7617d9A1'}
                                     </OverflowEllipsis>
                                     <Center>
-                                      <ExternalLinkIcon/>
+                                      <ExternalLinkIcon />
                                     </Center>
                                   </Flex>
                                 </Box>
@@ -587,25 +551,23 @@ export function YuGiOhItem(props: Props) {
                             </Box>
                           </Box>
                         </Flex>
-
                       </Flex>
                     </Box>
                   </Box>
                   <Box>
                     <Flex>
-                      <Text>
-                        コントラクト
-                      </Text>
-                      <Spacer/>
+                      <Text>コントラクト</Text>
+                      <Spacer />
                       <Box>
-                        <Link href={`https://goerli.etherscan.io/address/${props.contractAddress}`} isExternal>
-                          <Box width="120px">
+                        <Link
+                          href={`https://goerli.etherscan.io/address/${props.contractAddress}`}
+                          isExternal
+                        >
+                          <Box width='120px'>
                             <Flex>
-                              <OverflowEllipsis>
-                                {props.contractAddress} 
-                              </OverflowEllipsis>
+                              <OverflowEllipsis>{props.contractAddress}</OverflowEllipsis>
                               <Center>
-                                <ExternalLinkIcon/>
+                                <ExternalLinkIcon />
                               </Center>
                             </Flex>
                           </Box>
@@ -615,13 +577,9 @@ export function YuGiOhItem(props: Props) {
                   </Box>
                   <Box>
                     <Flex>
-                      <Text>
-                        トークンID
-                      </Text>
-                      <Spacer/>
-                      <Text>
-                        {props.tokenId}
-                      </Text>
+                      <Text>トークンID</Text>
+                      <Spacer />
+                      <Text>{props.tokenId}</Text>
                     </Flex>
                   </Box>
                 </Stack>
@@ -717,5 +675,5 @@ export function YuGiOhItem(props: Props) {
         </Box>
       </Grid> */}
     </Box>
-  );
+  )
 }

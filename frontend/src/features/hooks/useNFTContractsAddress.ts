@@ -1,11 +1,16 @@
-import axios from "axios";
-import { useCallback, useState } from "react";
+import axios from 'axios'
+import { useCallback, useState } from 'react'
 // import { Network, Alchemy } from "alchemy-sdk";
-import { constUrl } from "../constant/constURL";
+import { constUrl } from '../constant/constURL'
 // import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 
-export const useCollectionData = (address: string, owner?: string, offset: number = 0, limit: number = 100) => {
-  const [collectionData, setData] = useState<any>();
+export const useCollectionData = (
+  address: string,
+  owner?: string,
+  offset: number = 0,
+  limit: number = 100
+) => {
+  const [collectionData, setData] = useState<any>()
 
   const getCollectionData = useCallback(async () => {
     if (address) {
@@ -24,17 +29,20 @@ export const useCollectionData = (address: string, owner?: string, offset: numbe
       // console.log(`${constUrl.alchemyGoerliNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForCollection/`);
       axios
         // .get(`${constUrl.alchemyMumbaiNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForCollection/`, {
-          .get(`${constUrl.alchemyGoerliNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForCollection`, {
-          params: {
-            contractAddress: address,
-            withMetadata: true,
-            startToken: offset,
-            limit: limit,
+        .get(
+          `${constUrl.alchemyGoerliNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForCollection`,
+          {
+            params: {
+              contractAddress: address,
+              withMetadata: true,
+              startToken: offset,
+              limit: limit,
+            },
           }
-        })
+        )
         .then((res) => setData(res))
     }
     // eslint-disable-next-line
-  }, []);
-  return { collectionData, getCollectionData };
-};
+  }, [])
+  return { collectionData, getCollectionData }
+}

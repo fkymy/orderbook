@@ -1,19 +1,17 @@
-import { Box, Button, Center, ChakraProvider, HStack, Stack } from '@chakra-ui/react';
+import { Box, Button, Center, ChakraProvider, HStack, Stack } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState } from 'react';
+import { useState } from 'react'
 import styles from '../styles/Home.module.css'
-import { CreateForm } from 'src/features/components/form';
-import { ConnectedTop } from 'src/features/components/home';
-
+import { CreateForm } from 'src/features/components/form'
+import { ConnectedTop } from 'src/features/components/home'
 
 declare global {
   interface Window {
     ethereum: any
   }
 }
-
 
 const Home: NextPage = () => {
   // const [isConnected, setIsConnected] = useState(false);
@@ -36,7 +34,7 @@ const Home: NextPage = () => {
 
         <main>
           <ChakraProvider>
-            <ConnectedTop/>
+            <ConnectedTop />
           </ChakraProvider>
         </main>
 
@@ -54,7 +52,7 @@ const Home: NextPage = () => {
         </footer> */}
       </div>
     )
-  } 
+  }
   //   else {
   //   return (
   //     <div>
