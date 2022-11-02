@@ -1,17 +1,33 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, AspectRatio, Avatar, Box, Center, Checkbox, CheckboxGroup, Container, Grid, GridItem, HStack, Image, Input, InputGroup, InputLeftElement, Select, SimpleGrid, Spacer, Square, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
+import {
+  Accordion, 
+  AccordionButton, 
+  AccordionIcon, 
+  AccordionItem, 
+  AccordionPanel, 
+  Box, 
+  Center, 
+  Checkbox, 
+  CheckboxGroup, 
+  Grid, 
+  HStack, 
+  Image, 
+  Input, 
+  InputGroup, 
+  InputLeftElement, 
+  Select, 
+  SimpleGrid, 
+  Spacer, 
+  Stack, 
+  Text 
+} from "@chakra-ui/react";
 import { AiOutlineSearch } from 'react-icons/ai';
 import { MdArrowForwardIos } from 'react-icons/md';
 import NextImage, { StaticImageData } from 'next/image';
-import { Nft } from "alchemy-sdk";
-import NormalIcon from "./assets/rarityIcon/Normal.png";
-import RareIcon from "./assets/rarityIcon/Rare.png";
-import SuperRareIcon from "./assets/rarityIcon/SuperRare.png";
-import UltraRareIcon from "./assets/rarityIcon/UltraRare.png";
 import Banner from "./assets/banner.png";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { TrendDataListType, TrendDataType } from "src/types/trendData";
 import { YugidamaHeader } from "./header";
+import { getRarityIcon } from "./getRarityIcon";
 
 interface Props {
   collectionData: any;
@@ -37,24 +53,18 @@ function CheckboxList(props: listProps) {
       <AccordionPanel>
         <Box lineHeight="30px">
           {
-            props.elemArray.map((v: string) => (<Checkbox marginRight="10px">{v}</Checkbox>))
+            props.elemArray.map((v: string, idx) => {
+              return (
+                <Box key={idx}>
+                  <Checkbox marginRight="10px">{v}</Checkbox>
+                </Box>
+              );
+            })
           }
         </Box>
       </AccordionPanel>
     </AccordionItem>
   );
-}
-
-function rarityIcon(rarity: string) {
-  if (rarity === "normal") {
-    return NormalIcon;
-  } else if (rarity === "rare") {
-    return RareIcon;
-  } else if (rarity === "superRare") {
-    return SuperRareIcon;
-  } else {
-    return UltraRareIcon;
-  }
 }
 
 interface CardInterface {
@@ -72,7 +82,7 @@ interface TrendDeckCardProps {
 function TrendDeckCard(props: TrendDeckCardProps) {
   const deckUrl = props.deck.map((v: CardInterface, idx) => {
     const card = props.collectionData?.data?.nfts?.filter((elem) => {
-      console.log(v, elem);
+      // console.log(v, elem);
       return elem?.contract?.address === v.collectionAddress && parseInt(elem?.id?.tokenId) === v.tokenId;
     });
     if (card?.length >= 1) {
@@ -80,7 +90,7 @@ function TrendDeckCard(props: TrendDeckCardProps) {
     }
     // return undefined;
   });
-  console.log(deckUrl);
+  // console.log(deckUrl);
 
   return (
     <Box as="button" bg="#1E183E" borderRadius="8px" padding="8px 9px" sx={{
@@ -328,14 +338,16 @@ export function YuGiOhMarketPlace(props: Props) {
                     <Box padding="16px 36px">
                       <Stack spacing="8px">
                         {
-                          trendData?.map((elem: TrendDataType) => {
+                          trendData?.map((elem: TrendDataType, idx) => {
                             return (
-                              <TrendDeckCard
-                                title={elem.title}
-                                subTitle={elem.subTitle}
-                                deck={elem.deck}
-                                collectionData={props.collectionData}
-                              />
+                              <Box key={idx}>
+                                <TrendDeckCard
+                                  title={elem.title}
+                                  subTitle={elem.subTitle}
+                                  deck={elem.deck}
+                                  collectionData={props.collectionData}
+                                />
+                              </Box>
                             );
                           })
                         }
@@ -402,6 +414,7 @@ export function YuGiOhMarketPlace(props: Props) {
                       props.collectionData?.data?.nfts.map((nft: any, n: number) => {
                         return (
                           <Box 
+                            key={n}
                             maxWidth='150px' 
                             shadow='md' 
                             as="button"
@@ -419,7 +432,7 @@ export function YuGiOhMarketPlace(props: Props) {
                                 <Grid alignContent="space-between" height="100%">
                                   <Box textAlign='left'>
                                     <NextImage
-                                      src={rarityIcon("normal")}
+                                      src={getRarityIcon("N")}
                                     />
                                   </Box>
                                   <Box>

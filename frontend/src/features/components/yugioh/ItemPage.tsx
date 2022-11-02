@@ -1,103 +1,44 @@
-import { Avatar, Box, Button, Center, Container, Divider, Flex, Grid, HStack, Image, Link, others, Spacer, Square, Stack, Table, Text, VStack } from "@chakra-ui/react";
+import { 
+  Avatar, 
+  Box, 
+  Button, 
+  Center, 
+  Divider, 
+  Flex, 
+  Grid, 
+  HStack, 
+  Image, 
+  Link, 
+  Spacer, 
+  Stack, 
+  Text, 
+} from "@chakra-ui/react";
 import { ethers } from "ethers";
-import { constAddress } from "src/features/constant/constAddress";
-import MarketPlaceFacotory from "../../../../../backend/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json";
-import MarketPlace from "../../../../../backend/artifacts/contracts/MarketPlace.sol/MarketPlace.json";
-import SampleGameNFT from "../../../contracts/SampleGameNFT.sol/SampleGameNFT.json";
-import axios from "axios";
-import { constUrl } from "src/features/constant/constURL";
-import { env } from "process";
 import { useEffect, useState } from "react";
-import { YugidamaHeader } from "./header";
-import BackgroundImage from "./assets/back_ground.png";
-import NextImage, { StaticImageData } from 'next/image';
-// import { url } from "inspector";
-import StoreYugidamaIcon from "./assets/storeIcon/yugidama.png";
-import StoreOpenseaIcon from "./assets/storeIcon/opensea.png";
-import StoreLooksrareIcon from "./assets/storeIcon/looksrare.png";
-import StoreX2Y2Icon from "./assets/storeIcon/x2y2.png";
+import axios from "axios";
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { CardType, CollectionMetadataType, RarityType } from "src/types/collectionMetadata";
-import { time } from "console";
+import NextImage, { StaticImageData } from 'next/image';
+
+/** components */
 import { MonstorMetadataTable } from "./mostorMetadataTable";
 import { TrapAndMagicMetadataTable } from "./trapAndMagicMetadataTable";
+import { StorePriceCard } from "./storeCard";
+import { YugidamaHeader } from "./header";
 
+/** types */
+import { CardType, CollectionMetadataType, RarityType } from "src/types/collectionMetadata";
+
+/** assets */
+import MarketPlaceFacotory from "../../../../../backend/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json";
+import MarketPlace from "../../../../../backend/artifacts/contracts/MarketPlace.sol/MarketPlace.json";
+import { constAddress } from "src/features/constant/constAddress";
+import { constUrl } from "src/features/constant/constURL";
+import { getRarityIcon } from "./getRarityIcon";
 
 interface Props {
   tokenId: number;
   contractAddress: string;
   nftdata: any;
-}
-
-interface StorePriceCardProps {
-  store: "yugidama" | "opensea" | "x2y2" | "looksrare";
-  price: number;
-};
-
-function StorePriceCard(props: StorePriceCardProps) {
-  let storeIcon: StaticImageData;
-  let storeName: string = "";
-
-  switch (props.store) {
-    case "yugidama":
-      storeIcon = StoreYugidamaIcon;
-      storeName = "Yugidama"
-      break;
-    case "opensea":
-      storeIcon = StoreOpenseaIcon;
-      storeName = "OpenSea"
-      break;
-    case "x2y2":
-      storeIcon = StoreX2Y2Icon;
-      storeName = "X2Y2";
-      break;
-    case "looksrare":
-      storeIcon = StoreLooksrareIcon;
-      storeName = "LooksRare";
-      break;
-  }
-
-  return (
-    <Box 
-      // height="84px" 
-      borderRadius="10px" 
-      borderColor="#4D4762" 
-      borderWidth="1px"
-      padding="16px 18.5px"
-    >
-      <Grid templateColumns="52px 1fr">
-        <Box height="52px">
-          <NextImage
-            src={storeIcon}
-            width="52px"
-            height="52px"
-          />
-        </Box>
-        <Box>
-          <Flex margin="8px 0px 8px 16px">
-            <Flex>
-              <Box marginRight="14px">
-                <Text fontSize="24px" as="b">
-                  {props.price.toFixed(2)}
-                </Text>
-              </Box>
-              <Center>
-                <Text>
-                  ETH
-                </Text>
-              </Center>
-            </Flex>
-            <Spacer/>
-            <Box padding="6px 0px">
-              <Text alignContent="center">
-                {"出品者："}<b>{storeName}</b>
-              </Text>
-            </Box>
-          </Flex>
-        </Box>
-      </Grid>
-    </Box>
-  );
 }
 
 const OverflowEllipsis = ({ children }: { children: string }) => (
@@ -122,8 +63,8 @@ export function YuGiOhItem(props: Props) {
   const [ metadata, setmetadata ] = useState<any>();
   const [ parsedMetadata, setParsedMetadata ] = useState<CollectionMetadataType>();
   // console.log(props.nftdata.tokenUri.gateway);
-  console.log(props.tokenId);
-  console.log(props.nftdata);
+  // console.log(props.tokenId);
+  // console.log(props.nftdata);
 
   useEffect(() => {
     // let response;
@@ -147,7 +88,7 @@ export function YuGiOhItem(props: Props) {
         let effect: string;
         // console.log(res?.data);
         res?.data?.attributes?.map((elem) => {
-          console.log(elem.trait_type, elem.value);
+          // console.log(elem.trait_type, elem.value);
           switch (elem.trait_type) {
             case "type":
               type = elem.value;
@@ -166,14 +107,13 @@ export function YuGiOhItem(props: Props) {
               break;
             case "def":
               def = elem.value;
-              // console.log("def", elem)
               break;
             case "effect":
               effect = elem.value;
               break;
           }
         });
-        console.log("def", def);
+        // console.log("def", def);
         // console.log(type, rarity, level);
         if (type === "モンスター") {
           setParsedMetadata({
@@ -382,9 +322,20 @@ export function YuGiOhItem(props: Props) {
           <Grid templateColumns="480fr 400fr" gap="108px">
             <Box>
               <Box>
-                <Text as="b" fontSize="24px">
-                  {metadata?.name}
-                </Text>
+                <Flex>
+                  <Box marginRight="6px">
+                    <Center height="100%">
+                      <NextImage
+                        src={getRarityIcon(parsedMetadata?.rarity)}
+                        width="42px"
+                        height="24px"
+                      />
+                    </Center>
+                  </Box>
+                  <Text as="b" fontSize="24px">
+                    {metadata?.name}
+                  </Text>
+                </Flex>
               </Box>
               <Box margin="24px 0px">
                 <Text fontSize="16px">

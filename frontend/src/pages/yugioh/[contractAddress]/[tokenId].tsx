@@ -16,10 +16,10 @@ const Item: NextPage = () => {
   const collectionAddress = "0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741";
   // const [collectionData, setCollectionData] = useState<any>();
 
-  console.log('addr, id');
+  // console.log('addr, id');
 
   useEffect(() => {
-    console.log(router.query.tokenId, router.query.contractAddress);
+    // console.log(router.query.tokenId, router.query.contractAddress);
     if (router.query.tokenId && router.query.contractAddress) {
       axios
         // .get(`${constUrl.alchemyMumbaiNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata/`, {
