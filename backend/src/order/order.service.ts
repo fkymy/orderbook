@@ -30,6 +30,20 @@ export class OrderService {
     return orders
   }
 
+  async findOneNativeListings(contractAddress: string, tokenId: number) {
+    const order = this.prisma.order.findFirst({
+      where: {
+        contract: contractAddress,
+        tokenId: tokenId,
+        kind: 'orderbook',
+        side: 'ASK',
+        status: 'ACTIVE',
+        finalized: false,
+      },
+    })
+    return order
+  }
+
   async createListing(dto: CreateListingDto) {
     console.log({
       dto,
@@ -109,6 +123,37 @@ export class OrderService {
         'x-api-key': this.config.get('ORDERBOOK_API_KEY'),
       },
     })
+    console.log(res.data)
+    if (res.data.orders) {
+      for (let i = 0; i < res.data.length; i++) {
+        console.log(res.data.orders[i])
+      }
+    } else {
+      console.log('no orders')
+    }
+    return res.data
+  }
+
+  async getOrdersForNft(contractAddress: string, tokenId: number) {
+    console.log('calling reservoir api')
+    const prefix = '?'
+    const token = `${contractAddress}:${tokenId.toString()}`
+    let url = `${this.config.get('ORDERBOOK_BASE_URL')}/orders/asks/v3`
+    url = url + `${prefix}token=${token}`
+    const res = await axios.get(url, {
+      params: {
+        includePrivate: false,
+        includeMetadata: false,
+        includeRawData: false,
+        sortBy: 'createdAt',
+        limit: 100,
+      },
+      headers: {
+        accept: '*/*',
+        'x-api-key': this.config.get('ORDERBOOK_API_KEY'),
+      },
+    })
+    console.log(res)
     console.log(res.data)
     if (res.data.orders) {
       for (let i = 0; i < res.data.length; i++) {

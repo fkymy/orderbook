@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -141,6 +142,38 @@ export class NftService {
       }
     }
 
+    return res
+  }
+
+  async getNft(contractAddress: string, tokenId: number) {
+    // nft metadata with orders and nativeOrders
+    let res: any = {}
+
+    // Optional config object
+    const settings = {
+      apiKey: this.config.get('ALCHEMY_API_KEY'),
+      network: Network.ETH_GOERLI,
+    }
+    const alchemy = new Alchemy(settings)
+
+    console.log('calling alchemy api')
+    const nft = await alchemy.nft.getNftMetadata(contractAddress, tokenId)
+    console.log(nft)
+    res = nft
+
+    const data = await this.orderService.getOrdersForNft(
+      contractAddress,
+      tokenId,
+    )
+    res.orders = data.orders
+
+    // Add native orders to nfts
+    console.log('finding native listings..')
+    const nativeOrder = await this.orderService.findOneNativeListings(
+      contractAddress,
+      tokenId,
+    )
+    res.nativeOrders = [nativeOrder]
     return res
   }
 
