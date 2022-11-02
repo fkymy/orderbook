@@ -33,6 +33,8 @@
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [
+      "yarn lint",
+      "yarn format"
     ]
   },
   "dependencies": {

@@ -13,7 +13,7 @@
     "prepare": "cd .. && husky install .config/.husky"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": [
+    "*.js": [
       "yarn lint",
       "yarn format",
       "yarn lint:fix"
@@ -33,7 +33,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.6.0",
-    "react-show-more-text": "^1.5.2"
+    "react-show-more-text": "^1.5.2",
+    "react-vanilla-tilt": "^1.0.0",
+    "vanilla-tilt": "^1.7.3"
   },
   "devDependencies": {
     "@types/node": "18.11.3",

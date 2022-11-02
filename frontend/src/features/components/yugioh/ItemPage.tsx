@@ -17,7 +17,8 @@ import {
 import axios from 'axios'
 import { ethers } from 'ethers'
 import NextImage, { StaticImageData } from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import VanillaTilt from 'vanilla-tilt'
 import MarketPlace from '../../../../../contracts/artifacts/contracts/MarketPlace.sol/MarketPlace.json'
 import MarketPlaceFacotory from '../../../../../contracts/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json'
 import { getRarityIcon } from './getRarityIcon'
@@ -51,7 +52,24 @@ const OverflowEllipsis = ({ children }: { children: string }) => (
   </div>
 )
 
+function Tilt(props) {
+  const { options, ...rest } = props;
+  const tilt = useRef(null);
+
+  useEffect(() => {
+    VanillaTilt.init(tilt.current, options);
+  }, [options]);
+
+  return <div ref={tilt} {...rest} />;
+}
+
 export function YuGiOhItem(props: Props) {
+  const options = {
+    scale: 100,
+    speed: 10,
+    max: 30
+  };
+
   // const [ attribute, setAttribute ] = useState<string>("");
   // const [ level, setLevel ] = useState<string>("");
   const [metadata, setmetadata] = useState<any>()
@@ -303,12 +321,25 @@ export function YuGiOhItem(props: Props) {
             height='432px'
           >
             <Center color='white' height='100%'>
-              <Image
-                src={metadata?.image?.replace('ipfs://', 'https://ipfs.io/ipfs/')}
-                // src={props.nftdata?.media[0]?.gateway}
-                alt='card image'
-                height='360px'
-              />
+              {/* <Box height="360px" width="245.89px"> */}
+                <Tilt className="box" options={{scale: 1.1, speed: 3000, max: 30, glare: true, "max-glare": 0.98}}>
+                  {/* <Box height='360px'> */}
+                    <Image
+                      src={metadata?.image?.replace('ipfs://', 'https://ipfs.io/ipfs/')}
+                      // src={props.nftdata?.media[0]?.gateway}
+                      alt='card image'
+                      height='360px'
+                    />
+                    {/* <Box
+                      backgroundImage={metadata?.image?.replace('ipfs://', 'https://ipfs.io/ipfs/')}
+                      height="360px"
+                      width="245.89px"
+                      // bg="red"
+                      backgroundSize="cover"
+                    ></Box> */}
+                  {/* </Box> */}
+                </Tilt>
+              {/* </Box> */}
             </Center>
           </Box>
         </Box>

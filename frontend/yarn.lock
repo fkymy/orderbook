@@ -5241,6 +5241,13 @@
     "invariant" "^2.2.4"
     "tslib" "^2.0.0"
 
+"react-vanilla-tilt@^1.0.0":
+  "integrity" "sha512-AuFFvbudpQIdzPeci9kP4p4Mo3QVIEtFVNu+iskMzNT0Efhi1fH5wzmdfMqWX8g82ypVgjAlwgdBWL9opnL2ow=="
+  "resolved" "https://registry.npmjs.org/react-vanilla-tilt/-/react-vanilla-tilt-1.0.0.tgz"
+  "version" "1.0.0"
+  dependencies:
+    "vanilla-tilt" "1.4.1"
+
 "react@*", "react@^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18.0.0", "react@^17.0.2 || ^18.0.0-0", "react@^18.0.0", "react@^18.2.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>= 16.x.x", "react@>=16.8.0", "react@>=18", "react@18.2.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
@@ -6063,6 +6070,16 @@
   "integrity" "sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA=="
   "resolved" "https://registry.npmjs.org/uuid/-/uuid-3.3.2.tgz"
   "version" "3.3.2"
+
+"vanilla-tilt@^1.7.3":
+  "integrity" "sha512-tdNVZ1JyDNsByplVCS1H3/i/zcGOIrFW5BQp7u9SyXKjNypZw7s89x+GA8kOhUxWOggF4A1E9N55jEF0ttpLjw=="
+  "resolved" "https://registry.npmjs.org/vanilla-tilt/-/vanilla-tilt-1.7.3.tgz"
+  "version" "1.7.3"
+
+"vanilla-tilt@1.4.1":
+  "integrity" "sha512-yZS4jIejmhqThLlwzJ5juPwDMk6rtf+ekADDK1lAYNiw6H2VGAJr9bt8vCp+ED5kyK6sE0sMq6mxPfV8a/NdFw=="
+  "resolved" "https://registry.npmjs.org/vanilla-tilt/-/vanilla-tilt-1.4.1.tgz"
+  "version" "1.4.1"
 
 "varint@^5.0.0":
   "integrity" "sha512-lKxKYG6H03yCZUpAGOPOsMcGxd1RHCu1iKvEHYDPmTyq2HueGhD73ssNBqqQWfvYs04G9iUFRvmAVLW20Jw6ow=="
