@@ -55,7 +55,7 @@ const Item: NextPage = () => {
             nftdata={nftData}
             contractAddress={router.query.contractAddress as string}
             tokenId={parseInt(router.query.tokenId as string, 10)}
-            orderData={orderData}
+            // orderData={orderData}
           />
         </ChakraProvider>
       </>
