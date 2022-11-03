@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -9,13 +10,11 @@ import { Network, Alchemy, Nft } from 'alchemy-sdk'
 import axios from 'axios'
 import { OrderService } from 'src/order/order.service'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { isWholeNumber } from 'src/utils'
+import { isWholeNumber, arrayContains } from 'src/utils'
 import { MarketplaceService } from '../marketplace/marketplace.service'
 import { NftQueryDto } from './dto'
 import { CreateNftDto } from './dto/create-nft.dto'
 import { UpdateNftDto } from './dto/update-nft.dto'
-
-const testCollectionAddress = '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741'
 
 type Order = {
   id: string
@@ -47,7 +46,7 @@ export class NftService {
     withMetadata: boolean,
     limit: number,
   ) {
-    // const res: Nft[] = []
+    // nft metadata with orders and nativeOrders
     const res: any[] = []
 
     console.log({
@@ -66,10 +65,6 @@ export class NftService {
       throw new NotFoundException('Marketplace does not have contracts')
     }
 
-    console.log({
-      marketplace,
-    })
-
     // Optional config object
     const settings = {
       apiKey: this.config.get('ALCHEMY_API_KEY'),
@@ -77,29 +72,41 @@ export class NftService {
     }
     const alchemy = new Alchemy(settings)
 
-    // Loop through contracts and get nft data
-    for (let i = 0; i < marketplace.contracts.length; i++) {
-      const contract = marketplace.contracts[i].contract
-      console.log(contract)
-      const nfts = await alchemy.nft.getNftsForContract(contract.address, {
+    const addresses: string[] = []
+    if (contractAddress) {
+      // If contract address is given, only list for that address
+      let found = false
+      for (let i = 0; i < marketplace.contracts.length; i++) {
+        const contract = marketplace.contracts[i].contract
+        if (contractAddress === contract.address) {
+          found = true
+        }
+      }
+      if (!found) {
+        throw new NotFoundException('Contract address not found in marketplace')
+      }
+      addresses.push(contractAddress)
+    } else {
+      for (let i = 0; i < marketplace.contracts.length; i++) {
+        const contract = marketplace.contracts[i].contract
+        addresses.push(contract.address)
+      }
+    }
+
+    // Loop through addresses and list nft data
+    for (let i = 0; i < addresses.length; i++) {
+      const nfts = await alchemy.nft.getNftsForContract(addresses[i], {
         pageSize: 100,
         omitMetadata: false,
       })
-
       for (const nft of nfts.nfts) {
-        // console.log('===')
-        // console.log({
-        //   nft,
-        // })
         res.push(nft)
       }
-      // console.log('===')
     }
 
-    // add aggregaed orders to nfts
-    // Get orders
-    const orderRes = await this.orderService.getSampleOrders()
-    const orders = orderRes.orders
+    // Add aggregaed orders to response
+    const data = await this.orderService.getOrdersForContracts(addresses)
+    const orders = data.orders
     for (let i = 0; i < orders.length; i++) {
       const split = orders[i].tokenSetId.split(':')
       if (split.length !== 3 || !isWholeNumber(split[2])) {
@@ -118,11 +125,8 @@ export class NftService {
       }
     }
 
-    // add native orders to nfts
+    // Add native orders to nfts
     const nativeOrders = await this.orderService.findAllNativeListings()
-    console.log({
-      nativeOrders,
-    })
     for (let i = 0; i < nativeOrders.length; i++) {
       for (let j = 0; j < res.length; j++) {
         if (
@@ -138,6 +142,37 @@ export class NftService {
       }
     }
 
+    return res
+  }
+
+  async getNft(contractAddress: string, tokenId: number) {
+    // nft metadata with orders and nativeOrders and owners
+    let res: any = {}
+
+    const settings = {
+      apiKey: this.config.get('ALCHEMY_API_KEY'),
+      network: Network.ETH_GOERLI,
+    }
+    const alchemy = new Alchemy(settings)
+
+    const nft = await alchemy.nft.getNftMetadata(contractAddress, tokenId)
+    console.log(nft)
+    res = nft
+
+    const owners = await alchemy.nft.getOwnersForNft(contractAddress, tokenId)
+    res.owners = owners.owners
+
+    const orders = await this.orderService.getOrdersForNft(
+      contractAddress,
+      tokenId,
+    )
+    res.orders = orders.orders
+
+    const nativeOrder = await this.orderService.findOneNativeListings(
+      contractAddress,
+      tokenId,
+    )
+    res.nativeOrders = [nativeOrder]
     return res
   }
 

@@ -31,6 +31,7 @@ export class OrderController {
   }
 
   @Post('orderbook/buy')
+  @ApiOperation({ summary: 'Buy from an Orderbook listing' })
   buy(@Body() dto: BuyListingDto) {
     return this.orderService.buyListing(dto)
   }

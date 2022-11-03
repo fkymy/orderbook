@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import config from 'src/config'
 import { AdminModule } from './admin/admin.module'
 import { AuthModule } from './auth/auth.module'
 import { DemoModule } from './demo/demo.module'
@@ -11,7 +12,10 @@ import { UserModule } from './user/user.module'
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [config],
+    }),
     AuthModule,
     UserModule,
     PrismaModule,
