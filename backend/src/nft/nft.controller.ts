@@ -9,9 +9,11 @@ import {
   Delete,
   DefaultValuePipe,
   ParseIntPipe,
+  BadRequestException,
 } from '@nestjs/common'
 import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger'
 import { Request } from 'express'
+import { isWholeNumber } from 'src/utils'
 import { NftQueryDto } from './dto'
 import { NftService } from './nft.service'
 
@@ -40,18 +42,27 @@ export class NftController {
     )
   }
 
+  @Get(':contractAddress/:tokenId')
+  @ApiOperation({ summary: 'Get data for a single token' })
+  findOne(
+    @Param('contractAddress') contractAddress: string,
+    @Param('tokenId') tokenId: string,
+  ) {
+    if (!isWholeNumber(tokenId)) {
+      throw new BadRequestException('tokenId should be an integer')
+    }
+
+    return this.nftService.getNft(contractAddress, parseInt(tokenId))
+  }
+
+  @Get('owner')
+  getOwnersForNft() {
+    return 'get owners for nft'
+  }
+
   // @Get()
   // @ApiOperation({ summary: 'Get a list of NFTs for a marketplace' })
   // getNftsForMarketplace(@Query() nftQuery: NftQueryDto) {
   //   return this.nftService.getNftsForMarketplace(nftQuery)
   // }
-
-  findAll() {
-    return this.nftService.findAll()
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.nftService.findOne(+id)
-  }
 }
