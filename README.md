@@ -1,5 +1,6 @@
 ### コントラクト
 ```
+cd contracts
 npm install
 npx hardhat compile
 ```
