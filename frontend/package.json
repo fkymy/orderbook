@@ -14,9 +14,6 @@
   },
   "lint-staged": {
     "*.js": [
-      "yarn lint",
-      "yarn format",
-      "yarn lint:fix"
     ]
   },
   "dependencies": {
