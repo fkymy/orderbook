@@ -7,7 +7,7 @@ import StoreX2Y2Icon from './assets/storeIcon/x2y2.png'
 import StoreYugidamaIcon from './assets/storeIcon/yugidama.png'
 
 interface StorePriceCardProps {
-  store: 'yugidama' | 'opensea' | 'x2y2' | 'looksrare'
+  store: 'orderbook' | 'seaport' | 'x2y2' | 'looks-rare'
   price: number
 }
 
@@ -27,11 +27,11 @@ export function StorePriceCard(props: StorePriceCardProps) {
   let storeIcon: StaticImageData
 
   switch (props.store) {
-    case 'yugidama':
+    case 'orderbook':
       storeIcon = StoreYugidamaIcon
       storeName = 'Yugidama'
       break
-    case 'opensea':
+    case 'seaport':
       storeIcon = StoreOpenseaIcon
       storeName = 'OpenSea'
       break
@@ -39,7 +39,7 @@ export function StorePriceCard(props: StorePriceCardProps) {
       storeIcon = StoreX2Y2Icon
       storeName = 'X2Y2'
       break
-    case 'looksrare':
+    case 'looks-rare':
       storeIcon = StoreLooksrareIcon
       storeName = 'LooksRare'
       break

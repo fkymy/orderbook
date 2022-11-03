@@ -10,9 +10,19 @@ import {
   HStack,
   Image,
   Link,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  NumberInput,
+  NumberInputField,
   Spacer,
   Stack,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react'
 import axios from 'axios'
 import { ethers } from 'ethers'
@@ -29,12 +39,13 @@ import { TrapAndMagicMetadataTable } from './trapAndMagicMetadataTable'
 import { constAddress } from 'src/features/constant/constAddress'
 import { constUrl } from 'src/features/constant/constURL'
 import { CardType, CollectionMetadataType, RarityType } from 'src/types/collectionMetadata'
+import { SiEthereum } from 'react-icons/si';
 
 interface Props {
   tokenId: number
   contractAddress: string
   nftdata: any
-  orderData: any
+  nftAllData: any
 }
 
 const OverflowEllipsis = ({ children }: { children: string }) => (
@@ -65,91 +76,167 @@ function Tilt(props) {
 }
 
 export function YuGiOhItem(props: Props) {
-  const options = {
-    scale: 100,
-    speed: 10,
-    max: 30
-  };
 
+  console.log(props.nftAllData);
   // const [ attribute, setAttribute ] = useState<string>("");
   // const [ level, setLevel ] = useState<string>("");
+  const [accounts, setAccounts] = useState<string[]>([]);
   const [metadata, setmetadata] = useState<any>()
   const [parsedMetadata, setParsedMetadata] = useState<CollectionMetadataType>()
   // console.log(props.nftdata.tokenUri.gateway);
   // console.log(props.tokenId);
   // console.log(props.nftdata);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     // let response;
     // return;
-    axios.get(props.nftdata?.tokenUri?.gateway).then((res) => {
-      // response = res?.data;
-      // console.log(res?.data);
-      setmetadata(res?.data)
-      // console.log(res?.data?.attributes)
-      // for (const attribute in res?.data?.attributes) {
-      //   console.log("attr", attribute);
+    const getAccount = async () => {
+      // if (!window.ethereum) {
+      //   const accounts = await window.ethereum.request({
+      //     method: 'eth_requestAccounts',
+      //   });
+      //   console.log(accounts);
+      // } else {
+      //   const accounts = await window.ethereum.request({
+      //     method: 'eth_requestAccounts',
+      //   });
+      //   console.log(accounts);
       // }
-      let type: CardType
-      let rarity: RarityType
-      let attribute: string
-      let level: number
-      let atk: number
-      let def: number
-      let effect: string
-      // console.log(res?.data);
-      res?.data?.attributes?.map((elem) => {
-        // console.log(elem.trait_type, elem.value);
-        switch (elem.trait_type) {
-          case 'type':
-            type = elem.value
-            break
-          case 'rarity':
-            rarity = elem.value
-            break
-          case 'attribute':
-            attribute = elem.value
-            break
-          case 'level':
-            level = elem.value
-            break
-          case 'atk':
-            atk = elem.value
-            break
-          case 'def':
-            def = elem.value
-            break
-          case 'effect':
-            effect = elem.value
-            break
-        }
-      })
-      // console.log("def", def);
-      // console.log(type, rarity, level);
-      if (type === 'モンスター') {
-        setParsedMetadata({
-          type,
-          rarity,
-          monsterAttributes: {
-            attribute,
-            level,
-            atk,
-            def,
-          },
-        })
-      } else {
-        setParsedMetadata({
-          type,
-          rarity,
-          otherAttributes: {
-            effect,
-          },
-        })
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+      // console.log(accounts);
+      setAccounts(accounts);
+    }
+    getAccount();
+
+    setmetadata(props.nftAllData?.rawMetadata);
+
+    let type: CardType;
+    let rarity: RarityType;
+    let attribute: string;
+    let level: number;
+    let atk: number;
+    let def: number;
+    let effect: string;
+    props.nftAllData?.rawMetadata?.attributes?.map((elem) => {
+      // console.log(elem.trait_type, elem.value);
+      switch (elem.trait_type) {
+        case 'type':
+          type = elem.value
+          break
+        case 'rarity':
+          rarity = elem.value
+          break
+        case 'attribute':
+          attribute = elem.value
+          break
+        case 'level':
+          level = elem.value
+          break
+        case 'atk':
+          atk = elem.value
+          break
+        case 'def':
+          def = elem.value
+          break
+        case 'effect':
+          effect = elem.value
+          break
       }
     })
+    // console.log("def", def);
+    // console.log(type, rarity, level);
+    if (type === 'モンスター') {
+      setParsedMetadata({
+        type,
+        rarity,
+        monsterAttributes: {
+          attribute,
+          level,
+          atk,
+          def,
+        },
+      })
+    } else {
+      setParsedMetadata({
+        type,
+        rarity,
+        otherAttributes: {
+          effect,
+        },
+      })
+    }
+
+    // axios.get(props.nftdata?.tokenUri?.gateway).then((res) => {
+    //   // response = res?.data;
+    //   // console.log(res?.data);
+    //   setmetadata(res?.data)
+    //   // console.log(res?.data?.attributes)
+    //   // for (const attribute in res?.data?.attributes) {
+    //   //   console.log("attr", attribute);
+    //   // }
+    //   let type: CardType
+    //   let rarity: RarityType
+    //   let attribute: string
+    //   let level: number
+    //   let atk: number
+    //   let def: number
+    //   let effect: string
+    //   // console.log(res?.data);
+    //   res?.data?.attributes?.map((elem) => {
+    //     // console.log(elem.trait_type, elem.value);
+    //     switch (elem.trait_type) {
+    //       case 'type':
+    //         type = elem.value
+    //         break
+    //       case 'rarity':
+    //         rarity = elem.value
+    //         break
+    //       case 'attribute':
+    //         attribute = elem.value
+    //         break
+    //       case 'level':
+    //         level = elem.value
+    //         break
+    //       case 'atk':
+    //         atk = elem.value
+    //         break
+    //       case 'def':
+    //         def = elem.value
+    //         break
+    //       case 'effect':
+    //         effect = elem.value
+    //         break
+    //     }
+    //   })
+    //   // console.log("def", def);
+    //   // console.log(type, rarity, level);
+    //   if (type === 'モンスター') {
+    //     setParsedMetadata({
+    //       type,
+    //       rarity,
+    //       monsterAttributes: {
+    //         attribute,
+    //         level,
+    //         atk,
+    //         def,
+    //       },
+    //     })
+    //   } else {
+    //     setParsedMetadata({
+    //       type,
+    //       rarity,
+    //       otherAttributes: {
+    //         effect,
+    //       },
+    //     })
+    //   }
+    // })
     // console.log();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   // console.log(metadata?.image.replace("ipfs://", "https://ipfs.io/ipfs/"));
 
@@ -309,6 +396,9 @@ export function YuGiOhItem(props: Props) {
   //   ]
   // }
 
+  // console.log(accounts?.at(0) === props.nftAllData?.owners?.at(0));
+  // console.log(props.nftAllData?.orders);
+
   return (
     <Box backgroundColor='#0B0134' minHeight='100vh'>
       <Stack spacing={0}>
@@ -366,11 +456,13 @@ export function YuGiOhItem(props: Props) {
               <Box margin='24px 0px'>
                 <Text fontSize='16px'>{metadata?.description}</Text>
               </Box>
-              {parsedMetadata?.type === 'モンスター' ? (
-                <MonstorMetadataTable metadata={parsedMetadata} />
-              ) : (
-                <TrapAndMagicMetadataTable metadata={parsedMetadata} />
-              )}
+              {
+                parsedMetadata?.type === 'モンスター' ? (
+                  <MonstorMetadataTable metadata={parsedMetadata} />
+                ) : (
+                  <TrapAndMagicMetadataTable metadata={parsedMetadata} />
+                )
+              }
               {/* <Box>
                 <Grid templateColumns="repeat(4, 1fr)">
                   {
@@ -498,7 +590,61 @@ export function YuGiOhItem(props: Props) {
             </Box>
             <Box>
               <Box>
-                <Stack spacing='16px'>
+                {
+                  accounts?.at(0) === props.nftAllData?.owners?.at(0) ? (
+                    <>
+                      <Grid templateColumns="1fr 1fr" gap="24px" marginBottom="36px">
+                        <Button 
+                          height="51px" 
+                          borderRadius="12px" 
+                          bg="#4114C2" 
+                          onClick={onOpen}
+                        >
+                          出品
+                        </Button>
+                        <Button height="51px" bg="#0B0134" borderRadius="12px" borderWidth="1px" borderColor="#D8D8D8">
+                          オークション
+                        </Button>
+                      </Grid>
+                    </>
+                  ) : (
+                    <>
+                      <Stack spacing="16px">
+                        {
+                          props?.nftAllData?.nativeOrders?.map((nft, idx) => {
+                            if (nft?.status === "ACTIVE") {
+                              return (
+                                <StorePriceCard
+                                  key={`orderbook${idx}`}
+                                  price={nft?.decimalAmount}
+                                  store={nft?.kind}
+                                />
+                              )
+                            }
+                          })
+                        }
+                        {
+                          props.nftAllData?.orders?.map((nft, idx) => {
+                            // console.log(nft?.price)
+                            if (nft?.status === "active") {
+                              return (
+                                <StorePriceCard
+                                key={`order${idx}`}
+                                  price={nft?.price?.amount?.native}
+                                  store={nft?.kind}
+                                />
+                              );
+                            }
+                          })
+                        }
+                      </Stack>
+                      <Button bg='#4114C2' height='51px' width='100%' margin='24px 0px 36px 0px'>
+                        今すぐ購入
+                      </Button>
+                    </>
+                  )
+                }
+                {/* <Stack spacing='16px'> */}
                   {/* <StorePriceCard
                     price={1.1}
                     store={"opensea"}
@@ -507,12 +653,9 @@ export function YuGiOhItem(props: Props) {
                     price={1.23}
                     store={"looksrare"}
                   /> */}
-                  <StorePriceCard price={1.1} store={'yugidama'} />
-                  <StorePriceCard price={1.1} store={'x2y2'} />
-                </Stack>
-                <Button bg='#4114C2' height='51px' width='100%' margin='24px 0px 36px 0px'>
-                  今すぐ購入
-                </Button>
+                  {/* <StorePriceCard price={1.1} store={'orderbook'} />
+                  <StorePriceCard price={1.1} store={'x2y2'} /> */}
+                {/* </Stack> */}
                 <Box width='100%' paddingRight='6px'>
                   <Flex>
                     <Spacer />
@@ -522,11 +665,11 @@ export function YuGiOhItem(props: Props) {
                     <Box marginLeft='16px'>
                       <Text fontSize='12px'>オーナー</Text>
                       <Box>
-                        <Link href='https://google.com' isExternal>
+                        <Link href={`https://goerli.etherscan.io/address/${props.nftAllData?.owners?.at(0)}`} isExternal>
                           <Box width='120px'>
                             <Flex>
                               <OverflowEllipsis>
-                                {'0x7b9417B4cfcE6788F76367ACf1c4C456EF042524'}
+                                {props.nftAllData?.owners?.at(0)}
                               </OverflowEllipsis>
                               <Center>
                                 <ExternalLinkIcon />
@@ -550,11 +693,12 @@ export function YuGiOhItem(props: Props) {
                               width="36px"
                               height="36px"
                             /> */}
-                            <Image bg='#D9D9D9' width='36px' height='36px' alt='collection icon' />
+                            <Box bg='#D9D9D9' width='36px' height='36px'></Box>
+                            {/* <Image bg='#D9D9D9' width='36px' height='36px' alt='collection icon' /> */}
                           </Center>
                           <Box marginLeft='16px'>
                             <Text fontSize='12px'>コレクション</Text>
-                            <Text as='b'>第二世代</Text>
+                            <Text as='b'>{props.nftAllData?.contract?.name}</Text>
                           </Box>
                         </Flex>
                         <Spacer />
@@ -620,6 +764,103 @@ export function YuGiOhItem(props: Props) {
           </Grid>
         </Box>
       </Stack>
+      <Modal isOpen={isOpen} onClose={onClose} size="lg">
+        <ModalOverlay />
+        
+        <ModalContent bg="#242424" color="#ffffff" w="472px" borderWidth="1px" borderColor="#4d4d4d" borderRadius="12px">
+          <ModalBody padding="24px">
+            <Box>
+              <Stack spacing="36px">
+                <Box>
+                  <Flex>
+                    <Text fontSize="20px" as="b">
+                      NFTを売る
+                    </Text>
+                    <Spacer/>
+                    <ModalCloseButton />
+                  </Flex>
+                </Box>
+                <Box height="62px">
+                  <HStack spacing="24px">
+                    <Image
+                      src={metadata?.image?.replace('ipfs://', 'https://ipfs.io/ipfs/')}
+                      alt="card image"
+                      height="62px"
+                    />
+                    <Box height="62px">
+                      <Text as="b">
+                        {metadata?.name}
+                      </Text>
+                      <Text fontSize="12px" color="gray.200">
+                        {props.nftAllData?.contract?.name}
+                      </Text>
+                    </Box>
+                  </HStack>
+                </Box>
+                <Box>
+                  <Text marginBottom="8px">
+                    販売方法
+                  </Text>
+                  <Grid templateColumns="1fr 1fr" gap="16px">
+                    <Button 
+                      bg="#4D4D4D" 
+                      height="57px" 
+                      borderRadius="36px"
+                      fontWeight="normal"
+                    >
+                      固定価格
+                    </Button>
+                    <Button 
+                      height="57px" 
+                      bg="#242424" 
+                      borderColor="4D4D4D" 
+                      borderWidth="1px" 
+                      borderRadius="36px"
+                      fontWeight="normal"
+                    >
+                      オークション
+                    </Button>
+                  </Grid>
+                </Box>
+                <Box>
+                  <Text as="b">
+                    価格
+                  </Text>
+                  <Grid templateColumns="1fr 50px" gap="16px">
+                    <Box marginTop="8px">
+                      <NumberInput>
+                        <NumberInputField 
+                          borderColor="#4D4D4D"
+                          borderRadius="12px"
+                        />
+                      </NumberInput>
+                    </Box>
+                    <HStack>
+                      <SiEthereum size="16px" color="#777E91"/>
+                      <Text color="#D8D8D8">
+                        ETH
+                      </Text>
+                    </HStack>
+                  </Grid>
+                </Box>
+                <Box>
+                  <Text as="b">
+                    手数料
+                  </Text>
+                  <Text marginTop="8px">
+                    遊戯玉公式へ2%
+                  </Text>
+                </Box>
+                <Center>
+                  <Button width="187px" height="51px" bg="#4114C2" borderRadius="12px">
+                    出品開始
+                  </Button>
+                </Center>
+              </Stack>
+            </Box>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
       {/* <Grid templateColumns='6fr 4fr' gap={10}>
         <Box>
           <Box style={{

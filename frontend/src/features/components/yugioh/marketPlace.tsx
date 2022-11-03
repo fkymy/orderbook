@@ -25,6 +25,7 @@ import { useEffect, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { MdArrowForwardIos, MdDeck } from 'react-icons/md'
 import Banner from './assets/banner.png'
+import BannerAndGem from './assets/bannerAndGem.png'
 import { getRarityIcon } from './getRarityIcon'
 import { YugidamaHeader } from './header'
 import { TrendCardDataType, TrendDataListType, TrendDataType } from 'src/types/trendData'
@@ -107,7 +108,7 @@ function TrendDeckCard(props: TrendDeckCardProps) {
         },
       }}
     >
-      <Grid templateColumns='190px 1fr 24px'>
+      <Grid templateColumns='148px 1fr 24px'>
         <HStack spacing='5px'>
           {/* {deckUrl.map((elem, idx) => {
             return (
@@ -119,26 +120,26 @@ function TrendDeckCard(props: TrendDeckCardProps) {
           {
             props.deck.map((elem, idx) => {
               return (
-                <Box key={idx} paddingTop={idx === 0 ? '0px' : '8px'}>
-                  <Image src={elem.imageURL} height={idx === 0 ? '64px' : '56px'} alt='trend card' />
+                <Box key={idx} paddingTop={idx === 0 ? '0px' : '14px'}>
+                  <Image src={elem.imageURL} height={idx === 0 ? '52px' : '38px'} alt='trend card' />
                 </Box>
               )
             })
           }
         </HStack>
-        <Box>
+        <Box alignContent="center">
           <Box textAlign='left'>
-            <Text as='b' fontSize='24px'>
+            <Text as='b' fontSize='16px'>
               {props.title}
             </Text>
           </Box>
           <Box textAlign='left'>
-            <Text as='b' fontSize='20px'>
+            <Text fontSize='14px'>
               {props.subTitle}
             </Text>
           </Box>
         </Box>
-        <Box height='64px' width='24px'>
+        <Box height='52px' width='24px'>
           <Center height='100%'>
             <MdArrowForwardIos size='24px' />
           </Center>
@@ -265,7 +266,7 @@ export function YuGiOhMarketPlace(props: Props) {
           </Grid>
         </Box> */}
         <YugidamaHeader />
-        <Box paddingTop='72px' paddingLeft='80px' paddingRight='80px'>
+        <Box paddingTop='16px' paddingLeft='80px' paddingRight='80px'>
           <Grid templateColumns='290px auto' gap={16}>
             <Box minHeight='100vh'>
               <Stack spacing={5}>
@@ -296,7 +297,7 @@ export function YuGiOhMarketPlace(props: Props) {
                           <h2>
                             <AccordionButton>
                               <Box as='b' flex='1' textAlign='left'>
-                                世代
+                                シリーズ
                               </Box>
                               <AccordionIcon />
                             </AccordionButton>
@@ -305,9 +306,9 @@ export function YuGiOhMarketPlace(props: Props) {
                             <Box>
                               <CheckboxGroup>
                                 <Stack>
-                                  <Checkbox marginRight='10px'>第1世代</Checkbox>
-                                  <Checkbox marginRight='10px'>第2世代</Checkbox>
-                                  <Checkbox marginRight='10px'>第3世代</Checkbox>
+                                  <Checkbox marginRight='10px'>遊戯玉 1st gen</Checkbox>
+                                  <Checkbox marginRight='10px'>遊戯玉 2nd gen</Checkbox>
+                                  <Checkbox marginRight='10px'>遊戯玉 3rd gen</Checkbox>
                                 </Stack>
                               </CheckboxGroup>
                             </Box>
@@ -382,7 +383,7 @@ export function YuGiOhMarketPlace(props: Props) {
             <Box height='100vh'>
               <Stack color='#ffffff'>
                 <Box marginBottom='10px'>
-                  <NextImage src={Banner} />
+                  <NextImage src={BannerAndGem} />
                 </Box>
                 <Box>
                   <HStack spacing={5}>
@@ -457,17 +458,17 @@ export function YuGiOhMarketPlace(props: Props) {
                     </Box>
                     <Box minWidth='72px' height='40px' borderRadius='8px'>
                       <Center height='40px'>
-                        <Text>第1世代</Text>
+                        <Text>1st gen</Text>
                       </Center>
                     </Box>
                     <Box minWidth='72px' height='40px' borderRadius='8px'>
                       <Center height='40px'>
-                        <Text>第2世代</Text>
+                        <Text>2nd gen</Text>
                       </Center>
                     </Box>
                     <Box minWidth='72px' height='40px' borderRadius='8px'>
                       <Center height='40px'>
-                        <Text>第3世代</Text>
+                        <Text>3rd gen</Text>
                       </Center>
                     </Box>
                     <Spacer />
