@@ -34,6 +34,7 @@ interface Props {
   tokenId: number
   contractAddress: string
   nftdata: any
+  orderData: any
 }
 
 const OverflowEllipsis = ({ children }: { children: string }) => (
@@ -81,7 +82,7 @@ export function YuGiOhItem(props: Props) {
   useEffect(() => {
     // let response;
     // return;
-    axios.get(props.nftdata.tokenUri.gateway).then((res) => {
+    axios.get(props.nftdata?.tokenUri?.gateway).then((res) => {
       // response = res?.data;
       // console.log(res?.data);
       setmetadata(res?.data)

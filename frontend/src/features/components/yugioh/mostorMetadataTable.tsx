@@ -37,7 +37,7 @@ interface Props {
 }
 
 export function MonstorMetadataTable(props: Props) {
-  console.log(props.metadata)
+  // console.log(props.metadata)
 
   return (
     <Box>

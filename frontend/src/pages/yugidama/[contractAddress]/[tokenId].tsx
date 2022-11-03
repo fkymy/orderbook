@@ -8,7 +8,8 @@ import { constUrl } from 'src/features/constant/constURL'
 
 const Item: NextPage = () => {
   const router = useRouter()
-  const [nftData, setNftData] = useState<any>()
+  const [nftData, setNftData] = useState<any>();
+  const [orderData, setOrderData] = useState<any>();
   // const collectionAddress = "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c";
   // const collectionAddress = "0x739b366548117dd5bef5b8b5573246de841af950";
   // const collectionAddress = "0x5d424ce3fe2c56f2cee681f0c44ae965b41e9043";
@@ -38,7 +39,11 @@ const Item: NextPage = () => {
     }
   }, [router.query.tokenId, router.query.contractAddress])
 
-  console.log("nftData", router.query?.nftData);
+  // useEffect(() => {
+  //   console.log("nftdata:", router.query?.nftData);
+  // }, [router.query.nftData]);
+
+  // console.log("nftData", router.query?.nftData);
 
   // console.log(nftData);
 
@@ -50,6 +55,7 @@ const Item: NextPage = () => {
             nftdata={nftData}
             contractAddress={router.query.contractAddress as string}
             tokenId={parseInt(router.query.tokenId as string, 10)}
+            orderData={orderData}
           />
         </ChakraProvider>
       </>

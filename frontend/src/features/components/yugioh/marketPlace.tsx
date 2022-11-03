@@ -500,10 +500,7 @@ export function YuGiOhMarketPlace(props: Props) {
                           as='button'
                           onClick={() => {
                             router.push({
-                              pathname: `/yugidama/${nft?.contract?.address}/${nft?.tokenId}`,
-                              query: {
-                                nftData: nft
-                              }
+                              pathname: `/yugidama/${nft?.contract?.address}/${nft?.tokenId}`
                             });
                           }}
                         >

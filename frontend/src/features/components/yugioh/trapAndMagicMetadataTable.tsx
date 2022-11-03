@@ -6,7 +6,7 @@ interface Props {
 }
 
 export function TrapAndMagicMetadataTable(props: Props) {
-  console.log(props.metadata)
+  // console.log(props.metadata)
   return (
     <Box>
       <Box
