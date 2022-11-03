@@ -13,16 +13,29 @@
     "prepare": "cd .. && husky install .config/.husky"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": [
+    "*.js": [
       "yarn lint",
       "yarn format",
       "yarn lint:fix"
     ]
   },
   "dependencies": {
+    "@alch/alchemy-web3": "^1.4.6",
+    "@chakra-ui/icons": "^2.0.11",
+    "@chakra-ui/react": "^2.3.6",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "alchemy-sdk": "^2.2.0",
+    "axios": "^1.1.3",
+    "ethers": "^5.7.2",
+    "framer-motion": "^7.6.1",
     "next": "12.3.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-icons": "^4.6.0",
+    "react-show-more-text": "^1.5.2",
+    "react-vanilla-tilt": "^1.0.0",
+    "vanilla-tilt": "^1.7.3"
   },
   "devDependencies": {
     "@types/node": "18.11.3",
