@@ -32,6 +32,7 @@ model Marketplace {
   name      String                    @unique
   slug      String                    @unique
   image     String?
+  fee       Float?
   contracts ContractsOnMarketplaces[]
   createdAt DateTime                  @default(now())
   updatedAt DateTime                  @updatedAt
