@@ -58,6 +58,10 @@ export class AdminService {
     return data
   }
 
+  async testRelayer() {
+    return 'relayer'
+  }
+
   async testKit() {
     const client = getClient()
     console.log({
