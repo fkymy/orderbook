@@ -20,6 +20,7 @@ export class MarketplaceEntity implements Marketplace {
   name: string
   slug: string
   image: string | null
+  fee: number | null
   createdAt: Date
   updatedAt: Date
 }
