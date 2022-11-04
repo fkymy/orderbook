@@ -31,6 +31,7 @@ import { useEffect, useState, useRef } from 'react'
 import VanillaTilt from 'vanilla-tilt'
 import MarketPlace from '../../../../../contracts/artifacts/contracts/MarketPlace.sol/MarketPlace.json'
 import MarketPlaceFacotory from '../../../../../contracts/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json'
+import NftAbi from './assets/ABI/yugidama_abi.json'
 import { getRarityIcon } from './getRarityIcon'
 import { YugidamaHeader } from './header'
 import { MonstorMetadataTable } from './mostorMetadataTable'
@@ -78,14 +79,10 @@ function Tilt(props) {
 export function YuGiOhItem(props: Props) {
 
   console.log(props.nftAllData);
-  // const [ attribute, setAttribute ] = useState<string>("");
-  // const [ level, setLevel ] = useState<string>("");
   const [accounts, setAccounts] = useState<string[]>([]);
   const [metadata, setmetadata] = useState<any>()
-  const [parsedMetadata, setParsedMetadata] = useState<CollectionMetadataType>()
-  // console.log(props.nftdata.tokenUri.gateway);
-  // console.log(props.tokenId);
-  // console.log(props.nftdata);
+  const [parsedMetadata, setParsedMetadata] = useState<CollectionMetadataType>();
+  const [price, setPrice] = useState<string>("0");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -168,77 +165,7 @@ export function YuGiOhItem(props: Props) {
         },
       })
     }
-
-    // axios.get(props.nftdata?.tokenUri?.gateway).then((res) => {
-    //   // response = res?.data;
-    //   // console.log(res?.data);
-    //   setmetadata(res?.data)
-    //   // console.log(res?.data?.attributes)
-    //   // for (const attribute in res?.data?.attributes) {
-    //   //   console.log("attr", attribute);
-    //   // }
-    //   let type: CardType
-    //   let rarity: RarityType
-    //   let attribute: string
-    //   let level: number
-    //   let atk: number
-    //   let def: number
-    //   let effect: string
-    //   // console.log(res?.data);
-    //   res?.data?.attributes?.map((elem) => {
-    //     // console.log(elem.trait_type, elem.value);
-    //     switch (elem.trait_type) {
-    //       case 'type':
-    //         type = elem.value
-    //         break
-    //       case 'rarity':
-    //         rarity = elem.value
-    //         break
-    //       case 'attribute':
-    //         attribute = elem.value
-    //         break
-    //       case 'level':
-    //         level = elem.value
-    //         break
-    //       case 'atk':
-    //         atk = elem.value
-    //         break
-    //       case 'def':
-    //         def = elem.value
-    //         break
-    //       case 'effect':
-    //         effect = elem.value
-    //         break
-    //     }
-    //   })
-    //   // console.log("def", def);
-    //   // console.log(type, rarity, level);
-    //   if (type === 'モンスター') {
-    //     setParsedMetadata({
-    //       type,
-    //       rarity,
-    //       monsterAttributes: {
-    //         attribute,
-    //         level,
-    //         atk,
-    //         def,
-    //       },
-    //     })
-    //   } else {
-    //     setParsedMetadata({
-    //       type,
-    //       rarity,
-    //       otherAttributes: {
-    //         effect,
-    //       },
-    //     })
-    //   }
-    // })
-    // console.log();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // console.log(metadata?.image.replace("ipfs://", "https://ipfs.io/ipfs/"));
 
   async function listingItem(value) {
     // console.log('click listingItem');
@@ -275,7 +202,6 @@ export function YuGiOhItem(props: Props) {
      * get NFT Contract and approval all
      */
     // let abi = SampleGameNFT.abi;
-    // let abi;
     // await axios
     //   .get(constUrl.etherscanGoerliNetApiURL, {
     //   // .get(constUrl.polygonscanMumbaiNetApiURL, {
@@ -291,17 +217,19 @@ export function YuGiOhItem(props: Props) {
     //     abi = JSON.parse(res?.data?.result);
     //   });
     // console.log(abi);
-    // const nftContract = new ethers.Contract(
-    //   props.contractAddress,
-    //   abi,
-    //   provider
-    // );
-    // console.log(nftContract);
-    // const approval = await nftContract.connect(signer).setApprovalForAll(
-    //   constAddress.marketPlaceAddress,
-    //   true
-    // );
-    // console.log(approval);
+
+    let abi = NftAbi;
+    const nftContract = new ethers.Contract(
+      props.contractAddress,
+      abi,
+      provider
+    );
+    console.log(nftContract);
+    const approval = await nftContract.connect(signer).setApprovalForAll(
+      constAddress.marketPlaceAddress,
+      true
+    );
+    console.log(approval);
 
     /**
      * listItem
@@ -311,10 +239,33 @@ export function YuGiOhItem(props: Props) {
       MarketPlace.abi,
       provider
     )
-    const tx = await marketPlaceContract
-      .connect(signer)
-      .listItem(props.contractAddress, props.tokenId, value, { gasLimit: 1 * 10 ** 6 })
-    console.log(tx)
+    const tx = await marketPlaceContract.connect(signer).listItem(
+      props.contractAddress, 
+      props.tokenId, 
+      ethers.utils.parseEther(value), 
+      {
+        gasLimit: 1 * 10 ** 6
+      }
+    );
+    // console.log("transaction", tx);
+
+    // console.log({
+    //   contract: props.contractAddress,
+    //   tokenId: props.tokenId,
+    //   maker: accounts.at(0),
+    //   decimalAmount: parseFloat(value),
+    // });
+    axios
+      .post(`${constUrl.orderbookApiURL}/orders/orderbook/listings`, {
+        contract: props.contractAddress,
+        tokenId: props.tokenId,
+        maker: accounts.at(0),
+        decimalAmount: parseFloat(value),
+      })
+      .then((res) => {
+        console.log(res);
+      })
+
     // console.log(await(tx).wait());
 
     // const item = await marketPlaceContract.connect(signer).items(
@@ -323,7 +274,7 @@ export function YuGiOhItem(props: Props) {
     // console.log(item);
   }
 
-  async function purchaseItem(tokenId, value) {
+  async function purchaseItem(value, orderId) {
     if (!window.ethereum) {
       return
     }
@@ -347,57 +298,25 @@ export function YuGiOhItem(props: Props) {
     // console.log(itemCount);
     const tx = await marketPlaceContract.connect(signer).purchaseItem(
       // props.tokenId,
-      tokenId,
+      props.tokenId,
       {
-        value: value,
+        value: ethers.utils.parseEther(value),
         gasLimit: 1 * 10 ** 6,
       }
     )
-    console.log(tx)
+    // console.log(tx);
+
+    axios
+      .post(`${constUrl.orderbookApiURL}/orders/orderbook/buy`, {
+        id: orderId,
+        taker: accounts?.at(0)
+      })
+      .then((res) => {
+        console.log(res)
+      })
   }
 
-  // const metadata = {
-  //   "name": "ホワイトマジシャンガール",
-  //   "description": "1ターンに1度。このカードのXyz素材を1つ切り離し、相手がコントロールするモンスター1体を対象として、そのモンスターを破壊し、破壊した場合、相手に元々のATKと同じ値のダメージを与える。フェアリー・タイプXyz」のこの効果は1ターンに1度しか使用できない。",
-  //   "image": "**",
-  //   "attributes": [
-  //     {
-  //       "trait_type": "type",
-  //       "value": "モンスター"
-  //     },
-  //     {
-  //       "trait_type": "effect",
-  //       "value": "効果モンスター"
-  //     },
-  //     {
-  //       "trait_type": "rarity",
-  //       "value": "R"
-  //     },
-  //     {
-  //       "trait_type": "attribute",
-  //       "value": "闇"
-  //     },
-  //     {
-  //       "trait_type": "monster-type",
-  //       "value": "魔法使い族"
-  //     },
-  //     {
-  //       "trait_type": "level",
-  //       "value": "6"
-  //     },
-  //     {
-  //       "trait_type": "atk",
-  //       "value": "2000"
-  //     },
-  //     {
-  //       "trait_type": "def",
-  //       "value": "1700"
-  //     }
-  //   ]
-  // }
-
-  // console.log(accounts?.at(0) === props.nftAllData?.owners?.at(0));
-  // console.log(props.nftAllData?.orders);
+  // console.log(props?.nftAllData?.nativeOrders?.at(0)?.id);
 
   return (
     <Box backgroundColor='#0B0134' minHeight='100vh'>
@@ -412,25 +331,14 @@ export function YuGiOhItem(props: Props) {
             height='432px'
           >
             <Center color='white' height='100%'>
-              {/* <Box height="360px" width="245.89px"> */}
-                <Tilt className="box" options={{scale: 1.1, speed: 3000, max: 30, glare: true, "max-glare": 0.98}}>
-                  {/* <Box height='360px'> */}
-                    <Image
-                      src={metadata?.image?.replace('ipfs://', 'https://ipfs.io/ipfs/')}
-                      // src={props.nftdata?.media[0]?.gateway}
-                      alt='card image'
-                      height='360px'
-                    />
-                    {/* <Box
-                      backgroundImage={metadata?.image?.replace('ipfs://', 'https://ipfs.io/ipfs/')}
-                      height="360px"
-                      width="245.89px"
-                      // bg="red"
-                      backgroundSize="cover"
-                    ></Box> */}
-                  {/* </Box> */}
-                </Tilt>
-              {/* </Box> */}
+              <Tilt className="box" options={{scale: 1.1, speed: 3000, max: 30, glare: true, "max-glare": 0.98}}>
+                <Image
+                  src={metadata?.image?.replace('ipfs://', 'https://ipfs.io/ipfs/')}
+                  // src={props.nftdata?.media[0]?.gateway}
+                  alt='card image'
+                  height='360px'
+                />
+              </Tilt>
             </Center>
           </Box>
         </Box>
@@ -463,98 +371,6 @@ export function YuGiOhItem(props: Props) {
                   <TrapAndMagicMetadataTable metadata={parsedMetadata} />
                 )
               }
-              {/* <Box>
-                <Grid templateColumns="repeat(4, 1fr)">
-                  {
-                    ["属性", "レベル", "攻撃力", "防御力"].map((colName, idx) => {
-                      return (
-                        <Box 
-                          backgroundColor="#353052" 
-                          borderColor="#8F8F8F"
-                          borderTopWidth="1px"
-                          borderBottomWidth="1px"
-                          borderRightWidth="1px"
-                          borderLeftWidth={idx === 0 ? "1px" : "0px"}
-                          textAlign="center"
-                          key={idx}
-                        >
-                          <Center height="32px">
-                            {colName}
-                          </Center>
-                        </Box>
-                      );
-                    })
-                  }
-                </Grid>
-                <Grid height="42px" templateColumns="repeat(4, 1fr)">
-                  <Box
-                    borderWidth="0px 1px 1px 1px"
-                    borderColor="#8F8F8F"
-                  >
-                    <Flex alignItems="center" height="42px">
-                      <Spacer/>
-                      <Box>
-                        <Center>
-                          <NextImage
-                            src={getTypeIcon(parsedMetadata?.monsterAttributes.attribute)}
-                            width="24px"
-                            height="24px"
-                          />
-                        </Center>
-                      </Box>
-                      <Spacer/>
-                      <Text as="b" fontSize="20">
-                        {`${parsedMetadata?.monsterAttributes.attribute}属性`}
-                      </Text>
-                      <Spacer/>
-                    </Flex>
-                  </Box>
-                  <Box
-                    borderWidth="0px 1px 1px 0px"
-                    borderColor="#8F8F8F"
-                  >
-                    <Flex justify="center" alignItems="center" height="42px">
-                      <Spacer/>
-                      <Spacer/>
-                      <Box>
-                        <Center>
-                          <NextImage
-                            src={LevelIcon}
-                            width="24px"
-                            height="24px"
-                          />
-                        </Center>
-                      </Box>
-                      <Spacer/>
-                      <Text as="b" fontSize="20">
-                        {parsedMetadata?.monsterAttributes.level}
-                      </Text>
-                      <Spacer/>
-                      <Spacer/>
-                    </Flex>
-                  </Box>
-                  <Box
-                    borderWidth="0px 1px 1px 0px"
-                    borderColor="#8F8F8F"
-                  >
-                    <Center height="42px">
-                      <Text as="b" fontSize="20">
-                        {parsedMetadata?.monsterAttributes.atk}
-                      </Text>
-                    </Center>
-                  </Box>
-                  <Box
-                    borderWidth="0px 1px 1px 0px"
-                    borderColor="#8F8F8F"
-                  >
-                    <Center height="42px">
-                      <Text as="b" fontSize="20">
-                        {parsedMetadata?.monsterAttributes.def}
-                      </Text>
-                    </Center>
-                  </Box>
-                </Grid>
-              </Box> */}
               <Divider margin='36px 0px' color='#4C4C4C' />
               <Box>
                 <Stack>
@@ -625,7 +441,6 @@ export function YuGiOhItem(props: Props) {
                         }
                         {
                           props.nftAllData?.orders?.map((nft, idx) => {
-                            // console.log(nft?.price)
                             if (nft?.status === "active") {
                               return (
                                 <StorePriceCard
@@ -638,24 +453,18 @@ export function YuGiOhItem(props: Props) {
                           })
                         }
                       </Stack>
-                      <Button bg='#4114C2' height='51px' width='100%' margin='24px 0px 36px 0px'>
+                      <Button 
+                        bg='#4114C2' 
+                        height='51px' 
+                        width='100%' 
+                        margin='24px 0px 36px 0px'
+                        onClick={() => purchaseItem(props?.nftAllData?.nativeOrders?.at(0)?.decimalAmount, props?.nftAllData?.nativeOrders?.at(0)?.id)}
+                      >
                         今すぐ購入
                       </Button>
                     </>
                   )
                 }
-                {/* <Stack spacing='16px'> */}
-                  {/* <StorePriceCard
-                    price={1.1}
-                    store={"opensea"}
-                  />
-                  <StorePriceCard
-                    price={1.23}
-                    store={"looksrare"}
-                  /> */}
-                  {/* <StorePriceCard price={1.1} store={'orderbook'} />
-                  <StorePriceCard price={1.1} store={'x2y2'} /> */}
-                {/* </Stack> */}
                 <Box width='100%' paddingRight='6px'>
                   <Flex>
                     <Spacer />
@@ -828,7 +637,12 @@ export function YuGiOhItem(props: Props) {
                   </Text>
                   <Grid templateColumns="1fr 50px" gap="16px">
                     <Box marginTop="8px">
-                      <NumberInput>
+                      <NumberInput
+                        onChange={(p) => {
+                          setPrice(p);
+                          console.log(p);
+                        }}
+                      >
                         <NumberInputField 
                           borderColor="#4D4D4D"
                           borderRadius="12px"
@@ -852,7 +666,13 @@ export function YuGiOhItem(props: Props) {
                   </Text>
                 </Box>
                 <Center>
-                  <Button width="187px" height="51px" bg="#4114C2" borderRadius="12px">
+                  <Button 
+                    width="187px" 
+                    height="51px" 
+                    bg="#4114C2" 
+                    borderRadius="12px" 
+                    onClick={() => listingItem(price)}
+                  >
                     出品開始
                   </Button>
                 </Center>
@@ -861,92 +681,6 @@ export function YuGiOhItem(props: Props) {
           </ModalBody>
         </ModalContent>
       </Modal>
-      {/* <Grid templateColumns='6fr 4fr' gap={10}>
-        <Box>
-          <Box style={{
-              paddingTop: '100%',
-              overflow: 'hidden',
-              position: 'relative',
-              borderRadius: '45px',
-              // height: '100%',
-            }}
-            shadow='2xl'
-          >
-            <Image
-              // src={`${props.nftdata?.metadata?.image}`}
-              src={`${props.nftdata?.media[0]?.gateway}`}
-              style={{
-                borderRadius: '45px',
-                objectFit: 'contain',
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-              }}
-            />
-          </Box>
-        </Box>
-        <Box>
-          <Stack>
-            <Text as="b" fontSize='5xl' lineHeight='45px'>
-              {props.nftdata?.metadata?.name}
-            </Text>
-            <Container h="100px" padding="25px" borderRadius='30px' shadow='md' borderWidth="1px" style={{marginTop: '40px'}}>
-              <Flex h="100%">
-                <Box h="100%">
-                  <Center h="100%">
-                    <Text as="b" fontSize='2xl' alignContent='center'>
-                      4.0 ETH (TODO)
-                    </Text>
-                  </Center>
-                </Box>
-                <Spacer/>
-                <Box h="100%">
-                  <Button 
-                    h="100%" 
-                    bg="#3772ff" 
-                    color="#ffffff" 
-                    borderRadius="full" 
-                    onClick={() => purchaseItem(3, 1)}
-                  >
-                    Buy now
-                  </Button>
-                </Box>
-              </Flex>
-            </Container>
-            <Container h="100px" padding="25px" borderRadius='30px' shadow='md' borderWidth="1px" style={{marginTop: '40px'}}>
-              <Flex h="100%">
-                <Box h="100%" w="45%">
-                  <Button
-                    h="100%" 
-                    w="100%" 
-                    bg="#3772ff" 
-                    color="#ffffff" 
-                    borderRadius="full"
-                    onClick={() => listingItem(1)}
-                  >
-                    Fixed Price
-                  </Button>
-                </Box>
-                <Spacer/>
-                <Box h="100%" w="45%">
-                  <Button h="100%" w="100%" bg="#3772ff" color="#ffffff" borderRadius="full">
-                    Auction
-                  </Button>
-                </Box>
-              </Flex>
-            </Container>
-            <Box style={{marginTop: '45px'}}>
-              <Stack>
-                <Text color="gray">
-                  {props.nftdata?.metadata?.description}
-                </Text>
-              </Stack>
-            </Box>
-          </Stack>
-        </Box>
-      </Grid> */}
     </Box>
   )
 }

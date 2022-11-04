@@ -81,21 +81,6 @@ interface TrendDeckCardProps {
 }
 
 function TrendDeckCard(props: TrendDeckCardProps) {
-  // const deckUrl = props.deck.map((v: CardInterface, idx) => {
-  //   const card = props.collectionData?.data?.nfts?.filter((elem) => {
-  //     // console.log(v, elem);
-  //     return (
-  //       elem?.contract?.address === v.collectionAddress && parseInt(elem?.id?.tokenId) === v.tokenId
-  //     )
-  //   })
-  //   if (card?.length >= 1) {
-  //     return card[0]?.media[0]?.gateway
-  //   }
-  //   // return undefined;
-  // })
-  // // console.log(deckUrl);
-
-  // console.log(props.deck);
   return (
     <Box
       as='button'
@@ -156,13 +141,6 @@ interface MarketPageStorePriceProps {
 function MarketPageStorePrice(props: MarketPageStorePriceProps) {
   
   if (props.nft?.orders?.at(-1)?.price?.amount?.native || props.nft?.nativeOrders?.at(-1)?.decimalAmount) {
-    // console.log(
-    //   props.nft?.nativeOrders, 
-    //   props.nft?.nativeOrders?.at(-1)?.kind, 
-    //   props.nft?.orders?.at(-1)?.kind,
-    //   props.nft?.nativeOrders?.at(-1)?.kind ? props.nft?.nativeOrders?.at(-1)?.kind : props.nft?.orders?.at(-1)?.kind,
-    //   props.nft?.nativeOrders?.at(-1)?.decimalAmount ? props.nft?.nativeOrders?.at(-1)?.decimalAmount : props.nft?.orders?.at(-1)?.price?.amount?.native
-    // );
     return (
       <Box textAlign="left">
         <NextImage
@@ -203,10 +181,6 @@ export function YuGiOhMarketPlace(props: Props) {
     xl: '25%',
   }
   props?.collectionData?.sort((a, b) => {
-    // console.log(
-    //   a?.orders?.at(-1)?.price?.amount?.native, 
-    //   b?.orders?.at(-1)?.price?.amount?.native
-    // );
     const f = (nft) => {
       let amount = nft?.nativeOrders?.at(-1)?.decimalAmount;
       if (amount) {
@@ -227,44 +201,6 @@ export function YuGiOhMarketPlace(props: Props) {
   return (
     <Box style={{ backgroundColor: '#0B0134' }}>
       <Stack spacing={0}>
-        {/* <Box 
-          background="linear-gradient(180deg, #103565 0%, #07172C 100%)"
-          paddingTop="18px"
-          paddingBottom="8px"
-        >
-          <Grid 
-            templateColumns='repeat(7, 1fr)' 
-            justifyItems="space-evenly"
-          >
-            <HeaderIcon
-              name="ランク戦"
-              icon="rankBattle"
-            />
-            <HeaderIcon
-              name="フリー戦"
-              icon="freeBattle"
-            />
-            <HeaderIcon
-              name="フレンド対戦"
-              icon="friend"
-            />
-            <Center>
-              <Text color="#ffffff">遊戯王</Text>
-            </Center>
-            <HeaderIcon
-              name="ショップ"
-              icon="shop"
-            />
-            <HeaderIcon
-              name="マイデッキ"
-              icon="deck"
-            />
-            <HeaderIcon
-              name="カード検索"
-              icon="search"
-            />
-          </Grid>
-        </Box> */}
         <YugidamaHeader />
         <Box paddingTop='16px' paddingLeft='80px' paddingRight='80px'>
           <Grid templateColumns='290px auto' gap={16}>
@@ -491,8 +427,6 @@ export function YuGiOhMarketPlace(props: Props) {
                       const rarity = nft?.rawMetadata?.attributes?.filter((v, i) => {
                         return v.trait_type === 'rarity'
                       });
-                      // console.log(nft);
-                      // console.log(nft?.orders?.at(0)?.price?.amount?.native)
                       return (
                         <Box
                           key={n}
@@ -514,21 +448,6 @@ export function YuGiOhMarketPlace(props: Props) {
                                 <Box textAlign='left'>
                                   <NextImage src={getRarityIcon(rarity.length >= 1 ? rarity[0].value : "N")} />
                                 </Box>
-                                {/* {
-                                  nft?.orders?.at(0)?.price?.amount?.native
-                                    ? <Box textAlign="left">
-                                        <NextImage
-                                          width='16px'
-                                          height='16px'
-                                          src={
-                                            getStoreIcon('seaport')
-                                          }
-                                          alt='icon'
-                                        />
-                                        <Text>{`${(nft?.orders?.at(0)?.price?.amount?.native)?.toFixed(2)} ETH`}</Text>
-                                      </Box>
-                                    : <></>
-                                } */}
                                 <MarketPageStorePrice
                                   nft={nft}
                                 />
@@ -538,42 +457,6 @@ export function YuGiOhMarketPlace(props: Props) {
                         </Box>
                       )
                     })}
-                    {/* {props.collectionData?.data?.nfts.map((nft: any, n: number) => {
-                      return (
-                        <Box
-                          key={n}
-                          maxWidth='150px'
-                          shadow='md'
-                          as='button'
-                          onClick={() => {
-                            console.log(n)
-                          }}
-                        >
-                          <Grid templateColumns='1fr 64px' gap={2.5}>
-                            <Box>
-                              <Image src={nft?.media[0]?.gateway} alt='icon' />
-                            </Box>
-                            <Box>
-                              <Grid alignContent='space-between' height='100%'>
-                                <Box textAlign='left'>
-                                  <NextImage src={getRarityIcon('N')} />
-                                </Box>
-                                <Box>
-                                  <Image
-                                    width='16px'
-                                    src={
-                                      'https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.png'
-                                    }
-                                    alt='icon'
-                                  />
-                                  <Text>{`${(1 + 0.01 * n).toFixed(2)} ETH`}</Text>
-                                </Box>
-                              </Grid>
-                            </Box>
-                          </Grid>
-                        </Box>
-                      )
-                    })} */}
                   </SimpleGrid>
                 </Box>
               </Stack>

@@ -1,3 +1,4 @@
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { Box, Container, Stack, Text } from '@chakra-ui/layout'
 import {
   HStack,
@@ -10,18 +11,40 @@ import {
   NumberInputField,
   NumberInputStepper,
   Textarea,
+  Grid,
+  IconButton,
 } from '@chakra-ui/react'
 import { ethers } from 'ethers'
 import { Dispatch, SetStateAction, useState } from 'react'
 import MarketPlaceFacotory from '../../../../contracts/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json'
+
+const OverflowEllipsis = ({ children }: { children: string }) => (
+  <div style={{ display: 'table', width: '100%' }}>
+    <p
+      style={{
+        display: 'table-cell',
+        maxWidth: 0,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      }}
+    >
+      {children}
+    </p>
+  </div>
+)
 
 interface Props {
   previewMode: string
   setPreviewMode: Dispatch<SetStateAction<string>>
   collectionAddress: string
   setCollectionAddress: Dispatch<SetStateAction<string>>
+  collectionAddressList: string[]
+  setCollectionAddressList: Dispatch<SetStateAction<string[]>>
   collectionDescription: string
   setCollectionDescription: Dispatch<SetStateAction<string>>
+  serviceName: string
+  setServiceName: Dispatch<SetStateAction<string>>
   // isGotCollectionData: boolean;
   // setIsGotCollectionData: Dispatch<SetStateAction<boolean>>;
 }
@@ -31,7 +54,8 @@ export function CreateForm(props: Props) {
   const parse = (val) => val.replace(/%$/, '')
 
   // const [contractAddress, setContractAddress] = useState('');
-  const [creatorFee, setCreatorFee] = useState(0)
+  const [creatorFee, setCreatorFee] = useState(0);
+  const [inputAddress, setInputAddress] = useState("");
 
   const marketPlaceFactoryAddress = '0x0be934D7f224E559CD02eC604C543aEc3eAAAD10'
 
@@ -77,8 +101,8 @@ export function CreateForm(props: Props) {
           </Text>
         </Box>
         <Stack width={'100%'}>
-          <Text as='b' fontSize='1xl'>
-            Contract Address
+          {/* <Text as='b' fontSize='1xl'>
+            コントラクトのアドレス
           </Text>
           <Input
             placeholder='0x000000.....'
@@ -92,11 +116,85 @@ export function CreateForm(props: Props) {
               // setContractAddress(event.target.value);
               props.setCollectionAddress(event.target.value)
             }}
+          /> */}
+          <Text as='b' fontSize='1xl'>
+            コントラクトのアドレス
+          </Text>
+          <Grid templateColumns="1fr 50px" gap="8px">
+            <Input
+              placeholder='0x000000.....'
+              style={{
+                backgroundColor: '#ffffff',
+                width: '100%',
+              }}
+              value={inputAddress}
+              onChange={(event) => {
+                // props.setIsGotCollectionData(false);
+                // setContractAddress(event.target.value);
+                setInputAddress(event.target.value)
+              }}
+            />
+            <IconButton
+              icon={<AddIcon/>}
+              aria-label='Search database'
+              bg="#0f0f0f"
+              color="#f0f0f0"
+              onClick={() => {
+                // props.collectionAddressList.push(inputAddress);
+                props.setCollectionAddressList([...props.collectionAddressList, inputAddress]);
+                setInputAddress("");
+                console.log(props.collectionAddressList)
+              }}
+            />
+          </Grid>
+          {
+            props.collectionAddressList.map((address, idx) => {
+              return (
+                <Grid templateColumns="9fr 1fr" key={idx}>
+                  <Box>
+                    <OverflowEllipsis>
+                      {address}
+                    </OverflowEllipsis>
+                  </Box>
+                  <IconButton
+                    icon={<DeleteIcon/>}
+                    aria-label='Search database'
+                    bg="#0f0f0f"
+                    color="#f0f0f0"
+                    onClick={() => {
+                      // console.log();
+                      props.setCollectionAddressList(
+                        props.collectionAddressList.filter((addr) => {
+                          return address !== addr
+                        })
+                      );
+                    }}
+                  />
+                </Grid>
+              )
+            })
+          }
+        </Stack>
+        <Stack width={'100%'}>
+          <Text as='b' fontSize='1xl'>
+            サービス名
+          </Text>
+          <Input
+            style={{
+              backgroundColor: '#ffffff',
+              width: '100%',
+            }}
+            value={props.serviceName}
+            onChange={(event) => {
+              // props.setIsGotCollectionData(false);
+              // setContractAddress(event.target.value);
+              props.setServiceName(event.target.value)
+            }}
           />
         </Stack>
         <Stack width={'100%'}>
           <Text as='b' fontSize='1xl'>
-            MarketPlace Free
+            手数料
           </Text>
           <NumberInput
             value={format(creatorFee)}
@@ -152,7 +250,7 @@ export function CreateForm(props: Props) {
                   props.setPreviewMode('market')
                 }}
               >
-                MarketPlace
+                テンプレート
               </Button>
               <Button
                 style={{
@@ -165,7 +263,7 @@ export function CreateForm(props: Props) {
                   props.setPreviewMode('item')
                 }}
               >
-                Item
+                API
               </Button>
             </HStack>
           </Container>

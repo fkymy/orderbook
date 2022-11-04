@@ -7,12 +7,18 @@ import { useOpenseaAssetsData } from '../hooks/useOpenseaAssetsData'
 import { Item } from './Item'
 import { CreateForm } from './form'
 import { MarketPlace } from './marketPlace'
+import qs from 'qs'
 
 export function ConnectedTop() {
   const [previewMode, setPreviewMode] = useState('market')
   const [collectionData, setCollectionData] = useState<any>()
   const [collectionAddress, setCollectionAddress] = useState<string>('')
   const [collectionDescription, setCollectionDescription] = useState<string>('')
+  const [serviceName, setServiceName] = useState("")
+  const [collectionAddressList, setCollectionAddressList] = useState<string[]>([]);
+  // 0xd79bd2d47ae835e61e6cd9471b5b52efeee40fba
+  // 0x410c317e057555d0a979da029ea5fb05521bf803
+  // 0xf0c75430ceb4aa92d624f4d3b30a9eb5a3ef5cb5
 
   // const [isGotCollectionData, setIsGotCollectionData] = useState(false);
   // const { assetsData, getAssetsData } = useOpenseaAssetsData("0x5d424ce3fe2c56f2cee681f0c44ae965b41e9043");
@@ -42,7 +48,39 @@ export function ConnectedTop() {
     }
   }, [collectionAddress])
 
-  console.log('collection', collectionData?.data)
+  useEffect(() => {
+    console.log("collection address list", collectionAddressList);
+    if (collectionAddressList.length > 0) {
+      axios
+        .get(
+          // order_direction=desc&offset=0&limit=50&include_orders=false
+          `${constUrl.openseaV1TestnetURL}/assets`, {
+            params: {
+              asset_contract_addresses: collectionAddressList,
+              order_direction: "desc",
+              offset: 0,
+              limit: 50,
+              include_orders: false,
+            },
+            paramsSerializer: {
+              serialize: function(params) {
+                return qs.stringify(
+                  params, {
+                    arrayFormat: 'repeat'
+                  }
+                )
+              }
+            }
+          }
+        )
+        .then((res) => {
+          console.log("response", res);
+          setCollectionData(res);
+        })
+    }
+  }, [collectionAddressList]);
+
+  console.log('collection', collectionData)
   // console.log("assets", assetsData?.data.assets[0].image_url);
   return (
     <Box width={'100%'}>
@@ -61,8 +99,12 @@ export function ConnectedTop() {
             setPreviewMode={setPreviewMode}
             collectionAddress={collectionAddress}
             setCollectionAddress={setCollectionAddress}
+            collectionAddressList={collectionAddressList}
+            setCollectionAddressList={setCollectionAddressList}
             collectionDescription={collectionDescription}
             setCollectionDescription={setCollectionDescription}
+            serviceName={serviceName}
+            setServiceName={setServiceName}
             // isGotCollectionData={isGotCollectionData}
             // setIsGotCollectionData={setIsGotCollectionData}
           />
@@ -76,16 +118,19 @@ export function ConnectedTop() {
             overflowY: 'scroll',
           }}
         >
-          {collectionAddress != '' ? (
+          {/* {collectionAddress != '' ? ( */}
+          {collectionData ? (
             previewMode == 'market' ? (
               <MarketPlace
                 collectionData={collectionData}
                 style={{
                   collectionDescription: collectionDescription,
+                  serviceName: serviceName
                 }}
               />
             ) : (
-              <Item nftdata={collectionData?.data?.nfts[0]} />
+              <>API Page</>
+              // <Item nftdata={collectionData?.data?.nfts[0]} />
             )
           ) : (
             'Loading'
