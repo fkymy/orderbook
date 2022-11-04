@@ -55,7 +55,7 @@
     "class-validator": "^0.13.2",
     "ethers": "^5.7.2",
     "lodash": "^4.17.21",
-    "p-limit": "^4.0.0",
+    "p-limit": "3.1.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",
