@@ -28,11 +28,6 @@ export class AdminController {
     return this.adminService.manage()
   }
 
-  @Get('test-relayer')
-  testRelayer() {
-    return this.adminService.testRelayer()
-  }
-
   @Get('test-kit')
   @ApiOperation({ summary: 'Test reservoir kit client' })
   testKet() {

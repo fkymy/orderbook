@@ -68,64 +68,6 @@ export class AdminService {
     return ['', '']
   }
 
-  async testRelayer() {
-    const looksRare = new LooksRare()
-
-    const url = looksRare.buildFetchOrdersUrl({ startTime: 0, endTime: 0 })
-
-    try {
-      const response = await axios.get(url, {
-        timeout: 10000,
-      })
-      console.log(response.data.data)
-      const orders: LooksRareOrder[] = response.data.data
-      const parsedOrders: Sdk.LooksRare.Order[] = []
-
-      const values: any[] = []
-
-      const handleOrder = async (order: LooksRareOrder) => {
-        const orderTarget = order.collectionAddress
-        const parsed = await looksRare.parseLooksRareOrder(order)
-
-        if (parsed) {
-          parsedOrders.push(parsed)
-        }
-
-        values.push({
-          hash: order.hash,
-          target: orderTarget.toLowerCase(),
-          maker: order.signer,
-          created_at: new Date(Number(order.startTime)),
-          data: order as any,
-          source: 'looksrare',
-        })
-      }
-
-      // const plimit = pLimit(20)
-      await Promise.all(orders.map(order => handleOrder(order)))
-      console.log({
-        parsedOrders,
-      })
-
-      if (values.length) {
-        // insert to database
-        // empty result if all transactions already exist,
-        // return most recent order hash
-      }
-
-      // if backfill, log result length
-      // if parsedOrders exist, addToRelayOrdersQueue
-
-      // wait to avoid rate-limiting
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      return parsedOrders
-    } catch (error) {
-      console.log(error)
-    }
-
-    return url
-  }
-
   async testKit() {
     const client = getClient()
     console.log({
