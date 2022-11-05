@@ -28,16 +28,16 @@ export class IndexerService {
     @InjectQueue('sync-looksrare') private syncLooksrareQueue: Queue,
   ) {}
 
-  async sync() {
-    const job = new CronJob(`* * * * * *`, async () => {
+  async syncMarketplace(marketplaceId: number) {
+    const job = new CronJob(`*/5 * * * * *`, async () => {
       this.logger.log('fetch_orders_looksrare')
       // add to looksrare queue
       await this.syncLooksrareQueue.add('test', {
-        marketplaceId: 1,
+        marketplaceId: marketplaceId,
       })
     })
 
-    this.schedulerRegistry.addCronJob('sync', job)
+    this.schedulerRegistry.addCronJob('sync-looksrare', job)
     job.start()
     this.logger.warn('start syncing!')
   }

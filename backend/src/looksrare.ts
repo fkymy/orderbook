@@ -1,6 +1,7 @@
 import * as Sdk from '@reservoir0x/sdk'
 
 type FetchOrdersParams = {
+  collection?: string
   startTime?: number
   endTime?: number
 }

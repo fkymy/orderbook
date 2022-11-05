@@ -7,6 +7,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common'
 import { Queue } from 'bull'
 import { CreateIndexerDto } from './dto/create-indexer.dto'
@@ -22,13 +23,15 @@ export class IndexerController {
   ) {}
 
   @Post('sync')
-  async sync() {
-    return this.indexerService.sync()
+  async syncMarketplace(
+    @Body('marketplaceId', ParseIntPipe) marketplaceId: number,
+  ) {
+    return this.indexerService.syncMarketplace(marketplaceId)
   }
 
   @Post('pause')
   pause() {
-    return this.indexerService.pause('sync')
+    return this.indexerService.pause('sync-looksrare')
   }
 
   @Get('test-tasks')
