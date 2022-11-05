@@ -1,4 +1,4 @@
-import { Box, Button, Center, ChakraProvider, HStack, Stack } from '@chakra-ui/react'
+import { Box, Button, Center, ChakraProvider, extendTheme, HStack, Stack } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -23,6 +23,20 @@ const Home: NextPage = () => {
   //   setIsConnected(true);
   // }
 
+  const providerTheme = extendTheme({
+    // components: {
+    //   Tabs: {
+    //     tablist: {
+    //       color: "#ff0000",
+    //       marginLeft: "30px"
+    //     },
+    //     tab: {
+    //       color: "red",
+    //     }
+    //   },
+    // },
+  })
+
   if (true) {
     return (
       <div>
@@ -33,7 +47,7 @@ const Home: NextPage = () => {
         </Head> */}
 
         <main>
-          <ChakraProvider>
+          <ChakraProvider theme={providerTheme}>
             <ConnectedTop />
           </ChakraProvider>
         </main>
