@@ -1,9 +1,11 @@
+import { InjectQueue } from '@nestjs/bull'
 import { Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule'
 import * as Sdk from '@reservoir0x/sdk'
 import { Network, Alchemy } from 'alchemy-sdk'
 import axios from 'axios'
+import { Queue } from 'bull'
 import { CronJob } from 'cron'
 import pLimit from 'p-limit'
 import { logger } from 'src/logger'
@@ -23,7 +25,27 @@ export class IndexerService {
     private prisma: PrismaService,
     private config: ConfigService,
     private schedulerRegistry: SchedulerRegistry,
+    @InjectQueue('sync-looksrare') private syncLooksrareQueue: Queue,
   ) {}
+
+  async sync() {
+    const job = new CronJob(`* * * * * *`, async () => {
+      this.logger.log('fetch_orders_looksrare')
+      // add to looksrare queue
+      await this.syncLooksrareQueue.add('test', {
+        marketplaceId: 1,
+      })
+    })
+
+    this.schedulerRegistry.addCronJob('sync', job)
+    job.start()
+    this.logger.warn('start syncing!')
+  }
+
+  pause(name: string) {
+    this.schedulerRegistry.deleteCronJob(name)
+    this.logger.warn(`job ${name} was deleted`)
+  }
 
   testTasks() {
     const job = this.schedulerRegistry.getCronJob('test-cron')

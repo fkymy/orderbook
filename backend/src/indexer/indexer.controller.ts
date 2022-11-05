@@ -21,9 +21,14 @@ export class IndexerController {
     @InjectQueue('file-operation-queue') private fileQueue: Queue,
   ) {}
 
-  @Post('sync-demo')
-  syncDemo() {
-    return 'sync-demo'
+  @Post('sync')
+  async sync() {
+    return this.indexerService.sync()
+  }
+
+  @Post('pause')
+  pause() {
+    return this.indexerService.pause('sync')
   }
 
   @Get('test-tasks')

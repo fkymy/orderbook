@@ -13,13 +13,13 @@ export class TasksService {
     this.logger.debug('Called when the current second is 42')
   }
 
-  @Interval('test-interval', 10000)
-  handleInterval() {
-    this.logger.debug('Called every 10 seconds')
-  }
-
-  @Timeout('test-timeout', 5000)
-  handleTimeout() {
-    this.logger.debug('Called once after 5 seconds')
-  }
+  // @Interval('test-interval', 10000)
+  // handleInterval() {
+  //   this.logger.debug('Called every 10 seconds')
+  // }
+  //
+  // @Timeout('test-timeout', 5000)
+  // handleTimeout() {
+  //   this.logger.debug('Called once after 5 seconds')
+  // }
 }
