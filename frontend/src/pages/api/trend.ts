@@ -11,7 +11,7 @@ import { TrendDataListType, TrendDataType } from 'src/types/trendData'
 export default function handler(req: NextApiRequest, res: NextApiResponse<TrendDataListType>) {
   res.status(200).json([
     {
-      title: 'Yu-Gi-Oh! CHAMPIONSHIP SERIES JAPAN OSAKA 2022',
+      title: '遊戯玉 CHAMPIONSHIP SERIES JAPAN OSAKA 2022',
       subTitle: '優勝者デッキ',
       deck: [
         {
