@@ -93,16 +93,31 @@ export class NftService {
       }
     }
 
-    // Loop through addresses and list nft data
-    for (let i = 0; i < addresses.length; i++) {
-      const nfts = await alchemy.nft.getNftsForContract(addresses[i], {
-        pageSize: 100,
-        omitMetadata: false,
-      })
-      for (const nft of nfts.nfts) {
-        res.push(nft)
-      }
-    }
+    // Parallel
+    await Promise.all(
+      addresses.map(async address => {
+        // console.log(`Fetching address ${address}!`)
+        const nfts = await alchemy.nft.getNftsForContract(address, {
+          pageSize: 100,
+          omitMetadata: false,
+        })
+        for (const nft of nfts.nfts) {
+          res.push(nft)
+        }
+      }),
+    )
+
+    // Sequential
+    // for (let i = 0; i < addresses.length; i++) {
+    //   console.log(`Fetching address ${addresses[i]}!`)
+    //   const nfts = await alchemy.nft.getNftsForContract(addresses[i], {
+    //     pageSize: 100,
+    //     omitMetadata: false,
+    //   })
+    //   for (const nft of nfts.nfts) {
+    //     res.push(nft)
+    //   }
+    // }
 
     // Add aggregaed orders to response
     const data = await this.orderService.getOrdersForContracts(addresses)
