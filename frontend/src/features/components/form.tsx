@@ -13,10 +13,15 @@ import {
   Textarea,
   Grid,
   IconButton,
+  RadioGroup,
+  Radio,
 } from '@chakra-ui/react'
+import NextImage, { StaticImageData } from 'next/image'
 import { ethers } from 'ethers'
 import { Dispatch, SetStateAction, useState } from 'react'
 import MarketPlaceFacotory from '../../../../contracts/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json'
+import TemplateLogo from './assets/template.png'
+import ApiLogo from './assets/api2.png'
 
 const OverflowEllipsis = ({ children }: { children: string }) => (
   <div style={{ display: 'table', width: '100%' }}>
@@ -128,7 +133,7 @@ export function CreateForm(props: Props) {
             </Text>
           </Box>
           <Box>
-            <Stack width={'100%'}>
+            <Stack width={'100%'} spacing="8px">
               <Text as='b'>
                 サービス名
               </Text>
@@ -147,9 +152,11 @@ export function CreateForm(props: Props) {
             </Stack>
           </Box>
           <Box>
-            <Text as='b' fontSize='1xl'>
-              コントラクトアドレス
-            </Text>
+            <Box marginBottom="8px">
+              <Text as='b' fontSize='1xl'>
+                コントラクトアドレス
+              </Text>
+            </Box>
             <Grid templateColumns="1fr 50px" gap="8px">
               <Input
                 placeholder='0x000000.....'
@@ -205,32 +212,108 @@ export function CreateForm(props: Props) {
             }
           </Box>
           <Box>
-            <Text as='b' fontSize='1xl'>
-              手数料
-            </Text>
-            <NumberInput
-              value={format(creatorFee)}
-              onChange={(valueString) => {
-                setCreatorFee(parse(valueString))
-              }}
-              style={{
-                // backgroundColor: '#ffffff',
-                borderRadius: '10px',
-              }}
-              min={0}
-              max={100}
-              step={1}
-              precision={0}
-            >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
+            <Box marginBottom="8px">
+              <Text as='b'>
+                手数料
+              </Text>
+            </Box>
+            <Box>
+              <NumberInput
+                value={format(creatorFee)}
+                onChange={(valueString) => {
+                  setCreatorFee(parse(valueString))
+                }}
+                style={{
+                  // backgroundColor: '#ffffff',
+                  borderRadius: '10px',
+                }}
+                min={0}
+                max={100}
+                step={1}
+                precision={0}
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </Box>
           </Box>
+          <Box>
+            <Box marginBottom="8px">
+              <Text as="b">
+                モード
+              </Text>
+            </Box>
+            <Box style={{
+              padding: "12px",
+              background: "linear-gradient(266.91deg, rgba(175, 175, 174, 0.3) 0%, rgba(165, 164, 164, 0.21) 87.35%)",
+              borderRadius: "4px",
+            }}>
+              <Box>
+                <RadioGroup 
+                  form-name="mode" 
+                  onChange={props.setPreviewMode} 
+                  value={props.previewMode}
+                  colorScheme="brack"
+                >
+                  <Stack>
+                    <Radio value="market">
+                      <HStack>
+                        <Box padding="2px" marginLeft="6px">
+                          <NextImage
+                            width="20px"
+                            height="20px"
+                            src={TemplateLogo}
+                          />
+                        </Box>
+                        <Box>
+                          <Text as="b" fontSize="14px">
+                            テンプレート
+                          </Text>
+                          <Text fontSize="12px" color="#D8D8D8">
+                            ノーコードでサイトを構築・ホスティング
+                          </Text>
+                        </Box>
+                      </HStack>
+                    </Radio>
+                    <Radio value="api">
+                      <HStack>
+                        <Box padding="2px" marginLeft="6px">
+                          <NextImage
+                            width="20px"
+                            height="20px"
+                            src={ApiLogo}
+                          />
+                        </Box>
+                        <Box>
+                          <Text as="b" fontSize="14px">
+                            API
+                          </Text>
+                          <Text fontSize="12px" color="#D8D8D8">
+                            NFT流動性APIのみを使って独自サービスを1から構築
+                          </Text>
+                        </Box>
+                      </HStack>
+                    </Radio>
+                  </Stack>
+                </RadioGroup>
+              </Box>
+            </Box>
+          </Box>
+          <Button
+            style={{
+              backgroundColor: '#ffffff',
+              color: '#000000',
+              height: "44px"
+            }}
+            onClick={createMarketPlace}
+          >
+            デプロイする
+          </Button>
         </Stack>
-        <Stack width={'100%'}>
+        {/* <Stack width={'100%'}>
         </Stack>
         <Stack width={'100%'}>
           <Text as='b' fontSize='1xl'>
@@ -250,11 +333,11 @@ export function CreateForm(props: Props) {
               style={{
                 padding: 0,
               }}
-            >
+            > */}
               {/* <Box width='50%' textAlign="center">
                 
               </Box> */}
-              <Button
+              {/* <Button
                 style={{
                   width: '50%',
                   height: '35px',
@@ -282,17 +365,7 @@ export function CreateForm(props: Props) {
               </Button>
             </HStack>
           </Container>
-        </Stack>
-        <Button
-          style={{
-            backgroundColor: '#ffffff',
-            color: '#000000',
-            height: "44px"
-          }}
-          onClick={createMarketPlace}
-        >
-          デプロイする
-        </Button>
+        </Stack> */}
         {/* <Stack>
           <Text as='b' fontSize='1xl'>
             Discription

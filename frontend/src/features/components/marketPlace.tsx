@@ -65,7 +65,7 @@ interface ItemCardProps {
 }
 
 function ItemCard(props: ItemCardProps) {
-  console.log("order", props?.nftData?.order?.orders);
+  // console.log("order", props?.nftData?.order?.orders);
   const [mode, setMode] = useState('card');
 
   if (mode === 'listing') {
@@ -95,9 +95,9 @@ function ItemCard(props: ItemCardProps) {
           <Stack padding="8px" marginTop="0px" gap="6px">
             {
               props.nftData?.order?.orders?.map((orderData, idx) => {
-                console.log(orderData);
+                // console.log(orderData);
                 return (
-                  <Box padding="4px 8px" bg="#4D4D4D" borderRadius="4px">
+                  <Box padding="4px 8px" bg="#4D4D4D" borderRadius="4px" key={idx}>
                     <Box>
                       <Flex>
                         <Text w="54px" fontSize="10px" color="#D8D8D8">
@@ -214,7 +214,7 @@ function ItemCard(props: ItemCardProps) {
               </Box>
             </Box>
             <Box padding="4px 8px" as="button" onClick={() => {
-              console.log('click listing')
+              // console.log('click listing')
               setMode('listing')
             }}>
               <Box>
@@ -286,6 +286,7 @@ export function MarketPlace(props: Props) {
   const [sortedArray, setSortedArray] = useState<any>([]);
   const [floorPrice, setFloorPrice] = useState(0);
   const [totalVolume, setTotalVolume] = useState(0);
+  const [collectionNameList, setCollectionNameList] = useState([]);
 
   const width: any = {
     sm: '100%',
@@ -302,15 +303,20 @@ export function MarketPlace(props: Props) {
   useEffect(() => {
     let parsedArray = props.collectionData?.data?.assets;
     if (parsedArray) {
+      let tmpCollectionNameList = []
       for (let i = 0; i < parsedArray.length; i++) {
         // console.log(i, parsedArray[i])
+        const name = parsedArray?.at(i)?.asset_contract?.name;
+        if (tmpCollectionNameList.indexOf(name) === -1) {
+          tmpCollectionNameList.push(name);
+        }
         parsedArray.at(i).order = orderData.filter((nft, idx) => {
           return parsedArray?.at(i)?.asset_contract?.address === nft?.contract?.address && parsedArray?.at(i)?.token_id === nft?.tokenId
         })?.at(0)
         if (parsedArray.at(i).order) {
           let tmp = parsedArray.at(i)?.order?.orders?.at(0)?.price?.amount?.native;
           if (tmp) {
-            console.log("navigate", tmp);
+            // console.log("navigate", tmp);
             if (tmp < tmpFloorPrice) {
               tmpFloorPrice = tmp;
             }
@@ -318,9 +324,12 @@ export function MarketPlace(props: Props) {
           }
         }
       }
+      tmpCollectionNameList.sort()
+      console.log(tmpCollectionNameList);
+      setCollectionNameList(tmpCollectionNameList);
       setFloorPrice(tmpFloorPrice);
       setTotalVolume(tmpTotalVolume);
-      console.log("parsedArray", parsedArray);
+      // console.log("parsedArray", parsedArray);
 
       parsedArray.sort((a, b) => {
         const f = (v) => {
@@ -442,11 +451,17 @@ export function MarketPlace(props: Props) {
                   すべて
                 </Text>
               </Tab>
-              <Tab _selected={{
-                fontWeight: "bold"
-              }}>
-                My NFTs
-              </Tab>
+              {
+                collectionNameList.map((name, idx) => {
+                  return (
+                    <Tab key={idx} _selected={{
+                      fontWeight: "bold"
+                    }}>
+                      {name}
+                    </Tab>
+                  )
+                })
+              }
             </TabList>
             <TabPanels style={{ padding: '24px 36px 0px 36px' }}>
               <TabPanel
