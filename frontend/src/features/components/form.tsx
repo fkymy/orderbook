@@ -91,16 +91,21 @@ export function CreateForm(props: Props) {
   return (
     <Container
       style={{
-        padding: '10px',
+        padding: '24px',
+        backgroundColor: "#000000",
+        height: "100%",
+        color: "#ffffff",
+        borderRightWidth: "1px",
+        borderRightColor: "#4D4D4D",
       }}
     >
       <Stack spacing={4}>
-        <Box>
+        {/* <Box>
           <Text as='b' fontSize='4xl'>
             {`[Logo(TODO)]`}
           </Text>
-        </Box>
-        <Stack width={'100%'}>
+        </Box> */}
+        <Stack width={'100%'} spacing="36px">
           {/* <Text as='b' fontSize='1xl'>
             コントラクトのアドレス
           </Text>
@@ -117,105 +122,115 @@ export function CreateForm(props: Props) {
               props.setCollectionAddress(event.target.value)
             }}
           /> */}
-          <Text as='b' fontSize='1xl'>
-            コントラクトのアドレス
-          </Text>
-          <Grid templateColumns="1fr 50px" gap="8px">
-            <Input
-              placeholder='0x000000.....'
+          <Box marginBottom="14px">
+            <Text fontSize="24px" as="b">
+              NFTマーケットプレイスを作る
+            </Text>
+          </Box>
+          <Box>
+            <Stack width={'100%'}>
+              <Text as='b'>
+                サービス名
+              </Text>
+              <Input
+                style={{
+                  // backgroundColor: '#ffffff',
+                  width: '100%',
+                }}
+                value={props.serviceName}
+                onChange={(event) => {
+                  // props.setIsGotCollectionData(false);
+                  // setContractAddress(event.target.value);
+                  props.setServiceName(event.target.value)
+                }}
+              />
+            </Stack>
+          </Box>
+          <Box>
+            <Text as='b' fontSize='1xl'>
+              コントラクトアドレス
+            </Text>
+            <Grid templateColumns="1fr 50px" gap="8px">
+              <Input
+                placeholder='0x000000.....'
+                style={{
+                  width: '100%',
+                }}
+                value={inputAddress}
+                onChange={(event) => {
+                  // props.setIsGotCollectionData(false);
+                  // setContractAddress(event.target.value);
+                  setInputAddress(event.target.value)
+                }}
+              />
+              <IconButton
+                icon={<AddIcon/>}
+                aria-label='Search database'
+                bg="#0f0f0f"
+                color="#f0f0f0"
+                onClick={() => {
+                  // props.collectionAddressList.push(inputAddress);
+                  props.setCollectionAddressList([...props.collectionAddressList, inputAddress]);
+                  setInputAddress("");
+                  console.log(props.collectionAddressList)
+                }}
+              />
+            </Grid>
+            {
+              props.collectionAddressList.map((address, idx) => {
+                return (
+                  <Grid templateColumns="9fr 1fr" key={idx}>
+                    <Box>
+                      <OverflowEllipsis>
+                        {address}
+                      </OverflowEllipsis>
+                    </Box>
+                    <IconButton
+                      icon={<DeleteIcon/>}
+                      aria-label='Search database'
+                      bg="#0f0f0f"
+                      color="#f0f0f0"
+                      onClick={() => {
+                        // console.log();
+                        props.setCollectionAddressList(
+                          props.collectionAddressList.filter((addr) => {
+                            return address !== addr
+                          })
+                        );
+                      }}
+                    />
+                  </Grid>
+                )
+              })
+            }
+          </Box>
+          <Box>
+            <Text as='b' fontSize='1xl'>
+              手数料
+            </Text>
+            <NumberInput
+              value={format(creatorFee)}
+              onChange={(valueString) => {
+                setCreatorFee(parse(valueString))
+              }}
               style={{
-                backgroundColor: '#ffffff',
-                width: '100%',
+                // backgroundColor: '#ffffff',
+                borderRadius: '10px',
               }}
-              value={inputAddress}
-              onChange={(event) => {
-                // props.setIsGotCollectionData(false);
-                // setContractAddress(event.target.value);
-                setInputAddress(event.target.value)
-              }}
-            />
-            <IconButton
-              icon={<AddIcon/>}
-              aria-label='Search database'
-              bg="#0f0f0f"
-              color="#f0f0f0"
-              onClick={() => {
-                // props.collectionAddressList.push(inputAddress);
-                props.setCollectionAddressList([...props.collectionAddressList, inputAddress]);
-                setInputAddress("");
-                console.log(props.collectionAddressList)
-              }}
-            />
-          </Grid>
-          {
-            props.collectionAddressList.map((address, idx) => {
-              return (
-                <Grid templateColumns="9fr 1fr" key={idx}>
-                  <Box>
-                    <OverflowEllipsis>
-                      {address}
-                    </OverflowEllipsis>
-                  </Box>
-                  <IconButton
-                    icon={<DeleteIcon/>}
-                    aria-label='Search database'
-                    bg="#0f0f0f"
-                    color="#f0f0f0"
-                    onClick={() => {
-                      // console.log();
-                      props.setCollectionAddressList(
-                        props.collectionAddressList.filter((addr) => {
-                          return address !== addr
-                        })
-                      );
-                    }}
-                  />
-                </Grid>
-              )
-            })
-          }
+              min={0}
+              max={100}
+              step={1}
+              precision={0}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </Box>
         </Stack>
         <Stack width={'100%'}>
-          <Text as='b' fontSize='1xl'>
-            サービス名
-          </Text>
-          <Input
-            style={{
-              backgroundColor: '#ffffff',
-              width: '100%',
-            }}
-            value={props.serviceName}
-            onChange={(event) => {
-              // props.setIsGotCollectionData(false);
-              // setContractAddress(event.target.value);
-              props.setServiceName(event.target.value)
-            }}
-          />
-        </Stack>
-        <Stack width={'100%'}>
-          <Text as='b' fontSize='1xl'>
-            手数料
-          </Text>
-          <NumberInput
-            value={format(creatorFee)}
-            onChange={(valueString) => {
-              setCreatorFee(parse(valueString))
-            }}
-            style={{
-              backgroundColor: '#ffffff',
-              borderRadius: '10px',
-            }}
-            min={0}
-            max={100}
-            step={1}
-            precision={0}
-          >
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
         </Stack>
         <Stack width={'100%'}>
           <Text as='b' fontSize='1xl'>
@@ -270,14 +285,15 @@ export function CreateForm(props: Props) {
         </Stack>
         <Button
           style={{
-            backgroundColor: '#0f0f0f',
-            color: '#ffffff',
+            backgroundColor: '#ffffff',
+            color: '#000000',
+            height: "44px"
           }}
           onClick={createMarketPlace}
         >
           デプロイする
         </Button>
-        <Stack>
+        {/* <Stack>
           <Text as='b' fontSize='1xl'>
             Discription
           </Text>
@@ -288,7 +304,7 @@ export function CreateForm(props: Props) {
             resize='none'
             onChange={(event) => props.setCollectionDescription(event.target.value)}
           />
-        </Stack>
+        </Stack> */}
       </Stack>
     </Container>
   )
