@@ -25,7 +25,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     axios
-      .get(`${constUrl.orderbookApiURL}/nft?marketplace=1`)
+      .get(`${constUrl.orderbookApiURL}/nft?marketplace=2`)
       .then((res) => {
         setCollectionData(res?.data);
       });

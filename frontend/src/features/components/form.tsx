@@ -275,7 +275,7 @@ export function CreateForm(props: Props) {
           }}
           onClick={createMarketPlace}
         >
-          Create
+          デプロイする
         </Button>
         <Stack>
           <Text as='b' fontSize='1xl'>
