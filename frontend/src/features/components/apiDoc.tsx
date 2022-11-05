@@ -31,9 +31,9 @@ export function ApiDoc() {
         color='#ffffff'
         bg='#151414'
       >
-        <Tab>OpenAPI</Tab>
-        <Tab>Docs</Tab>
-        <Tab>SDK</Tab>
+        <Tab as='b'>OpenAPI</Tab>
+        <Tab as='b'>Docs</Tab>
+        <Tab as='b'>SDK</Tab>
       </TabList>
 
       <TabPanels>
@@ -47,7 +47,7 @@ export function ApiDoc() {
             maxW='100%'
           >
             <Flex color='white' h='700px'>
-              <Box margin='30px' w='50%' h='500px' justifyContent='left' alignItems='left'>
+              <Box margin='10px' w='50%' h='500px' justifyContent='left' alignItems='left'>
                 <Box margin='10px'>
                   <Text as='b' fontSize='3xl'>
                     Get Aggregated Orders
@@ -66,19 +66,19 @@ export function ApiDoc() {
                 </Box>
                 <Box margin='20px'>
                   <Text as='b' fontSize='2xl'>
-                    maketplaced
+                    Maketplace Id
                   </Text>
                   <Input placeholder='1' />
                 </Box>
                 <Box margin='20px'>
                   <Text as='b' fontSize='2xl'>
-                    contractAddress
+                    Contract Address
                   </Text>
                   <Input placeholder='0xtest' />
                 </Box>
                 <Box margin='20px'>
                   <Text as='b' fontSize='2xl'>
-                    tokenId
+                    Token Id
                   </Text>
                   <Input placeholder='0' />
                 </Box>
@@ -103,12 +103,16 @@ export function ApiDoc() {
               </Box>
 
               <Box>
-                <Box w='500px' h='30px' bg='#D9D9D9' border-top-Radius='md'></Box>
-                <Box w='500px' h='550px' bg='#3F3F3F' borderRadius='md'></Box>
+                <Box w='425px' h='30px' bg='#D9D9D9' borderRadius='md'>
+                  <Center color='#000000' as='b'>
+                    Response
+                  </Center>
+                </Box>
+                <Box w='425px' h='550px' bg='#1a1a1a' borderRadius='md'></Box>
               </Box>
             </Flex>
             <Flex color='white' h='750px'>
-              <Box margin='30px' w='50%' h='500px' justifyContent='left' alignItems='left'>
+              <Box margin='10px' w='50%' h='500px' justifyContent='left' alignItems='left'>
                 <Box margin='10px'>
                   <Text as='b' fontSize='3xl'>
                     Get Native Orders
@@ -127,7 +131,7 @@ export function ApiDoc() {
                 </Box>
                 <Box margin='20px'>
                   <Text as='b' fontSize='2xl'>
-                    maketplaced
+                    Maketplace Id
                   </Text>
                   <Input placeholder='1' />
                 </Box>
@@ -152,15 +156,15 @@ export function ApiDoc() {
               </Box>
 
               <Box>
-                <Box w='500px' h='30px' bg='#D9D9D9'>
+                <Box w='425px' h='30px' bg='#D9D9D9'>
                   <Text></Text>
                 </Box>
-                <Box w='500px' h='550px' bg='#3F3F3F' borderRadius='md'></Box>
+                <Box w='425px' h='550px' bg='#3F3F3F' borderRadius='md'></Box>
               </Box>
             </Flex>
 
             <Flex color='white' h='750px'>
-              <Box margin='30px' w='50%' h='500px' justifyContent='left' alignItems='left'>
+              <Box margin='10px' w='50%' h='500px' justifyContent='left' alignItems='left'>
                 <Box margin='10px'>
                   <Text as='b' fontSize='3xl'>
                     Get NFT data
@@ -179,8 +183,8 @@ export function ApiDoc() {
                 </Box>
               </Box>
               <Box>
-                <Box w='500px' h='30px' bg='#D9D9D9' border-top-Radius='md'></Box>
-                <Box w='500px' h='550px' bg='#3F3F3F' borderRadius='md'></Box>
+                <Box w='425px' h='30px' bg='#D9D9D9' border-top-Radius='md'></Box>
+                <Box w='425px' h='550px' bg='#3F3F3F' borderRadius='md'></Box>
               </Box>
             </Flex>
           </Container>
