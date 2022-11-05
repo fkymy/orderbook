@@ -178,15 +178,15 @@ export class OrderService {
         'x-api-key': this.config.get('ORDERBOOK_API_KEY'),
       },
     })
-    console.log(res)
-    console.log(res.data)
-    if (res.data.orders) {
-      for (let i = 0; i < res.data.length; i++) {
-        console.log(res.data.orders[i])
-      }
-    } else {
-      console.log('no orders')
-    }
+    // console.log(res)
+    // console.log(res.data)
+    // if (res.data.orders) {
+    //   for (let i = 0; i < res.data.length; i++) {
+    //     console.log(res.data.orders[i])
+    //   }
+    // } else {
+    //   console.log('no orders')
+    // }
     return res.data
   }
 

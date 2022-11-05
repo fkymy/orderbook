@@ -162,7 +162,7 @@ export class NftService {
 
   async getNft(contractAddress: string, tokenId: number) {
     // nft metadata with orders and nativeOrders and owners
-    let res: any = {}
+    const res: any = {}
 
     const settings = {
       apiKey: this.config.get('ALCHEMY_API_KEY'),
@@ -170,24 +170,69 @@ export class NftService {
     }
     const alchemy = new Alchemy(settings)
 
-    const nft = await alchemy.nft.getNftMetadata(contractAddress, tokenId)
-    console.log(nft)
-    res = nft
+    // console.log('getNftMetadata')
+    // const nft = await alchemy.nft.getNftMetadata(contractAddress, tokenId)
+    // res = nft
+    //
+    // console.log('getOwnersForNft')
+    // const owners = await alchemy.nft.getOwnersForNft(contractAddress, tokenId)
+    // res.owners = owners.owners
+    //
+    // console.log('getOrdersForNft')
+    // const orders = await this.orderService.getOrdersForNft(
+    //   contractAddress,
+    //   tokenId,
+    // )
+    // res.orders = orders.orders
+    //
+    // console.log('findOneNativeListings')
+    // const nativeOrder = await this.orderService.findOneNativeListings(
+    //   contractAddress,
+    //   tokenId,
+    // )
+    // res.nativeOrders = [nativeOrder]
 
-    const owners = await alchemy.nft.getOwnersForNft(contractAddress, tokenId)
-    res.owners = owners.owners
+    const getNftMetadata = async () => {
+      console.log('getNftMetadata')
+      const nft = await alchemy.nft.getNftMetadata(contractAddress, tokenId)
+      res.nft = nft
+    }
 
-    const orders = await this.orderService.getOrdersForNft(
-      contractAddress,
-      tokenId,
-    )
-    res.orders = orders.orders
+    const getOwnersForNft = async () => {
+      console.log('getOwnersForNft')
+      const owners = await alchemy.nft.getOwnersForNft(contractAddress, tokenId)
+      res.owners = owners.owners
+    }
 
-    const nativeOrder = await this.orderService.findOneNativeListings(
-      contractAddress,
-      tokenId,
-    )
-    res.nativeOrders = [nativeOrder]
+    const getOrdersForNft = async () => {
+      console.log('getOrdersForNft')
+      const orders = await this.orderService.getOrdersForNft(
+        contractAddress,
+        tokenId,
+      )
+      res.orders = orders.orders
+    }
+
+    const findOneNativeListings = async () => {
+      console.log('findOneNativeListings')
+      const nativeOrder = await this.orderService.findOneNativeListings(
+        contractAddress,
+        tokenId,
+      )
+      res.nativeOrders = [nativeOrder]
+    }
+
+    const promises = [
+      getNftMetadata(),
+      getOwnersForNft(),
+      getOrdersForNft(),
+      findOneNativeListings(),
+    ]
+
+    await Promise.all(promises)
+
+    // functions.reduce((p, fn) => p.then(fn), Promise.resolve())
+
     return res
   }
 
