@@ -13,10 +13,10 @@ import { Network, Alchemy } from 'alchemy-sdk'
 import axios from 'axios'
 import { Job } from 'bull'
 import pLimit from 'p-limit'
-import { LooksRare, LooksRareOrder } from 'src/looksrare'
 import { OrderService } from 'src/order/order.service'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { MarketplaceService } from '../marketplace/marketplace.service'
+import { LooksRare, LooksRareOrder } from './looksrare'
 
 @Processor('sync-looksrare')
 export class SyncProcessor {
@@ -66,7 +66,9 @@ export class SyncProcessor {
         const response = await axios.get(url, {
           timeout: 10000,
         })
-        console.log(response.data.data)
+        console.log({
+          responseData: response.data.data,
+        })
         const orders: LooksRareOrder[] = response.data.data
         const parsedOrders: Sdk.LooksRare.Order[] = []
 
@@ -92,12 +94,31 @@ export class SyncProcessor {
 
         // const plimit = pLimit(20)
         await Promise.all(orders.map(order => handleOrder(order)))
-        console.log({
-          parsedOrders,
-        })
 
         if (values.length) {
           // insert to database
+          const query = values.map(value =>
+            this.prisma.relayOrder.upsert({
+              where: {
+                hash: value.hash,
+              },
+              update: {},
+              create: {
+                hash: value.hash,
+                target: value.target,
+                maker: value.maker,
+                data: value.data,
+                source: value.source,
+              },
+            }),
+          )
+
+          const result = await this.prisma.$transaction([...query])
+
+          console.log({
+            result,
+          })
+
           // empty result if all transactions already exist,
           // return most recent order hash
         }
@@ -107,9 +128,6 @@ export class SyncProcessor {
 
         // wait to avoid rate-limiting
         await new Promise(resolve => setTimeout(resolve, 1000))
-        console.log({
-          parsedOrders,
-        })
       } catch (error) {
         console.log(error)
       }

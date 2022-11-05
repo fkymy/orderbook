@@ -6,8 +6,8 @@ import { Network, Alchemy } from 'alchemy-sdk'
 import axios from 'axios'
 import pLimit from 'p-limit'
 import { logger } from 'src/logger'
-import { LooksRare, LooksRareOrder } from 'src/looksrare'
 import { PrismaService } from 'src/prisma/prisma.service'
+import { LooksRare, LooksRareOrder } from '../indexer/looksrare'
 
 export const constAddress = {
   testCollectionAddress: '0x0bacc0e4fb3fe96b33d43b20a2f107f6cea31741',

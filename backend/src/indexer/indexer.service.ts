@@ -9,10 +9,10 @@ import { Queue } from 'bull'
 import { CronJob } from 'cron'
 import pLimit from 'p-limit'
 import { logger } from 'src/logger'
-import { LooksRare, LooksRareOrder } from 'src/looksrare'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateIndexerDto } from './dto/create-indexer.dto'
 import { UpdateIndexerDto } from './dto/update-indexer.dto'
+import { LooksRare, LooksRareOrder } from './looksrare'
 
 @Injectable()
 export class IndexerService {
@@ -29,6 +29,8 @@ export class IndexerService {
   ) {}
 
   async syncMarketplace(marketplaceId: number) {
+    // Get NFTs
+
     const job = new CronJob(`*/5 * * * * *`, async () => {
       this.logger.log('fetch_orders_looksrare')
       // add to looksrare queue

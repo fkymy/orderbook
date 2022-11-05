@@ -80,7 +80,7 @@ enum SourceType {
 
 model RelayOrder {
   id         Int         @id @default(autoincrement())
-  hash       String
+  hash       String      @unique
   target     String
   maker      String
   data       Json
