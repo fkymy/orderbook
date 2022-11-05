@@ -18,7 +18,13 @@ export class IndexerController {
   constructor(
     private readonly indexerService: IndexerService,
     @InjectQueue('test-queue') private readonly testQueue: Queue,
+    @InjectQueue('file-operation-queue') private fileQueue: Queue,
   ) {}
+
+  @Post('sync-demo')
+  syncDemo() {
+    return 'sync-demo'
+  }
 
   @Get('test-tasks')
   testTasks() {
@@ -36,6 +42,14 @@ export class IndexerController {
     console.log('adding queue...')
     await this.testQueue.add('transcode', {
       file: 'test.mp3',
+    })
+  }
+
+  @Post('delete-file')
+  async deleteFile() {
+    const filePath = '/test/file/path'
+    await this.fileQueue.add('delete-file', {
+      filePath,
     })
   }
 }

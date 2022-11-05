@@ -7,9 +7,14 @@ import { TestProcessor } from './test.processor'
 
 @Module({
   imports: [
-    BullModule.registerQueue({
-      name: 'test-queue',
-    }),
+    BullModule.registerQueue(
+      {
+        name: 'test-queue',
+      },
+      {
+        name: 'file-operation-queue',
+      },
+    ),
   ],
   controllers: [IndexerController],
   providers: [IndexerService, TasksService, TestProcessor],

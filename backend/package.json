@@ -32,10 +32,11 @@
     "db:test:restart": "yarn db:test:rm && yarn db:test:up && sleep 1 && yarn prisma:test:deploy"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": [
-    ]
+    "*.{js,ts,jsx,tsx}": []
   },
   "dependencies": {
+    "@bull-board/api": "^4.6.2",
+    "@bull-board/express": "^4.6.2",
     "@nestjs/bull": "^0.6.1",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",

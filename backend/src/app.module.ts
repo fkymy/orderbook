@@ -5,6 +5,7 @@ import { ScheduleModule } from '@nestjs/schedule'
 import config from 'src/config'
 import { AdminModule } from './admin/admin.module'
 import { AuthModule } from './auth/auth.module'
+import { BullBoardModule } from './bull-board.module'
 import { DemoModule } from './demo/demo.module'
 import { IndexerModule } from './indexer/indexer.module'
 import { MarketplaceModule } from './marketplace/marketplace.module'
@@ -35,6 +36,7 @@ import { UserModule } from './user/user.module'
     NftModule,
     OrderModule,
     IndexerModule,
+    BullBoardModule,
   ],
 })
 export class AppModule {}
