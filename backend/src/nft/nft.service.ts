@@ -5,9 +5,11 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { Prisma } from '@prisma/client'
 import { createClient, getClient } from '@reservoir0x/reservoir-kit-client'
 import { Network, Alchemy, Nft } from 'alchemy-sdk'
 import axios from 'axios'
+import { find } from 'rxjs'
 import { OrderService } from 'src/order/order.service'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { isWholeNumber, arrayContains } from 'src/utils'
@@ -222,11 +224,51 @@ export class NftService {
       res.nativeOrders = [nativeOrder]
     }
 
+    const findRelayedOrders = async () => {
+      console.log('findRelayedOrders')
+      const relayedOrders = await this.orderService.findRelayedOrders()
+      for (let i = 0; i < relayedOrders.length; i++) {
+        if (
+          relayedOrders[i].data &&
+          typeof relayedOrders[i].data === 'object'
+        ) {
+          const object = relayedOrders[i].data as Prisma.JsonObject
+          // console.log({ object })
+          // console.log(contractAddress)
+          // console.log(object.collectionAddress)
+          // console.log(object.tokenId)
+          // console.log(tokenId.toString())
+          if (
+            (object.collectionAddress as string).toUpperCase() ===
+              contractAddress.toUpperCase() &&
+            object.tokenId === tokenId.toString()
+          ) {
+            // console.log('MATCHED RELAYED ORDER!!!')
+            if (res.relayedOrders) {
+              res.relayedOrders.push(object)
+            } else {
+              res.relayedOrders = [object]
+            }
+          } else {
+            // console.log('NOT MATCHED')
+          }
+        }
+        // if (
+        //   relayedOrders[i].data &&
+        //   relayedOrders[i].data.collectionAddress === contractAddress &&
+        //   relayedOrders[i].data.tokenId === tokenId.toString()
+        // ) {
+        //   res.relayedOrders = relayedOrders
+        // }
+      }
+    }
+
     const promises = [
       getNftMetadata(),
       getOwnersForNft(),
       getOrdersForNft(),
       findOneNativeListings(),
+      findRelayedOrders(),
     ]
 
     await Promise.all(promises)

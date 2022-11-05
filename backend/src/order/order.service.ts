@@ -24,7 +24,7 @@ export class OrderService {
   ) {}
 
   async findAllNativeListings() {
-    const orders = this.prisma.order.findMany({
+    const orders = await this.prisma.order.findMany({
       where: {
         kind: 'orderbook',
         side: 'ASK',
@@ -36,7 +36,7 @@ export class OrderService {
   }
 
   async findOneNativeListings(contractAddress: string, tokenId: number) {
-    const order = this.prisma.order.findFirst({
+    const order = await this.prisma.order.findFirst({
       where: {
         contract: contractAddress,
         tokenId: tokenId,
@@ -47,6 +47,11 @@ export class OrderService {
       },
     })
     return order
+  }
+
+  async findRelayedOrders() {
+    const orders = await this.prisma.relayOrder.findMany()
+    return orders
   }
 
   async createListing(dto: CreateListingDto) {
