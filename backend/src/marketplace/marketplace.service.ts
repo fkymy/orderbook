@@ -16,9 +16,12 @@ export class MarketplaceService {
       ? createMarketplaceDto.slug
       : createMarketplaceDto.name
 
+    const fee = createMarketplaceDto.fee ? createMarketplaceDto.fee : 2
+
     const data: any = {
       name: createMarketplaceDto.name,
       slug: slug,
+      fee: fee,
     }
 
     // check existence
