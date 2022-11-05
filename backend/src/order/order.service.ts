@@ -4,6 +4,7 @@ import { Marketplace } from '@prisma/client'
 import { Network, Alchemy, Nft } from 'alchemy-sdk'
 import axios from 'axios'
 import { add } from 'pactum/src/exports/reporter'
+import { MarketplaceService } from 'src/marketplace/marketplace.service'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { BuyListingDto } from './dto/buy-listing.dto'
 import { CreateListingDto } from './dto/create-listing.dto'
@@ -16,7 +17,11 @@ const testApiKey = 'demo-api-key'
 
 @Injectable()
 export class OrderService {
-  constructor(private prisma: PrismaService, private config: ConfigService) {}
+  constructor(
+    private prisma: PrismaService,
+    private config: ConfigService,
+    private marketplaceService: MarketplaceService,
+  ) {}
 
   async findAllNativeListings() {
     const orders = this.prisma.order.findMany({
@@ -102,6 +107,27 @@ export class OrderService {
       },
     })
     return updateListing
+  }
+
+  async getOrdersForMarketplace(marketplaceId: number) {
+    // Get marketplace by id
+    const marketplace = await this.marketplaceService.findOne(marketplaceId)
+    if (!marketplace) {
+      throw new NotFoundException('Marketplace not found')
+    }
+    if (marketplace.contracts.length < 0) {
+      throw new NotFoundException('Marketplace does not have contracts')
+    }
+
+    const addresses: string[] = []
+    for (let i = 0; i < marketplace.contracts.length; i++) {
+      const contract = marketplace.contracts[i].contract
+      addresses.push(contract.address)
+    }
+
+    const data = await this.getOrdersForContracts(addresses)
+    const orders = data.orders
+    return orders
   }
 
   async getOrdersForContracts(addresses: string[]) {

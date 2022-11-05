@@ -33,7 +33,7 @@ export class NftService {
   constructor(
     private config: ConfigService,
     private prisma: PrismaService,
-    private marketpalceService: MarketplaceService,
+    private marketplaceService: MarketplaceService,
     private orderService: OrderService,
   ) {}
   // getNftsForMarketplace(nftQuery: NftQueryDto) {
@@ -57,7 +57,7 @@ export class NftService {
     })
 
     // Get marketplace by id
-    const marketplace = await this.marketpalceService.findOne(marketplaceId)
+    const marketplace = await this.marketplaceService.findOne(marketplaceId)
     if (!marketplace) {
       throw new NotFoundException('Marketplace not found')
     }

@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common'
+import { MarketplaceModule } from 'src/marketplace/marketplace.module'
 import { OrderController } from './order.controller'
 import { OrderService } from './order.service'
 
@@ -6,5 +7,6 @@ import { OrderService } from './order.service'
   controllers: [OrderController],
   providers: [OrderService],
   exports: [OrderService],
+  imports: [MarketplaceModule],
 })
 export class OrderModule {}
