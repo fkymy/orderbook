@@ -21,7 +21,7 @@ import {
 
 export function ApiDoc() {
   return (
-    <Tabs variant='line'>
+    <Tabs variant='line' as='b'>
       <TabList
         style={{
           paddingLeft: '30px',
@@ -31,9 +31,15 @@ export function ApiDoc() {
         color='#ffffff'
         bg='#151414'
       >
-        <Tab as='b'>OpenAPI</Tab>
-        <Tab as='b'>Docs</Tab>
-        <Tab as='b'>SDK</Tab>
+        <Tab color='#8F8F8F' _selected={{ color: 'white' }} as='b'>
+          OpenAPI
+        </Tab>
+        <Tab color='#8F8F8F' _selected={{ color: 'white' }}>
+          Docs
+        </Tab>
+        <Tab color='#8F8F8F' _selected={{ color: 'white' }}>
+          SDK
+        </Tab>
       </TabList>
 
       <TabPanels>
@@ -89,26 +95,24 @@ export function ApiDoc() {
                   <Input placeholder='demo' />
                 </Box>
                 <Button
+                  as='b'
                   margin='20px'
-                  color='white'
+                  color='#1C1C1C'
                   fontWeight='bold'
                   borderRadius='md'
-                  bgGradient='linear(to-r, teal.500, green.500)'
-                  _hover={{
-                    bgGradient: 'linear(to-r, red.500, yellow.500)',
-                  }}
+                  bg='#F9FFD5'
                 >
                   Test it
                 </Button>
               </Box>
 
               <Box>
-                <Box w='425px' h='30px' bg='#D9D9D9' borderRadius='md'>
+                <Box w='425px' h='30px' bg='#D8D8D8' borderRadius='md'>
                   <Center color='#000000' as='b'>
                     Response
                   </Center>
                 </Box>
-                <Box w='425px' h='550px' bg='#1a1a1a' borderRadius='md'></Box>
+                <Box w='425px' h='550px' bg='#383838' borderRadius='md'></Box>
               </Box>
             </Flex>
             <Flex color='white' h='750px'>
@@ -142,22 +146,21 @@ export function ApiDoc() {
                   <Input placeholder='demo' />
                 </Box>
                 <Button
+                  as='b'
                   margin='20px'
-                  color='white'
+                  color='#1C1C1C'
                   fontWeight='bold'
                   borderRadius='md'
-                  bgGradient='linear(to-r, teal.500, green.500)'
-                  _hover={{
-                    bgGradient: 'linear(to-r, red.500, yellow.500)',
-                  }}
+                  bg='#F9FFD5'
                 >
                   Test it
                 </Button>
               </Box>
-
               <Box>
-                <Box w='425px' h='30px' bg='#D9D9D9'>
-                  <Text></Text>
+                <Box w='425px' h='30px' bg='#D9D9D9' borderRadius='md'>
+                  <Center color='#000000' as='b'>
+                    Response
+                  </Center>
                 </Box>
                 <Box w='425px' h='550px' bg='#3F3F3F' borderRadius='md'></Box>
               </Box>
@@ -183,7 +186,11 @@ export function ApiDoc() {
                 </Box>
               </Box>
               <Box>
-                <Box w='425px' h='30px' bg='#D9D9D9' border-top-Radius='md'></Box>
+                <Box w='425px' h='30px' bg='#D9D9D9' borderRadius='md'>
+                  <Center color='#000000' as='b'>
+                    Response
+                  </Center>
+                </Box>
                 <Box w='425px' h='550px' bg='#3F3F3F' borderRadius='md'></Box>
               </Box>
             </Flex>
