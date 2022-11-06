@@ -3,6 +3,7 @@ import axios from 'axios'
 import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import { YuGiOhMarketPlace } from 'src/features/components/yugioh/marketPlace'
+import { constAddress } from 'src/features/constant/constAddress'
 import { constUrl } from 'src/features/constant/constURL'
 import { accordionTheme } from 'src/features/theme/accordion'
 
@@ -24,8 +25,9 @@ const Home: NextPage = () => {
   const [collectionData, setCollectionData] = useState<any>();
 
   useEffect(() => {
+    console.log(`${constUrl.orderbookApiURL}/nft?marketplace=${constAddress.marketPlaceId}`);
     axios
-      .get(`${constUrl.orderbookApiURL}/nft?marketplace=2`)
+      .get(`${constUrl.orderbookApiURL}/nft?marketplace=${constAddress.marketPlaceId}`)
       .then((res) => {
         setCollectionData(res?.data);
       });

@@ -19,28 +19,30 @@ const Item: NextPage = () => {
 
   // console.log('addr, id');
 
-  useEffect(() => {
-    // console.log(router.query.tokenId, router.query.contractAddress);
-    if (router.query.tokenId && router.query.contractAddress) {
-      axios
-        // .get(`${constUrl.alchemyMumbaiNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata/`, {
-        .get(
-          `${constUrl.alchemyGoerliNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata/`,
-          {
-            params: {
-              contractAddress: router.query.contractAddress,
-              tokenId: router.query.tokenId,
-            },
-          }
-        )
-        .then((res) => {
-          setNftData(res?.data)
-        })
-    }
-  }, [router.query.tokenId, router.query.contractAddress]);
+  // useEffect(() => {
+  //   // console.log(router.query.tokenId, router.query.contractAddress);
+  //   if (router.query.tokenId && router.query.contractAddress) {
+  //     console.log(`${constUrl.alchemyGoerliNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata/`);
+  //     axios
+  //       // .get(`${constUrl.alchemyMumbaiNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata/`, {
+  //       .get(
+  //         `${constUrl.alchemyGoerliNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata/`,
+  //         {
+  //           params: {
+  //             contractAddress: router.query.contractAddress,
+  //             tokenId: router.query.tokenId,
+  //           },
+  //         }
+  //       )
+  //       .then((res) => {
+  //         setNftData(res?.data)
+  //       })
+  //   }
+  // }, [router.query.tokenId, router.query.contractAddress]);
 
   useEffect(() => {
     if (router.query.tokenId && router.query.contractAddress) {
+      console.log(`${constUrl.orderbookApiURL}/nft/${router.query.contractAddress}/${router.query.tokenId}`);
       axios
         .get(`${constUrl.orderbookApiURL}/nft/${router.query.contractAddress}/${router.query.tokenId}`)
         .then((res) => {

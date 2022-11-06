@@ -25,6 +25,8 @@ import { Dispatch, SetStateAction, useState, useEffect } from 'react'
 import MarketPlaceFacotory from '../../../../contracts/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json'
 import TemplateLogo from './assets/template.png'
 import ApiLogo from './assets/api2.png'
+import axios from 'axios'
+import { constUrl } from '../constant/constURL'
 
 const OverflowEllipsis = ({ children }: { children: string }) => (
   <div style={{ display: 'table', width: '100%' }}>
@@ -65,7 +67,8 @@ export function CreateForm(props: Props) {
   const [creatorFee, setCreatorFee] = useState(0);
   const [inputAddress, setInputAddress] = useState("");
 
-  const marketPlaceFactoryAddress = '0x0be934D7f224E559CD02eC604C543aEc3eAAAD10'
+  // const marketPlaceFactoryAddress = '0x0be934D7f224E559CD02eC604C543aEc3eAAAD10'
+  const marketPlaceFactoryAddress = '0x9298fbB88e7AF21B12480757a0b7665d7513aF0d';
 
   // console.log(MarketPlaceFacotory);
 
@@ -83,31 +86,30 @@ export function CreateForm(props: Props) {
    * マーケットプレイスを作る関数
    */
   async function createMarketPlace() {
-    if (!window.ethereum) {
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
-      // console.log(accounts[0]);
-    }
-    // if (window.ethereum) {
-    //   return;
-    // }
-    // setIsConnected(true);
-
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
     const marketPlaceFactoryContract = new ethers.Contract(
       marketPlaceFactoryAddress,
       MarketPlaceFacotory.abi,
       provider
-    )
-    // const tx = await marketPlaceFactoryContract.connect(signer).createMarketPlace(
-    //   "firstMarket",
-    //   creatorFee,
-    // );
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
-    // console.log(accounts[0]);
-    const tx2 = await marketPlaceFactoryContract.connect(signer).listOfMarketPlaces(accounts[0])
-    // console.log(tx);
-    // console.log(tx2);
+    );
+    const tx = await marketPlaceFactoryContract.connect(signer).createMarketPlace(
+      "firstMarket",
+      creatorFee,
+    );
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const tx2 = await marketPlaceFactoryContract.connect(signer).listOfMarketPlaces(accounts[0]);
+    console.log("create market", tx2);
+
+    axios
+      .post(`${constUrl.orderbookApiURL}/marketplaces`, {
+        "name": props.serviceName,
+        "slug": "test1",
+        "contractAddresses": props.collectionAddressList
+      })
+      .then((res) => {
+        console.log(res);
+      })
   }
 
   return (
