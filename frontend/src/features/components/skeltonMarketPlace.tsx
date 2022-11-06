@@ -61,18 +61,15 @@ const OverflowEllipsis = ({ children }: { children: string }) => (
 )
 
 interface ItemCardProps {
-  // nftData: any,
   idx: number
 }
 
 function ItemCard(props: ItemCardProps) {
-  // console.log("order", props?.nftData?.order?.orders);
 
   return (
     <Box 
       bg='#000000' 
       maxWidth='510px' 
-      // shadow='md' 
       rounded='8px' 
       borderWidth="1px" 
       borderColor="#4D4D4D" 
@@ -105,32 +102,10 @@ function ItemCard(props: ItemCardProps) {
               left: 0,
             }}
           />
-          {/* <Image
-            src={props.nftData?.image_url}
-            alt='nft image'
-            style={{
-              objectFit: 'contain',
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-            }}
-          /> */}
         </Box>
         <Box>
           <Grid templateColumns="1fr 1fr" padding="6px">
             <Box padding="4px 8px">
-              {/* <Box>
-                <Text color="#D8D8D8" fontSize="10px">
-                  オファー(42)
-                </Text>
-              </Box>
-              <Box marginTop="2px">
-                <Text as="b" fontSize="12px" color="#ffffff">
-                  {(props.nftData?.order?.orders?.at(0)?.price?.amount?.native - 0.13)?.toFixed(2)} ETH
-                </Text>
-              </Box> */}
               <Skeleton
                 height="12px"
                 width="61px"
@@ -164,37 +139,8 @@ function ItemCard(props: ItemCardProps) {
               width="71px"
               height="18px"
             />
-            {/* <Button
-              fontSize="12px"
-              bg="#000000"
-              color="#ffffff"
-              borderColor="#8F8F8F"
-              borderWidth="1px"
-              borderRadius="12px"
-            >
-              オファー
-            </Button>
-            <Button
-              fontSize="12px"
-              bg="#F9FFD5"
-              borderRadius="12px"
-            >
-              購入
-            </Button> */}
           </Grid>
         </Box>
-        {/* <Container>
-          <Grid templateColumns="1fr 1fr" gap="3px">
-            <Box>
-              <Text color='gray'>
-                {props.nftData?.order?.orders?.at(0)?.price?.amount?.native}
-              </Text>
-            </Box>
-            <Box>
-                {props.nftData?.order?.orders?.at(0)?.price?.amount?.native}
-            </Box>
-          </Grid>
-        </Container> */}
       </Stack>
     </Box>
   );
@@ -216,17 +162,6 @@ export function SkeletonMarketPlace(props: Props) {
       <Stack spacing={0}>
         <Box bg="#151414" padding="24px 32px 16px 32px">
           <HStack gap={3}>
-            {/* <Image
-              width='98px'
-              height='98px'
-              borderRadius='4px'
-              objectFit='contain'
-              shadow='md'
-              src={props.collectionData?.data?.assets?.at(0)?.image_url}
-              // src={`${props.collectionData?.data?.nfts[0]?.media[0]?.gateway}`}
-              alt='card image'
-              // src={`${props.collectionData?.data?.nfts[0]?.metadata?.image}`}
-            /> */}
             <Skeleton
               width='98px'
               height='98px'
@@ -250,38 +185,6 @@ export function SkeletonMarketPlace(props: Props) {
                   height="42px"
                   width="58px"
                 />
-                {/* <Box textAlign="center">
-                  <Text fontSize="14px">
-                    アイテム
-                  </Text>
-                  <Text as="b" fontSize="20px">
-                    {props.collectionData?.data?.assets?.length}
-                  </Text>
-                </Box>
-                <Box textAlign="center">
-                  <Text fontSize="14px">
-                    オーナー
-                  </Text>
-                  <Text as="b" fontSize="20px">
-                    {parseInt(`${props.collectionData?.data?.assets?.length * 0.8}`)}
-                  </Text>
-                </Box>
-                <Box textAlign="center">
-                  <Text fontSize="14px">
-                    フロア
-                  </Text>
-                  <Text as="b" fontSize="20px">
-                    {2}
-                  </Text>
-                </Box>
-                <Box textAlign="center">
-                  <Text fontSize="14px">
-                    ボリューム
-                  </Text>
-                  <Text as="b" fontSize="20px">
-                    {2}
-                  </Text>
-                </Box> */}
               </Grid>
             </Grid>
           </HStack>
@@ -290,7 +193,6 @@ export function SkeletonMarketPlace(props: Props) {
           <Flex>
             <Box marginBottom='8px'>
               <Text as='b' fontSize='32px' color="#ffffff">
-                {/* {props.collectionData?.data?.nfts[0]?.contractMetadata?.name} */}
                 {props.style.serviceName}
               </Text>
             </Box>
@@ -310,7 +212,6 @@ export function SkeletonMarketPlace(props: Props) {
           }
         </Box>
         <Box minHeight='calc(100vh - 141px - 142px)'>
-          {/* item list, my Item */}
           <Tabs variant="line">
             <TabList 
               style={{
@@ -351,69 +252,10 @@ export function SkeletonMarketPlace(props: Props) {
                         return (
                           <ItemCard
                             idx={i}
-                            // nftData={nft}
                           />
                         )
                     })
                   }
-                  {
-                    // sortedArray?.map((nft, n) => {
-                    //   return (
-                    //     <ItemCard
-                    //       idx={n}
-                    //       nftData={nft}
-                    //     />
-                    //   )
-                    // })
-                  }
-                  {/* {props.collectionData?.data?.assets?.map((nft: any, n: number) => {
-                    return (
-                      <Box 
-                        bg='#ffffff' 
-                        maxWidth='510px' 
-                        shadow='md' 
-                        rounded='10px' 
-                        borderWidth="1px" 
-                        borderColor="gray.200" 
-                        key={n}
-                      >
-                        <Stack marginBottom='10px'>
-                          <Container width="100%">
-                            <Text as='b'>
-                              <OverflowEllipsis>
-                                {nft?.name}
-                              </OverflowEllipsis>
-                            </Text>
-                          </Container>
-                          <Box
-                            style={{
-                              paddingTop: '100%',
-                              overflow: 'hidden',
-                              position: 'relative',
-                            }}
-                          >
-                            <Image
-                              src={nft?.image_url}
-                              alt='nft image'
-                              style={{
-                                borderTopRightRadius: '10px',
-                                borderTopLeftRadius: '10px',
-                                objectFit: 'contain',
-                                width: '100%',
-                                height: '100%',
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                              }}
-                            />
-                          </Box>
-                          <Container>
-                            <Text color='gray'>{'　price'}</Text>
-                          </Container>
-                        </Stack>
-                      </Box>
-                    )
-                  })} */}
                 </SimpleGrid>
               </TabPanel>
               <TabPanel>My NFTs</TabPanel>
