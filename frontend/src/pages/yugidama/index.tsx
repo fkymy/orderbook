@@ -3,11 +3,12 @@ import axios from 'axios'
 import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import { YuGiOhMarketPlace } from 'src/features/components/yugioh/marketPlace'
+import { constAddress } from 'src/features/constant/constAddress'
 import { constUrl } from 'src/features/constant/constURL'
 import { accordionTheme } from 'src/features/theme/accordion'
 
-axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8'
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
 
 const Home: NextPage = () => {
   // const collectionAddress = "0xf4910c763ed4e47a585e2d34baa9a4b611ae448c";
@@ -21,16 +22,17 @@ const Home: NextPage = () => {
     '0xf5E4E75877d36753136A4d40FDa306572D8d6949',
     '0xBbbed1Bd5F53DEeAAF2bCeDB03F59917bc070842',
   ]
-  const [collectionData, setCollectionData] = useState<any>();
+  const [collectionData, setCollectionData] = useState<any>()
 
   useEffect(() => {
+    console.log(`${constUrl.orderbookApiURL}/nft?marketplace=${constAddress.marketPlaceId}`)
     axios
-      .get(`${constUrl.orderbookApiURL}/nft?marketplace=2`)
+      .get(`${constUrl.orderbookApiURL}/nft?marketplace=${constAddress.marketPlaceId}`)
       .then((res) => {
-        setCollectionData(res?.data);
-      });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+        setCollectionData(res?.data)
+      })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // useEffect(() => {
   //   // getAssetsData();

@@ -72,39 +72,60 @@ model ContractsOnMarketplaces {
   @@id([marketplaceId, contractId])
 }
 
+enum SourceType {
+  opensea
+  looksrare
+  x2y2
+}
+
+model RelayOrder {
+  id         Int         @id @default(autoincrement())
+  hash       String      @unique
+  target     String
+  maker      String
+  data       Json
+  insertedAt DateTime?   @default(now())
+  delayed    Boolean?
+  source     SourceType?
+  createdAt  DateTime    @default(now())
+
+  @@map("relay_orders")
+}
+
 enum OrderSide {
   ASK
   BUY
 }
+
 enum OrderStatus {
   ACTIVE
   INACTIVE
 }
 
 model Order {
-  id                 Int      @id @default(autoincrement())
-  kind               String // seaport, looks-rare, xy2y, yugidama
-  side               OrderSide // ask, buy
-  status             OrderStatus // active, inactive
-  cancelled          Boolean
-  finalized          Boolean
-  signature          String?
-  contract           String
-  tokenId            Int
-  tokenSetId         String
+  id             Int         @id @default(autoincrement())
+  kind           String // seaport, looks-rare, xy2y, yugidama
+  side           OrderSide // ask, buy
+  status         OrderStatus // active, inactive
+  cancelled      Boolean
+  finalized      Boolean
+  signature      String?
+  contract       String
+  tokenId        Int
+  tokenSetId     String
   // tokenSetSchemaHash String
-  maker              String
-  taker              String?
-  currencyName       String
-  currencySymbol     String
-  decimals           Int
-  rawAmount          String?
-  decimalAmount      Float
-  isOrderbook        Boolean
-  isReservoir        Boolean
-  source             Source?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  maker          String
+  taker          String?
+  currencyName   String
+  currencySymbol String
+  decimals       Int
+  rawAmount      String?
+  decimalAmount  Float
+  isOrderbook    Boolean
+  isReservoir    Boolean
+  source         Source?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 
   @@map("orders")
 }

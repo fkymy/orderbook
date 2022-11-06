@@ -4,6 +4,7 @@ import { Marketplace } from '@prisma/client'
 import { Network, Alchemy, Nft } from 'alchemy-sdk'
 import axios from 'axios'
 import { add } from 'pactum/src/exports/reporter'
+import { MarketplaceService } from 'src/marketplace/marketplace.service'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { BuyListingDto } from './dto/buy-listing.dto'
 import { CreateListingDto } from './dto/create-listing.dto'
@@ -16,10 +17,14 @@ const testApiKey = 'demo-api-key'
 
 @Injectable()
 export class OrderService {
-  constructor(private prisma: PrismaService, private config: ConfigService) {}
+  constructor(
+    private prisma: PrismaService,
+    private config: ConfigService,
+    private marketplaceService: MarketplaceService,
+  ) {}
 
   async findAllNativeListings() {
-    const orders = this.prisma.order.findMany({
+    const orders = await this.prisma.order.findMany({
       where: {
         kind: 'orderbook',
         side: 'ASK',
@@ -31,7 +36,7 @@ export class OrderService {
   }
 
   async findOneNativeListings(contractAddress: string, tokenId: number) {
-    const order = this.prisma.order.findFirst({
+    const order = await this.prisma.order.findFirst({
       where: {
         contract: contractAddress,
         tokenId: tokenId,
@@ -42,6 +47,11 @@ export class OrderService {
       },
     })
     return order
+  }
+
+  async findRelayedOrders() {
+    const orders = await this.prisma.relayOrder.findMany()
+    return orders
   }
 
   async createListing(dto: CreateListingDto) {
@@ -104,6 +114,27 @@ export class OrderService {
     return updateListing
   }
 
+  async getOrdersForMarketplace(marketplaceId: number) {
+    // Get marketplace by id
+    const marketplace = await this.marketplaceService.findOne(marketplaceId)
+    if (!marketplace) {
+      throw new NotFoundException('Marketplace not found')
+    }
+    if (marketplace.contracts.length < 0) {
+      throw new NotFoundException('Marketplace does not have contracts')
+    }
+
+    const addresses: string[] = []
+    for (let i = 0; i < marketplace.contracts.length; i++) {
+      const contract = marketplace.contracts[i].contract
+      addresses.push(contract.address)
+    }
+
+    const data = await this.getOrdersForContracts(addresses)
+    const orders = data.orders
+    return orders
+  }
+
   async getOrdersForContracts(addresses: string[]) {
     let url = `${this.config.get('ORDERBOOK_BASE_URL')}/orders/asks/v3`
     for (let i = 0; i < addresses.length; i++) {
@@ -152,15 +183,15 @@ export class OrderService {
         'x-api-key': this.config.get('ORDERBOOK_API_KEY'),
       },
     })
-    console.log(res)
-    console.log(res.data)
-    if (res.data.orders) {
-      for (let i = 0; i < res.data.length; i++) {
-        console.log(res.data.orders[i])
-      }
-    } else {
-      console.log('no orders')
-    }
+    // console.log(res)
+    // console.log(res.data)
+    // if (res.data.orders) {
+    //   for (let i = 0; i < res.data.length; i++) {
+    //     console.log(res.data.orders[i])
+    //   }
+    // } else {
+    //   console.log('no orders')
+    // }
     return res.data
   }
 

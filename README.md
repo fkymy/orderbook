@@ -17,7 +17,7 @@ yarn install
 yarn db:dev:up # yarn db:dev:restart
 yarn start:dev
 ```
-Postgresデータベースをブラウザで閲覧・操作
+Postgresをブラウザで閲覧・操作
 ```
 npx prisma studio
 ```
