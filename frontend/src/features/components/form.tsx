@@ -176,15 +176,54 @@ export function CreateForm(props: Props) {
                 コントラクトアドレス
               </Text>
             </Box>
+            {
+              props.collectionAddressList.map((address, idx) => {
+                return (
+                  // <Grid templateColumns="9fr 1fr" key={idx}>
+                    <Box 
+                      height="40px" 
+                      borderRadius="6px" 
+                      borderWidth="1px" 
+                      borderColor="white"
+                      marginBottom="8px"
+                      paddingLeft="16px"
+                    >
+                      <Center height="100%">
+                        {/* <Box height="100%"> */}
+                          <OverflowEllipsis>
+                            {address}
+                          </OverflowEllipsis>
+                        {/* </Box> */}
+                      </Center>
+                    </Box>
+                  //   {/* <IconButton
+                  //     icon={<DeleteIcon/>}
+                  //     aria-label='Search database'
+                  //     bg="#0f0f0f"
+                  //     color="#f0f0f0"
+                  //     onClick={() => {
+                  //       // console.log();
+                  //       props.setCollectionAddressList(
+                  //         props.collectionAddressList.filter((addr) => {
+                  //           return address !== addr
+                  //         })
+                  //       );
+                  //     }}
+                  //   /> */}
+                  // </Grid>
+                )
+              })
+            }
             <Box>
               <Input
                 placeholder='0x000000.....'
                 style={{
                   width: '100%',
                   marginBottom: "8px",
+                  borderColor: "#4D4D4D",
                 }}
                 _placeholder={{
-                  color: "#D8D8D8"
+                  color: "#4D4D4D"
                 }}
                 value={inputAddress}
                 onChange={(event) => {
@@ -244,33 +283,6 @@ export function CreateForm(props: Props) {
                 }}
               />
             </Grid> */}
-            {
-              props.collectionAddressList.map((address, idx) => {
-                return (
-                  <Grid templateColumns="9fr 1fr" key={idx}>
-                    <Box>
-                      <OverflowEllipsis>
-                        {address}
-                      </OverflowEllipsis>
-                    </Box>
-                    <IconButton
-                      icon={<DeleteIcon/>}
-                      aria-label='Search database'
-                      bg="#0f0f0f"
-                      color="#f0f0f0"
-                      onClick={() => {
-                        // console.log();
-                        props.setCollectionAddressList(
-                          props.collectionAddressList.filter((addr) => {
-                            return address !== addr
-                          })
-                        );
-                      }}
-                    />
-                  </Grid>
-                )
-              })
-            }
           </Box>
           <Box>
             <Box marginBottom="8px">
