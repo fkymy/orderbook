@@ -17,6 +17,7 @@ import { MarketplaceService } from '../marketplace/marketplace.service'
 import { NftQueryDto } from './dto'
 import { CreateNftDto } from './dto/create-nft.dto'
 import { UpdateNftDto } from './dto/update-nft.dto'
+import { nfts } from './nft.test'
 
 type Order = {
   id: string
@@ -96,18 +97,18 @@ export class NftService {
     }
 
     // Parallel
-    await Promise.all(
-      addresses.map(async address => {
-        // console.log(`Fetching address ${address}!`)
-        const nfts = await alchemy.nft.getNftsForContract(address, {
-          pageSize: 100,
-          omitMetadata: false,
-        })
-        for (const nft of nfts.nfts) {
-          res.push(nft)
-        }
-      }),
-    )
+    // await Promise.all(
+    //   addresses.map(async address => {
+    //     // console.log(`Fetching address ${address}!`)
+    //     const nfts = await alchemy.nft.getNftsForContract(address, {
+    //       pageSize: 100,
+    //       omitMetadata: false,
+    //     })
+    //     for (const nft of nfts.nfts) {
+    //       res.push(nft)
+    //     }
+    //   }),
+    // )
 
     // Sequential
     // for (let i = 0; i < addresses.length; i++) {
@@ -120,6 +121,12 @@ export class NftService {
     //     res.push(nft)
     //   }
     // }
+    for (const nft of nfts) {
+      res.push(nft)
+    }
+    console.log({
+      res,
+    })
 
     // Add aggregaed orders to response
     const data = await this.orderService.getOrdersForContracts(addresses)
@@ -273,7 +280,7 @@ export class NftService {
 
   async getNft(contractAddress: string, tokenId: number) {
     // nft metadata with orders and nativeOrders and owners
-    const res: any = {}
+    let res: any = {}
 
     const settings = {
       apiKey: this.config.get('ALCHEMY_API_KEY'),
@@ -322,10 +329,24 @@ export class NftService {
       res.asset = response.data
     }
 
+    console.log('getNftMetadata')
+    const nft = await alchemy.nft.getNftMetadata(contractAddress, tokenId)
+    res = nft
+
     const getNftMetadata = async () => {
       console.log('getNftMetadata')
       const nft = await alchemy.nft.getNftMetadata(contractAddress, tokenId)
-      res.nft = nft
+      // TODO
+      res = nft
+      // for (let i = 0; i < nftsFirst.nfts.length; i++) {
+      //   if (
+      //     nftsFirst.nfts[i].contract.address === contractAddress &&
+      //     nftsFirst.nfts[i].tokenId === tokenId
+      //   ) {
+      //     console.log('MATCHED')
+      //     res.nft = nftsFirst.nfts[i]
+      //   }
+      // }
     }
 
     const getOwnersForNft = async () => {
@@ -394,8 +415,8 @@ export class NftService {
 
     const promises = [
       // getNftMetadata(),
-      // getOwnersForNft(),
-      getAsset(),
+      getOwnersForNft(),
+      // getAsset(),
       getOrdersForNft(),
       findOneNativeListings(),
       findRelayedOrders(),
