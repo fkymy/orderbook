@@ -11,7 +11,6 @@ contract MarketPlace is ReentrancyGuard {
 	uint public				itemCount;
 
 	struct Item {
-		uint			itemId;
 		IERC721			collection;
 		uint			tokenId;
 		uint			price;
@@ -19,7 +18,7 @@ contract MarketPlace is ReentrancyGuard {
 		bool			sold;
 	}
 
-	mapping(uint => Item) public items;
+	Item[] public items;
 
 	constructor(string memory _name, address _owner, uint _feePercent) {
 		owner = payable(_owner);
@@ -28,29 +27,36 @@ contract MarketPlace is ReentrancyGuard {
 		itemCount = 0;
 	}
 
-	event Listed(uint itemId, address collection, uint tokenId, uint price, address seller);
-	event Bought(uint itemId, address collection, uint tokenId, uint price, address seller, address buyer);
+	event Listed(address collection, uint tokenId, uint price, address seller);
+	event Bought(address collection, uint tokenId, uint price, address seller, address buyer);
 
 	function listItem(IERC721 _collection, uint _tokenId, uint _price) external nonReentrant {
 		require(_price > 0, "Price must be greater than 0");
 
-		_collection.transferFrom(msg.sender, address(this), _tokenId);
-
 		itemCount++;
-		items[itemCount] = Item(
-			itemCount,
+		items.push(Item(
 			_collection,
 			_tokenId,
 			_price,
 			payable(msg.sender),
 			false
-		);
+		));
+
+		emit Listed(address(_collection), _tokenId, _price, msg.sender);
 	}
 
-	function purchaseItem(uint _itemId) external payable nonReentrant {
-		require(0 <= _itemId && _itemId < itemCount, "item does not exist");
-		Item memory item = items[_itemId];
-		uint totalPrice = getTotalPrice(_itemId);
+	function purchaseItem(IERC721 _collection, uint _tokenId) external payable nonReentrant {
+
+		Item memory item = Item(_collection, 0, 0, payable(address(0)), false);
+		for (uint i = 0; i < items.length; i++) {
+			if (items[i].collection == _collection && items[i].tokenId == _tokenId) {
+				item = items[i];
+			}
+		}
+
+		require(item.seller != payable(address(0)), "item doesn't exist");
+
+		uint totalPrice = getTotalPrice(item.price);
 		require(msg.value >= totalPrice, "not enough currency to buy this item");
 		require(item.sold == false, "item already sold");
 
@@ -58,17 +64,13 @@ contract MarketPlace is ReentrancyGuard {
 		owner.transfer(totalPrice - item.price);
 
 		item.sold = true;
-		item.collection.transferFrom(address(this), msg.sender, item.tokenId);
+		item.collection.transferFrom(item.seller, msg.sender, item.tokenId);
 
-		emit Bought(item.itemId, address(item.collection), item.tokenId, item.price, item.seller, msg.sender);
+		emit Bought(address(item.collection), item.tokenId, item.price, item.seller, msg.sender);
 	}
 
-	function getTotalPrice(uint _itemId) view public returns(uint) {
-		return items[_itemId].price * ((100 + feePercent) / 100);
-	}
-
-	function myItems() public view returns(Item[] memory) {
-		
+	function getTotalPrice(uint _price) view public returns(uint) {
+		return _price * ((100 + feePercent) / 100);
 	}
 
 }
