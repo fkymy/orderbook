@@ -42,6 +42,29 @@ export class NftController {
     )
   }
 
+  @Get('preview')
+  @ApiOperation({ summary: 'Get a list of NFTs for contract addresses' })
+  getNftsForContracts(@Query('contractAddresses') contractAddresses: string[]) {
+    if (!Array.isArray(contractAddresses)) {
+      return new BadRequestException(
+        'contractAddresses[] must be an array of strings',
+      )
+    }
+    if (contractAddresses.length === 0) {
+      return new BadRequestException(
+        'contractAddresses[] must be an array with length greater than 0',
+      )
+    }
+    for (let i = 0; i < contractAddresses.length; i++) {
+      if (typeof contractAddresses[i] !== 'string') {
+        return new BadRequestException(
+          'contractAddresses[] must be an array of strings',
+        )
+      }
+    }
+    return this.nftService.getNftsForContracts(contractAddresses)
+  }
+
   @Get(':contractAddress/:tokenId')
   @ApiOperation({ summary: 'Get data for a single token' })
   findOne(

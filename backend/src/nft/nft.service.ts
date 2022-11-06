@@ -162,6 +162,84 @@ export class NftService {
     return res
   }
 
+  async getNftsForContracts(contractAddresses: string[]) {
+    const res: any[] = []
+    // Optional config object
+    const settings = {
+      apiKey: this.config.get('ALCHEMY_API_KEY'),
+      network: Network.ETH_GOERLI,
+    }
+    const alchemy = new Alchemy(settings)
+
+    const addresses: string[] = contractAddresses
+
+    // Parallel
+    await Promise.all(
+      addresses.map(async address => {
+        // console.log(`Fetching address ${address}!`)
+        const nfts = await alchemy.nft.getNftsForContract(address, {
+          pageSize: 100,
+          omitMetadata: false,
+        })
+        for (const nft of nfts.nfts) {
+          res.push(nft)
+        }
+      }),
+    )
+
+    // Sequential
+    // for (let i = 0; i < addresses.length; i++) {
+    //   console.log(`Fetching address ${addresses[i]}!`)
+    //   const nfts = await alchemy.nft.getNftsForContract(addresses[i], {
+    //     pageSize: 100,
+    //     omitMetadata: false,
+    //   })
+    //   for (const nft of nfts.nfts) {
+    //     res.push(nft)
+    //   }
+    // }
+
+    // Add aggregaed orders to response
+    const data = await this.orderService.getOrdersForContracts(addresses)
+    const orders = data.orders
+    for (let i = 0; i < orders.length; i++) {
+      const split = orders[i].tokenSetId.split(':')
+      if (split.length !== 3 || !isWholeNumber(split[2])) {
+        throw new InternalServerErrorException('tokenSetId invalid')
+      }
+      const address = split[1]
+      const tokenId = split[2]
+      for (let j = 0; j < res.length; j++) {
+        if (res[j].contract.address === address && res[j].tokenId === tokenId) {
+          if (res[j].orders) {
+            res[j].orders.push(orders[i])
+          } else {
+            res[j].orders = [orders[i]]
+          }
+        }
+      }
+    }
+
+    // Add native orders to nfts
+    const nativeOrders = await this.orderService.findAllNativeListings()
+    for (let i = 0; i < nativeOrders.length; i++) {
+      for (let j = 0; j < res.length; j++) {
+        if (
+          res[j].contract.address === nativeOrders[i].contract &&
+          res[j].tokenId === nativeOrders[i].tokenId.toString()
+        ) {
+          if (res[j].nativeOrders) {
+            res[j].nativeOrders.push(nativeOrders[i])
+          } else {
+            res[j].nativeOrders = [nativeOrders[i]]
+          }
+        }
+      }
+    }
+
+    return res
+  }
+
   async getNft(contractAddress: string, tokenId: number) {
     // nft metadata with orders and nativeOrders and owners
     const res: any = {}
@@ -193,6 +271,25 @@ export class NftService {
     //   tokenId,
     // )
     // res.nativeOrders = [nativeOrder]
+
+    // console.log({
+    //   responseData: response.data,
+    // })
+
+    const getAsset = async () => {
+      console.log('getAsset')
+      const hostname = 'testnets-api.opensea.io'
+      const network = 'goerli'
+      const baseApiUrl = `https://${hostname}/api/v1/asset/${contractAddress}/${tokenId.toString()}`
+      const queryParams = new URLSearchParams()
+
+      const url = decodeURI(`${baseApiUrl}`)
+      console.log({ url })
+      const response = await axios.get(baseApiUrl, {
+        timeout: 10000,
+      })
+      res.asset = response.data
+    }
 
     const getNftMetadata = async () => {
       console.log('getNftMetadata')
@@ -239,6 +336,7 @@ export class NftService {
           // console.log(object.tokenId)
           // console.log(tokenId.toString())
           if (
+            object.collectionAddress &&
             (object.collectionAddress as string).toUpperCase() ===
               contractAddress.toUpperCase() &&
             object.tokenId === tokenId.toString()
@@ -264,8 +362,9 @@ export class NftService {
     }
 
     const promises = [
-      getNftMetadata(),
-      getOwnersForNft(),
+      // getNftMetadata(),
+      // getOwnersForNft(),
+      getAsset(),
       getOrdersForNft(),
       findOneNativeListings(),
       findRelayedOrders(),
