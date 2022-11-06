@@ -68,6 +68,10 @@ export function CreateForm(props: Props) {
   const marketPlaceFactoryAddress = '0x0be934D7f224E559CD02eC604C543aEc3eAAAD10'
 
   // console.log(MarketPlaceFacotory);
+
+  /**
+   * マーケットプレイスを作る関数
+   */
   async function createMarketPlace() {
     if (!window.ethereum) {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
