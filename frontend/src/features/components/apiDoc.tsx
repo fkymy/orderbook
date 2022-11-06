@@ -114,23 +114,24 @@ export function ApiDoc() {
                 </Box>
                 <Box w='425px' h='725px' bg='#3F3F3F' borderRadius='md'>
                   <Text margin='0px 10px 5px 10px'>
-                    <br></br> ｛”orders”: ［<br></br> ｛ ”id”:
+                    <br></br> ｛<br></br>”orders”: ［<br></br>&nbsp; ｛ <br></br>&nbsp; &nbsp; ”id”:
                     ”0x12dad3a4771d318a722e37c5a21f92cffb359ac4f8a5289c524fe1421ff82e9d”,
-                    <br></br> ”kind”: ”looks-rare”,
-                    <br></br> ”side”: ”sell”,
-                    <br></br> ”status”: ”active”,
-                    <br></br> ”tokenSetId”: ”token:0x24e5bba6218d711ee675a844fc237f1ebfe83fe9:0”,
-                    <br></br> ”contract”: ”0x24e5bba6218d711ee675a844fc237f1ebfe83fe9”, <br></br>{' '}
-                    ”maker”: ”0x96b1bd9e8af7e3a0d840080690ca7e30a7b3c852”, <br></br> ”taker”:
-                    ”0x000000000000000000000000000000000000000”, <br></br> ”price”: ｛ <br></br>{' '}
-                    ”currency”:｛
-                    <br></br> ”contract”: ”0x000000000000000000000000000000000000000”, ”name”:
-                    ”Ether”,
-                    <br></br> ”symbol”: ”ETH”,
-                    <br></br> ”decimals”: 18 ｝,
-                    <br></br> ”amount”: ｛<br></br> ”raw”: ”42000000000000000000”,
-                    <br></br>
-                    ”decimal”: 42, <br></br> ”usd”: null, <br></br> ”native”: 42 ｝,
+                    <br></br>&nbsp; &nbsp; ”kind”: ”looks-rare”,
+                    <br></br>&nbsp; &nbsp; ”side”: ”sell”,
+                    <br></br>&nbsp; &nbsp; ”status”: ”active”,
+                    <br></br>&nbsp; &nbsp; ”tokenSetId”:
+                    ”token:0x24e5bba6218d711ee675a844fc237f1ebfe83fe9:0”,
+                    <br></br>&nbsp; &nbsp; ”contract”: ”0x24e5bba6218d711ee675a844fc237f1ebfe83fe9”,
+                    <br></br> &nbsp; &nbsp;”maker”: ”0x96b1bd9e8af7e3a0d840080690ca7e30a7b3c852”,
+                    <br></br>&nbsp; &nbsp; ”taker”: ”0x000000000000000000000000000000000000000”,
+                    <br></br> &nbsp; &nbsp;”price”: ｛ <br></br> ”currency”:｛
+                    <br></br> &nbsp; &nbsp;”contract”: ”0x000000000000000000000000000000000000000”,
+                    <br></br> &nbsp; &nbsp;”name”: ”Ether”,
+                    <br></br> &nbsp; &nbsp;”symbol”: ”ETH”,
+                    <br></br> &nbsp; &nbsp;”decimals”: 18 ｝,
+                    <br></br> &nbsp; &nbsp;”amount”: ｛<br></br> &nbsp; &nbsp; ”raw”:
+                    ”42000000000000000000”,
+                    <br></br> &nbsp; &nbsp; ”decimal”: 42, <br></br> &nbsp; &nbsp; ”usd”: null,
                   </Text>
                 </Box>
               </Box>
