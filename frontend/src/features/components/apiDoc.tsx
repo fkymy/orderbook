@@ -32,13 +32,13 @@ export function ApiDoc() {
         color='#ffffff'
         bg='#151414'
       >
-        <Tab color='#8F8F8F' _selected={{ color: 'white' }} as='b'>
+        <Tab color='#8F8F8F' _selected={{ color: 'white', fontWeight: 'bold' }}>
           OpenAPI
         </Tab>
-        <Tab color='#8F8F8F' _selected={{ color: 'white' }}>
+        <Tab color='#8F8F8F' _selected={{ color: 'white', fontWeight: 'bold' }}>
           Docs
         </Tab>
-        <Tab color='#8F8F8F' _selected={{ color: 'white' }}>
+        <Tab color='#8F8F8F' _selected={{ color: 'white', fontWeight: 'bold' }}>
           SDK
         </Tab>
       </TabList>
