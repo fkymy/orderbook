@@ -5,9 +5,11 @@ import {
   Body,
   Patch,
   Param,
+  Query,
+  ParseIntPipe,
   Delete,
 } from '@nestjs/common'
-import { ApiTags, ApiOperation, ApiBody } from '@nestjs/swagger'
+import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger'
 import { BuyListingDto } from './dto/buy-listing.dto'
 import { CreateListingDto } from './dto/create-listing.dto'
 import { CreateOrderDto } from './dto/create-order.dto'
@@ -34,6 +36,13 @@ export class OrderController {
   @ApiOperation({ summary: 'Buy from an Orderbook listing' })
   buy(@Body() dto: BuyListingDto) {
     return this.orderService.buyListing(dto)
+  }
+
+  @Get('listings')
+  @ApiQuery({ name: 'marketplace', required: true, type: Number })
+  @ApiOperation({ summary: 'Get aggregated listings' })
+  getListings(@Query('marketplace', ParseIntPipe) marketplaceId: number) {
+    return this.orderService.getOrdersForMarketplace(marketplaceId)
   }
 
   @Get('sample')
