@@ -22,6 +22,7 @@ const Item: NextPage = () => {
   useEffect(() => {
     // console.log(router.query.tokenId, router.query.contractAddress);
     if (router.query.tokenId && router.query.contractAddress) {
+      console.log(`${constUrl.alchemyGoerliNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata/`);
       axios
         // .get(`${constUrl.alchemyMumbaiNetApiURL}/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata/`, {
         .get(
@@ -41,6 +42,7 @@ const Item: NextPage = () => {
 
   useEffect(() => {
     if (router.query.tokenId && router.query.contractAddress) {
+      console.log(`${constUrl.orderbookApiURL}/nft/${router.query.contractAddress}/${router.query.tokenId}`);
       axios
         .get(`${constUrl.orderbookApiURL}/nft/${router.query.contractAddress}/${router.query.tokenId}`)
         .then((res) => {

@@ -54,7 +54,7 @@ export function ConnectedTop() {
   }, [collectionAddress])
 
   useEffect(() => {
-    console.log("collection address list", collectionAddressList);
+    // console.log("collection address list", collectionAddressList);
     if (collectionAddressList.length > 0) {
       axios
         .get(
@@ -79,13 +79,13 @@ export function ConnectedTop() {
           }
         )
         .then((res) => {
-          console.log("response", res);
+          // console.log("response", res);
           setCollectionData(res);
         })
     }
   }, [collectionAddressList]);
 
-  console.log('collection', collectionData)
+  // console.log('collection', collectionData)
   // console.log("assets", assetsData?.data.assets[0].image_url);
   return (
     <Box width={'100%'}>
@@ -129,6 +129,7 @@ export function ConnectedTop() {
           />
         </Box>
         <Box
+        // bg="red"
           style={{
             width: 'calc(100vw - 350px)',
             height: '100vh',
@@ -138,8 +139,16 @@ export function ConnectedTop() {
           }}
         >
           {/* {collectionAddress != '' ? ( */}
-          <Box padding="25px 64px" bg="#000000">
-            <Box style={{
+          <Box 
+            padding="25px 64px" 
+            bg="#000000"
+            style={{
+              background: "url(assets/background.svg) no-repeat, url(assets/background_only_grid.svg) repeat",
+              // backgroundImage: "url(assets/background.svg), url(assets/background_only_grid.svg)",
+              // backgroundRepeat: "repeat, no-repeat"
+            }}
+          >
+            {/* <Box style={{
               position: "absolute",
               width: "499px",
               height: "492px",
@@ -149,9 +158,10 @@ export function ConnectedTop() {
               filter: "blur(73.5px)",
               transform: "rotate(-90.23deg)",
             }}>
-
-            </Box>
-            <Box width="100%">
+            </Box> */}
+            <Box
+              width="100%"
+            >
               <Flex>
                 <Center h="44px" alignContent="center">
                   <Text color="#ffffff">
@@ -179,6 +189,7 @@ export function ConnectedTop() {
             </Box>
             <Box 
               marginTop="36px"
+              marginBottom="50px"
               borderWidth="1px"
               borderColor="#4c4c4c"
               borderRadius="4px"

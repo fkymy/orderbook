@@ -296,11 +296,13 @@ export function YuGiOhItem(props: Props) {
     )
     // const itemCount = await marketPlaceContract.connect(signer).itemCount();
     // console.log(itemCount);
+    // console.log(ethers.utils.parseEther(`${value}`));
     const tx = await marketPlaceContract.connect(signer).purchaseItem(
       // props.tokenId,
+      props.contractAddress,
       props.tokenId,
       {
-        value: ethers.utils.parseEther(value),
+        value: ethers.utils.parseEther(`${value}`),
         gasLimit: 1 * 10 ** 6,
       }
     )
