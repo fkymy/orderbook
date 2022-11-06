@@ -1,5 +1,5 @@
 import { InjectQueue } from '@nestjs/bull'
-import { Injectable, Logger } from '@nestjs/common'
+import { Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule'
 import * as Sdk from '@reservoir0x/sdk'
@@ -10,6 +10,7 @@ import { CronJob } from 'cron'
 import pLimit from 'p-limit'
 import { logger } from 'src/logger'
 import { PrismaService } from 'src/prisma/prisma.service'
+import { MarketplaceService } from '../marketplace/marketplace.service'
 import { CreateIndexerDto } from './dto/create-indexer.dto'
 import { UpdateIndexerDto } from './dto/update-indexer.dto'
 import { LooksRare, LooksRareOrder } from './looksrare'
@@ -24,24 +25,56 @@ export class IndexerService {
   constructor(
     private prisma: PrismaService,
     private config: ConfigService,
+    private marketplaceService: MarketplaceService,
     private schedulerRegistry: SchedulerRegistry,
+    @InjectQueue('sync-seaport') private syncSeaportQueue: Queue,
     @InjectQueue('sync-looksrare') private syncLooksrareQueue: Queue,
   ) {}
 
   async syncMarketplace(marketplaceId: number) {
-    // Get NFTs
+    // Get marketplace by id
+    const marketplace = await this.marketplaceService.findOne(marketplaceId)
+    if (!marketplace) {
+      throw new NotFoundException('Marketplace not found')
+    }
+    if (marketplace.contracts.length < 0) {
+      throw new NotFoundException('Marketplace does not have contracts')
+    }
 
-    const job = new CronJob(`*/5 * * * * *`, async () => {
-      this.logger.log('fetch_orders_looksrare')
-      // add to looksrare queue
-      await this.syncLooksrareQueue.add('test', {
-        marketplaceId: marketplaceId,
+    const addresses: string[] = []
+    for (let i = 0; i < marketplace.contracts.length; i++) {
+      const contract = marketplace.contracts[i].contract
+      addresses.push(contract.address)
+    }
+
+    // Get NFTs
+    this.logger.warn('Get NFTs')
+
+    const seaportJob = new CronJob(`*/5 * * * * *`, async () => {
+      this.logger.log('fetch_orders_seaport')
+      // add to seaport queue
+      await this.syncSeaportQueue.add('fetch-orders', {
+        addresses,
       })
     })
 
-    this.schedulerRegistry.addCronJob('sync-looksrare', job)
-    job.start()
-    this.logger.warn('start syncing!')
+    this.schedulerRegistry.addCronJob('seaport-job', seaportJob)
+    seaportJob.start()
+    this.logger.warn('Sync seaport orders')
+
+    return 'only seaport'
+    const looksRareJob = new CronJob(`*/5 * * * * *`, async () => {
+      this.logger.log('fetch_orders_looksrare')
+      // add to looksrare queue
+      await this.syncLooksrareQueue.add('fetch-orders', {
+        // marketplaceId: marketplaceId,
+        addresses,
+      })
+    })
+
+    this.schedulerRegistry.addCronJob('looksrare-job', looksRareJob)
+    looksRareJob.start()
+    this.logger.warn('Sync looksrare orders')
   }
 
   pause(name: string) {

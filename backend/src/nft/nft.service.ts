@@ -245,9 +245,9 @@ export class NftService {
           ) {
             // console.log('MATCHED RELAYED ORDER!!!')
             if (res.relayedOrders) {
-              res.relayedOrders.push(object)
+              res.relayedOrders.push(relayedOrders[i])
             } else {
-              res.relayedOrders = [object]
+              res.relayedOrders = [relayedOrders[i]]
             }
           } else {
             // console.log('NOT MATCHED')

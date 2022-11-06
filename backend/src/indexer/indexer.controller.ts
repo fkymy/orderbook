@@ -29,9 +29,14 @@ export class IndexerController {
     return this.indexerService.syncMarketplace(marketplaceId)
   }
 
-  @Post('pause')
-  pause() {
-    return this.indexerService.pause('sync-looksrare')
+  @Post('pause/seaport')
+  pauseSeaport() {
+    return this.indexerService.pause('seaport-job')
+  }
+
+  @Post('pause/looksrare')
+  pauseLooksRare() {
+    return this.indexerService.pause('looksrare-job')
   }
 
   @Get('test-tasks')

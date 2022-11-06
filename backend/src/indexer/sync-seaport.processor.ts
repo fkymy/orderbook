@@ -17,10 +17,11 @@ import { OrderService } from 'src/order/order.service'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { MarketplaceService } from '../marketplace/marketplace.service'
 import { LooksRare, LooksRareOrder } from './looksrare'
+import { Seaport } from './seaport'
 
-@Processor('sync-looksrare')
-export class SyncProcessor {
-  private readonly logger = new Logger(SyncProcessor.name)
+@Processor('sync-seaport')
+export class SyncSeaportProcessor {
+  private readonly logger = new Logger(SyncSeaportProcessor.name)
 
   constructor(
     private config: ConfigService,
@@ -28,30 +29,41 @@ export class SyncProcessor {
     private marketpalceService: MarketplaceService,
     private orderService: OrderService,
   ) {}
+  //
+  // @Process('fetch-orders-seaport')
+  // async handleFetchOrdersSeaport(job: Job) {
+  //   this.logger.log('Handling fetch-orders-seaport in sync-seaport queue')
+  //   this.logger.log(job.data)
+  // }
 
-  @Process('test')
-  async handleSyncTest(job: Job) {
-    this.logger.log('Handling test in sync-looksrare queue')
+  @Process('fetch-orders')
+  async handleFetchOrders(job: Job) {
+    this.logger.log('Handling fetch-orders in sync-seaport queue')
     this.logger.log(job.data)
 
-    const marketplaceId = job.data.marketplaceId
-    const marketplace = await this.marketpalceService.findOne(marketplaceId)
-    if (!marketplace) {
-      throw new NotFoundException('Marketplace not found')
+    if (!job.data.addresses) {
+      return
     }
-    if (marketplace.contracts.length < 0) {
-      throw new NotFoundException('Marketplace does not have contracts')
-    }
+    const addresses = job.data.addresses
+    return
 
-    const addresses: string[] = []
-    for (let i = 0; i < marketplace.contracts.length; i++) {
-      const contract = marketplace.contracts[i].contract
-      addresses.push(contract.address)
-    }
+    // const marketplaceId = job.data.marketplaceId
+    // const marketplace = await this.marketpalceService.findOne(marketplaceId)
+    // if (!marketplace) {
+    //   throw new NotFoundException('Marketplace not found')
+    // }
+    // if (marketplace.contracts.length < 0) {
+    //   throw new NotFoundException('Marketplace does not have contracts')
+    // }
+    //
+    // const addresses: string[] = []
+    // for (let i = 0; i < marketplace.contracts.length; i++) {
+    //   const contract = marketplace.contracts[i].contract
+    //   addresses.push(contract.address)
+    // }
 
     this.logger.log('Calling looksrare API for marketplace...')
     console.log({
-      marketplace,
       addresses,
     })
 

@@ -22,6 +22,9 @@ import Bull, { Queue } from 'bull'
       {
         name: 'sync-looksrare',
       },
+      {
+        name: 'sync-seaport',
+      },
     ),
   ],
 })
@@ -30,6 +33,8 @@ export class BullBoardModule implements NestModule {
   private readonly testQueue: Queue
   @Inject(getQueueToken('sync-looksrare'))
   private readonly syncLooksrareQueue: Queue
+  @Inject(getQueueToken('sync-seaport'))
+  private readonly syncSeaportQueue: Queue
 
   configure(consumer: MiddlewareConsumer) {
     const serverAdapter = new ExpressAdapter()
@@ -38,6 +43,7 @@ export class BullBoardModule implements NestModule {
         queues: [
           new BullAdapter(this.testQueue),
           new BullAdapter(this.syncLooksrareQueue),
+          new BullAdapter(this.syncSeaportQueue),
         ],
         serverAdapter,
       },

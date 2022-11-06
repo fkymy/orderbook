@@ -5,7 +5,8 @@ import { MarketplaceModule } from 'src/marketplace/marketplace.module'
 import { OrderModule } from 'src/order/order.module'
 import { IndexerController } from './indexer.controller'
 import { IndexerService } from './indexer.service'
-import { SyncProcessor } from './sync.processor'
+import { SyncLooksRareProcessor } from './sync-looksrare.processor'
+import { SyncSeaportProcessor } from './sync-seaport.processor'
 import { TasksService } from './tasks.service'
 import { TestProcessor } from './test.processor'
 
@@ -19,6 +20,9 @@ import { TestProcessor } from './test.processor'
         name: 'sync-looksrare',
       },
       {
+        name: 'sync-seaport',
+      },
+      {
         name: 'file-operation-queue',
       },
     ),
@@ -26,6 +30,12 @@ import { TestProcessor } from './test.processor'
     OrderModule,
   ],
   controllers: [IndexerController],
-  providers: [IndexerService, TasksService, TestProcessor, SyncProcessor],
+  providers: [
+    IndexerService,
+    TasksService,
+    TestProcessor,
+    SyncLooksRareProcessor,
+    SyncSeaportProcessor,
+  ],
 })
 export class IndexerModule {}
