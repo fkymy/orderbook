@@ -17,6 +17,7 @@ import {
   Center,
   Square,
   Button,
+  Img,
 } from '@chakra-ui/react'
 
 export function ApiDoc() {
@@ -105,14 +106,17 @@ export function ApiDoc() {
                   Test it
                 </Button>
               </Box>
-
               <Box>
-                <Box w='425px' h='30px' bg='#D8D8D8' borderRadius='md'>
+                <Box w='425px' h='30px' bg='#D9D9D9' borderRadius='md'>
                   <Center color='#000000' as='b'>
                     Response
                   </Center>
                 </Box>
-                <Box w='425px' h='550px' bg='#383838' borderRadius='md'></Box>
+                <Box w='425px' h='550px' bg='#3F3F3F' borderRadius='md'>
+                  <Text margin='0px 5px 5px 20px'>
+                    ｛ <br></br>uuuuuuuuuuuuuuu uuuuuuuuuuuuuu uuuuuuuuuuuuuu uuuuuuuuuuuuuu
+                  </Text>
+                </Box>
               </Box>
             </Flex>
             <Flex color='white' h='750px'>
@@ -162,7 +166,33 @@ export function ApiDoc() {
                     Response
                   </Center>
                 </Box>
-                <Box w='425px' h='550px' bg='#3F3F3F' borderRadius='md'></Box>
+                <Box w='425px' h='650px' bg='#3F3F3F' borderRadius='md'>
+                  <Text margin='0px 5px 10px 20px'>
+                    <br></br>｛<br></br>&nbsp;&nbsp;”nativeOrders”: ［<br></br>&nbsp;&nbsp;｛
+                    <br></br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;”kind”: ”orderbook”, <br></br>
+                    &nbsp;&nbsp;&nbsp;&nbsp; ”side”: ”ASK”,”status”:
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”ACTIVE”,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”cancelled”: false,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”finalized”: false,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”signature”: ”none”,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”contract”:
+                    ”0x24e5bba6218d711ee675a844fc237f1ebfe83fe9”,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”tokenId”: 0,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”maker”:”0xtest”,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”taker“: null,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”currencyName”: ”Ether”,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”currencySymbol”: ”ETH”,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”decimals”: 18,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”rawAmount”: null,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”decimalAmount”: 999,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”isOrderbook”: true,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”createdAt”: ”2022-11-01T20:12:44.925Z”,
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;”updatedAt”: ”2022-11-01T20:12:44.925Z”
+                    <br></br>&nbsp;&nbsp;&nbsp;&nbsp;｝<br></br>&nbsp;&nbsp;］
+                    <br></br>｝
+                  </Text>
+                </Box>
               </Box>
             </Flex>
 
@@ -191,7 +221,26 @@ export function ApiDoc() {
                     Response
                   </Center>
                 </Box>
-                <Box w='425px' h='550px' bg='#3F3F3F' borderRadius='md'></Box>
+                <Box w='425px' h='650px' bg='#3F3F3F' borderRadius='md'>
+                  <Text margin='0px 10px 5px 10px'>
+                    <br></br>｛<br></br>&nbsp;&nbsp;”contract”:｛
+                    <br></br>&nbsp;&nbsp;”address”: <br></br>
+                    &nbsp;&nbsp;”0x24e5bba6218d711ee675a844fc237f1ebfe83fe9”,
+                    <br></br>&nbsp;&nbsp;”name”: ”yu-gi-dama_1st_gen”,
+                    <br></br>&nbsp;&nbsp;”totalSupply”: ”10”,
+                    <br></br>&nbsp;&nbsp;”tokenType”: ”ERC721” <br></br>&nbsp;&nbsp;｝,
+                    <br></br>&nbsp;&nbsp;”tokenId”: ”0”,
+                    <br></br>&nbsp;&nbsp;”tokenType”: ”ERC721”,
+                    <br></br>&nbsp;&nbsp;”title”: ”ホワイトマジシャンガール”,
+                    <br></br>&nbsp;&nbsp;”rawMetadata”: ｛ ”name”: ”ホワイトマジシャンガール”,
+                    <br></br>&nbsp;&nbsp;”description”:
+                    ”1ターンに1度。このカードのXyz素材を1つ切り離し、相手がコントロールするモンスター1体を対象として、そのモンスターを破壊し、破壊した場合、相手に元々のATKと同じ値のダメージを与える。フェアリー・タイプXyz」のこの効果は1ターンに1度しか使用できない。",
+                    <br></br>&nbsp;&nbsp;”image”:
+                    ”ipfs://QmT7YCnW6nv5awQPe3qrWwwFqku6kjP1e9fT8tDdRUjpDs/0.jpg”,
+                    <br></br>&nbsp;&nbsp;”attributes”: [...]
+                    <br></br>｝,
+                  </Text>
+                </Box>
               </Box>
             </Flex>
           </Container>
