@@ -249,6 +249,7 @@ function ItemCard(props: ItemCardProps) {
               fontSize="12px"
               bg="#F9FFD5"
               borderRadius="12px"
+              color="#000000"
             >
               購入
             </Button>
