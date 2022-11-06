@@ -3,6 +3,7 @@ import { Box, Container, Stack, Text } from '@chakra-ui/layout'
 import {
   HStack,
   Button,
+  Center,
   Icon,
   Input,
   NumberDecrementStepper,
@@ -14,6 +15,8 @@ import {
   Grid,
   IconButton,
   RadioGroup,
+  Flex,
+  Spacer,
   Radio,
 } from '@chakra-ui/react'
 import NextImage, { StaticImageData } from 'next/image'
@@ -157,7 +160,49 @@ export function CreateForm(props: Props) {
                 コントラクトアドレス
               </Text>
             </Box>
-            <Grid templateColumns="1fr 50px" gap="8px">
+            <Box>
+              <Input
+                placeholder='0x000000.....'
+                style={{
+                  width: '100%',
+                  marginBottom: "8px",
+                }}
+                _placeholder={{
+                  color: "#D8D8D8"
+                }}
+                value={inputAddress}
+                onChange={(event) => {
+                  // props.setIsGotCollectionData(false);
+                  // setContractAddress(event.target.value);
+                  setInputAddress(event.target.value)
+                }}
+              />
+              <Flex>
+                <Spacer/>
+                <Box 
+                  padding="2px 12px" 
+                  alignContent="end" 
+                  borderRadius="10px" 
+                  borderWidth="1px" 
+                  borderColor="#8F8F8F"
+                  as="button"
+                  onClick={() => {
+                    // console.log("onClick");
+                    props.setCollectionAddressList([...props.collectionAddressList, inputAddress]);
+                    setInputAddress("");
+                    console.log(props.collectionAddressList)
+                  }}
+                >
+                  <HStack height="32px">
+                    <AddIcon w={4} h={4}/>
+                    <Text as="b" fontSize="14px">
+                      追加
+                    </Text>
+                  </HStack>
+                </Box>
+              </Flex>
+            </Box>
+            {/* <Grid templateColumns="1fr 50px" gap="8px">
               <Input
                 placeholder='0x000000.....'
                 style={{
@@ -182,7 +227,7 @@ export function CreateForm(props: Props) {
                   console.log(props.collectionAddressList)
                 }}
               />
-            </Grid>
+            </Grid> */}
             {
               props.collectionAddressList.map((address, idx) => {
                 return (
