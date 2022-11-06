@@ -64,11 +64,11 @@ export function CreateForm(props: Props) {
   const parse = (val) => val.replace(/%$/, '')
 
   // const [contractAddress, setContractAddress] = useState('');
-  const [creatorFee, setCreatorFee] = useState(0);
-  const [inputAddress, setInputAddress] = useState("");
+  const [creatorFee, setCreatorFee] = useState(0)
+  const [inputAddress, setInputAddress] = useState('')
 
   // const marketPlaceFactoryAddress = '0x0be934D7f224E559CD02eC604C543aEc3eAAAD10'
-  const marketPlaceFactoryAddress = '0x9298fbB88e7AF21B12480757a0b7665d7513aF0d';
+  const marketPlaceFactoryAddress = '0x9298fbB88e7AF21B12480757a0b7665d7513aF0d'
 
   // console.log(MarketPlaceFacotory);
 
@@ -76,11 +76,11 @@ export function CreateForm(props: Props) {
     const getAccount = async () => {
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
-      });
+      })
       console.log(accounts)
     }
-    getAccount();
-  }, []);
+    getAccount()
+  }, [])
 
   /**
    * マーケットプレイスを作る関数
@@ -92,23 +92,22 @@ export function CreateForm(props: Props) {
       marketPlaceFactoryAddress,
       MarketPlaceFacotory.abi,
       provider
-    );
-    const tx = await marketPlaceFactoryContract.connect(signer).createMarketPlace(
-      "firstMarket",
-      creatorFee,
-    );
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    const tx2 = await marketPlaceFactoryContract.connect(signer).listOfMarketPlaces(accounts[0]);
-    console.log("create market", tx2);
+    )
+    const tx = await marketPlaceFactoryContract
+      .connect(signer)
+      .createMarketPlace('firstMarket', creatorFee)
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+    const tx2 = await marketPlaceFactoryContract.connect(signer).listOfMarketPlaces(accounts[0])
+    console.log('create market', tx2)
 
     axios
       .post(`${constUrl.orderbookApiURL}/marketplaces`, {
-        "name": props.serviceName,
-        "slug": "test1",
-        "contractAddresses": props.collectionAddressList
+        name: props.serviceName,
+        slug: 'test1',
+        contractAddresses: props.collectionAddressList,
       })
       .then((res) => {
-        console.log(res);
+        console.log(res)
       })
   }
 
@@ -116,11 +115,11 @@ export function CreateForm(props: Props) {
     <Container
       style={{
         padding: '24px',
-        backgroundColor: "#000000",
-        height: "100%",
-        color: "#ffffff",
-        borderRightWidth: "1px",
-        borderRightColor: "#4D4D4D",
+        backgroundColor: '#000000',
+        height: '100%',
+        color: '#ffffff',
+        borderRightWidth: '1px',
+        borderRightColor: '#4D4D4D',
       }}
     >
       <Stack spacing={4}>
@@ -129,7 +128,7 @@ export function CreateForm(props: Props) {
             {`[Logo(TODO)]`}
           </Text>
         </Box> */}
-        <Stack width={'100%'} spacing="36px">
+        <Stack width={'100%'} spacing='36px'>
           {/* <Text as='b' fontSize='1xl'>
             コントラクトのアドレス
           </Text>
@@ -146,16 +145,14 @@ export function CreateForm(props: Props) {
               props.setCollectionAddress(event.target.value)
             }}
           /> */}
-          <Box marginBottom="14px">
-            <Text fontSize="24px" as="b">
+          <Box marginBottom='14px'>
+            <Text fontSize='24px' as='b'>
               NFTマーケットプレイスを作る
             </Text>
           </Box>
           <Box>
-            <Stack width={'100%'} spacing="8px">
-              <Text as='b'>
-                サービス名
-              </Text>
+            <Stack width={'100%'} spacing='8px'>
+              <Text as='b'>サービス名</Text>
               <Input
                 style={{
                   // backgroundColor: '#ffffff',
@@ -171,59 +168,55 @@ export function CreateForm(props: Props) {
             </Stack>
           </Box>
           <Box>
-            <Box marginBottom="8px">
+            <Box marginBottom='8px'>
               <Text as='b' fontSize='1xl'>
                 コントラクトアドレス
               </Text>
             </Box>
-            {
-              props.collectionAddressList.map((address, idx) => {
-                return (
-                  // <Grid templateColumns="9fr 1fr" key={idx}>
-                    <Box 
-                      height="40px" 
-                      borderRadius="6px" 
-                      borderWidth="1px" 
-                      borderColor="white"
-                      marginBottom="8px"
-                      paddingLeft="16px"
-                    >
-                      <Center height="100%">
-                        {/* <Box height="100%"> */}
-                          <OverflowEllipsis>
-                            {address}
-                          </OverflowEllipsis>
-                        {/* </Box> */}
-                      </Center>
-                    </Box>
-                  //   {/* <IconButton
-                  //     icon={<DeleteIcon/>}
-                  //     aria-label='Search database'
-                  //     bg="#0f0f0f"
-                  //     color="#f0f0f0"
-                  //     onClick={() => {
-                  //       // console.log();
-                  //       props.setCollectionAddressList(
-                  //         props.collectionAddressList.filter((addr) => {
-                  //           return address !== addr
-                  //         })
-                  //       );
-                  //     }}
-                  //   /> */}
-                  // </Grid>
-                )
-              })
-            }
+            {props.collectionAddressList.map((address, idx) => {
+              return (
+                // <Grid templateColumns="9fr 1fr" key={idx}>
+                <Box
+                  height='40px'
+                  borderRadius='6px'
+                  borderWidth='1px'
+                  borderColor='white'
+                  marginBottom='8px'
+                  paddingLeft='16px'
+                >
+                  <Center height='100%'>
+                    {/* <Box height="100%"> */}
+                    <OverflowEllipsis>{address}</OverflowEllipsis>
+                    {/* </Box> */}
+                  </Center>
+                </Box>
+                //   {/* <IconButton
+                //     icon={<DeleteIcon/>}
+                //     aria-label='Search database'
+                //     bg="#0f0f0f"
+                //     color="#f0f0f0"
+                //     onClick={() => {
+                //       // console.log();
+                //       props.setCollectionAddressList(
+                //         props.collectionAddressList.filter((addr) => {
+                //           return address !== addr
+                //         })
+                //       );
+                //     }}
+                //   /> */}
+                // </Grid>
+              )
+            })}
             <Box>
               <Input
                 placeholder='0x000000.....'
                 style={{
                   width: '100%',
-                  marginBottom: "8px",
-                  borderColor: "#4D4D4D",
+                  marginBottom: '8px',
+                  borderColor: '#4D4D4D',
                 }}
                 _placeholder={{
-                  color: "#4D4D4D"
+                  color: '#4D4D4D',
                 }}
                 value={inputAddress}
                 onChange={(event) => {
@@ -233,24 +226,24 @@ export function CreateForm(props: Props) {
                 }}
               />
               <Flex>
-                <Spacer/>
-                <Box 
-                  padding="2px 12px" 
-                  alignContent="end" 
-                  borderRadius="10px" 
-                  borderWidth="1px" 
-                  borderColor="#8F8F8F"
-                  as="button"
+                <Spacer />
+                <Box
+                  padding='2px 12px'
+                  alignContent='end'
+                  borderRadius='10px'
+                  borderWidth='1px'
+                  borderColor='#8F8F8F'
+                  as='button'
                   onClick={() => {
                     // console.log("onClick");
-                    props.setCollectionAddressList([...props.collectionAddressList, inputAddress]);
-                    setInputAddress("");
+                    props.setCollectionAddressList([...props.collectionAddressList, inputAddress])
+                    setInputAddress('')
                     console.log(props.collectionAddressList)
                   }}
                 >
-                  <HStack height="32px">
-                    <AddIcon w={4} h={4}/>
-                    <Text as="b" fontSize="14px">
+                  <HStack height='32px'>
+                    <AddIcon w={4} h={4} />
+                    <Text as='b' fontSize='14px'>
                       追加
                     </Text>
                   </HStack>
@@ -285,10 +278,8 @@ export function CreateForm(props: Props) {
             </Grid> */}
           </Box>
           <Box>
-            <Box marginBottom="8px">
-              <Text as='b'>
-                手数料
-              </Text>
+            <Box marginBottom='8px'>
+              <Text as='b'>手数料</Text>
             </Box>
             <Box>
               <NumberInput
@@ -314,57 +305,58 @@ export function CreateForm(props: Props) {
             </Box>
           </Box>
           <Box>
-            <Box marginBottom="8px">
-              <Text as="b">
-                モード
-              </Text>
+            <Box marginBottom='8px'>
+              <Text as='b'>モード</Text>
             </Box>
-            <Box style={{
-              padding: "12px",
-              background: "linear-gradient(266.91deg, rgba(175, 175, 174, 0.3) 0%, rgba(165, 164, 164, 0.21) 87.35%)",
-              borderRadius: "4px",
-            }}>
+            <Box
+              style={{
+                padding: '12px',
+                background:
+                  'linear-gradient(266.91deg, rgba(175, 175, 174, 0.3) 0%, rgba(165, 164, 164, 0.21) 87.35%)',
+                borderRadius: '4px',
+              }}
+            >
               <Box>
-                <RadioGroup 
-                  form-name="mode" 
-                  onChange={props.setPreviewMode} 
+                <RadioGroup
+                  form-name='mode'
+                  onChange={props.setPreviewMode}
                   value={props.previewMode}
-                  colorScheme="brack"
+                  colorScheme='white'
                 >
                   <Stack>
-                    <Radio value="market">
+                    <Radio
+                      value='market'
+                      colorScheme='white'
+                      bg={props.previewMode === 'market' ? 'white' : 'inherit'}
+                    >
                       <HStack>
-                        <Box padding="2px" marginLeft="6px">
-                          <NextImage
-                            width="20px"
-                            height="20px"
-                            src={TemplateLogo}
-                          />
+                        <Box padding='2px' marginLeft='6px'>
+                          <NextImage width='20px' height='20px' src={TemplateLogo} />
                         </Box>
                         <Box>
-                          <Text as="b" fontSize="14px">
+                          <Text as='b' fontSize='14px'>
                             テンプレート
                           </Text>
-                          <Text fontSize="12px" color="#D8D8D8">
+                          <Text fontSize='12px' color='#D8D8D8'>
                             ノーコードでサイトを構築・ホスティング
                           </Text>
                         </Box>
                       </HStack>
                     </Radio>
-                    <Radio value="api">
+                    <Radio
+                      value='api'
+                      colorScheme='white'
+                      bg={props.previewMode === 'api' ? 'white' : 'inherit'}
+                    >
                       <HStack>
-                        <Box padding="2px" marginLeft="6px">
-                          <NextImage
-                            width="20px"
-                            height="20px"
-                            src={ApiLogo}
-                          />
+                        <Box padding='2px' marginLeft='6px'>
+                          <NextImage width='20px' height='20px' src={ApiLogo} />
                         </Box>
                         <Box>
-                          <Text as="b" fontSize="14px">
+                          <Text as='b' fontSize='14px'>
                             API
                           </Text>
-                          <Text fontSize="12px" color="#D8D8D8">
+                          <Text fontSize='12px' color='#D8D8D8'>
                             NFT流動性APIのみを使って独自サービスを1から構築
                           </Text>
                         </Box>
@@ -379,7 +371,7 @@ export function CreateForm(props: Props) {
             style={{
               backgroundColor: '#ffffff',
               color: '#000000',
-              height: "44px"
+              height: '44px',
             }}
             onClick={createMarketPlace}
           >
@@ -407,10 +399,10 @@ export function CreateForm(props: Props) {
                 padding: 0,
               }}
             > */}
-              {/* <Box width='50%' textAlign="center">
+        {/* <Box width='50%' textAlign="center">
                 
               </Box> */}
-              {/* <Button
+        {/* <Button
                 style={{
                   width: '50%',
                   height: '35px',
