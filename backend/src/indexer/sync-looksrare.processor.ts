@@ -39,7 +39,7 @@ export class SyncLooksRareProcessor {
   @Process('fetch-orders')
   async handleFetchOrders(job: Job) {
     this.logger.log('Handling fetch-orders in sync-looksrare queue')
-    this.logger.log(job.data)
+    // this.logger.log(job.data)
 
     if (!job.data.addresses) {
       return
@@ -62,9 +62,9 @@ export class SyncLooksRareProcessor {
     // }
 
     this.logger.log('Calling looksrare API for marketplace...')
-    console.log({
-      addresses,
-    })
+    // console.log({
+    //   addresses,
+    // })
 
     for (let i = 0; i < addresses.length; i++) {
       const looksRare = new LooksRare()
@@ -73,13 +73,15 @@ export class SyncLooksRareProcessor {
         startTime: 0,
         endTime: 0,
       })
+      // console.log({ url })
+
       try {
         const response = await axios.get(url, {
           timeout: 10000,
         })
-        console.log({
-          responseData: response.data.data,
-        })
+        // console.log({
+        //   responseData: response.data.data,
+        // })
         const orders: LooksRareOrder[] = response.data.data
         const parsedOrders: Sdk.LooksRare.Order[] = []
 
@@ -126,9 +128,9 @@ export class SyncLooksRareProcessor {
 
           const result = await this.prisma.$transaction([...query])
 
-          console.log({
-            result,
-          })
+          // console.log({
+          //   result,
+          // })
 
           // empty result if all transactions already exist,
           // return most recent order hash

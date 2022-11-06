@@ -62,7 +62,6 @@ export class IndexerService {
     seaportJob.start()
     this.logger.warn('Sync seaport orders')
 
-    return 'only seaport'
     const looksRareJob = new CronJob(`*/5 * * * * *`, async () => {
       this.logger.log('fetch_orders_looksrare')
       // add to looksrare queue

@@ -1,7 +1,11 @@
 import * as Sdk from '@reservoir0x/sdk'
 import { logger } from 'src/logger'
+import { query } from 'winston'
 
 type FetchOrdersParams = {
+  assetContractAddress: string
+  startTokenId: number
+  endTokenId: number
   side: 'sell' | 'buy'
   orderBy?: 'created_date'
   orderDirection?: 'asc' | 'desc'
@@ -38,7 +42,7 @@ export type SeaportOrder = {
 }
 
 export class Seaport {
-  public buildFetchOrdersURL(params: FetchOrdersParams) {
+  public buildFetchOrdersUrl(params: FetchOrdersParams) {
     let hostname = 'api.opensea.io'
     let network = 'ethereum'
     switch (Number(process.env.CHAIN_ID)) {
@@ -64,6 +68,27 @@ export class Seaport {
     }`
 
     const queryParams = new URLSearchParams()
+
+    if (params.assetContractAddress) {
+      queryParams.append(
+        'asset_contract_address',
+        String(params.assetContractAddress),
+      )
+    }
+
+    if (
+      typeof params.startTokenId === 'number' &&
+      typeof params.endTokenId === 'number' &&
+      params.startTokenId <= params.endTokenId
+    ) {
+      for (let i = params.startTokenId; i < params.endTokenId; i++) {
+        queryParams.append('token_ids', String(i))
+      }
+    }
+    //
+    // if (typeof params.endTokenId === 'number') {
+    //   queryParams.append('token_ids', String(params.endTokenId))
+    // }
 
     if (params.orderBy) {
       queryParams.append('order_by', String(params.orderBy))
