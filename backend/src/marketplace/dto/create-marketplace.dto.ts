@@ -1,8 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
 import {
-  IsEmail,
-  IsInt,
+  IsNumber,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -29,6 +28,11 @@ export class CreateMarketplaceDto {
   @IsOptional()
   @ApiProperty()
   image?: string
+
+  @IsNumber()
+  @IsOptional()
+  @ApiProperty()
+  fee?: number
 
   @IsArray()
   @ArrayMaxSize(3)
