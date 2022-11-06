@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react'
 import NextImage, { StaticImageData } from 'next/image'
 import { ethers } from 'ethers'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useState, useEffect } from 'react'
 import MarketPlaceFacotory from '../../../../contracts/artifacts/contracts/MarketPlaceFactory.sol/MarketPlaceFactory.json'
 import TemplateLogo from './assets/template.png'
 import ApiLogo from './assets/api2.png'
@@ -68,6 +68,16 @@ export function CreateForm(props: Props) {
   const marketPlaceFactoryAddress = '0x0be934D7f224E559CD02eC604C543aEc3eAAAD10'
 
   // console.log(MarketPlaceFacotory);
+
+  useEffect(() => {
+    const getAccount = async () => {
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+      console.log(accounts)
+    }
+    getAccount();
+  }, []);
 
   /**
    * マーケットプレイスを作る関数
