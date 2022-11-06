@@ -163,7 +163,7 @@ export class NftService {
   }
 
   async getNftsForContracts(contractAddresses: string[]) {
-    const res: any[] = []
+    let res: any[] = []
     // Optional config object
     const settings = {
       apiKey: this.config.get('ALCHEMY_API_KEY'),
@@ -173,19 +173,47 @@ export class NftService {
 
     const addresses: string[] = contractAddresses
 
+    console.log('getAssets')
+    const hostname = 'testnets-api.opensea.io'
+    const network = 'goerli'
+    const baseApiUrl = `https://${hostname}/api/v1/assets`
+    const queryParams = new URLSearchParams()
+
+    for (let i = 0; i < addresses.length; i++) {
+      queryParams.append('asset_contract_addresses', addresses[i])
+    }
+
+    queryParams.append('limit', '100')
+
+    const url = decodeURI(`${baseApiUrl}?${queryParams.toString()}`)
+    console.log({ url })
+    const response = await axios.get(url, {
+      timeout: 10000,
+    })
+
+    console.log({ responseData: response.data })
+    const first = response.data.assets[0]
+    console.log({ first })
+    console.log({
+      address: first.asset_contract?.address,
+      tokenId: first.token_id,
+    })
+
+    res = response.data.assets
+
     // Parallel
-    await Promise.all(
-      addresses.map(async address => {
-        // console.log(`Fetching address ${address}!`)
-        const nfts = await alchemy.nft.getNftsForContract(address, {
-          pageSize: 100,
-          omitMetadata: false,
-        })
-        for (const nft of nfts.nfts) {
-          res.push(nft)
-        }
-      }),
-    )
+    // await Promise.all(
+    //   addresses.map(async address => {
+    //     // console.log(`Fetching address ${address}!`)
+    //     const nfts = await alchemy.nft.getNftsForContract(address, {
+    //       pageSize: 100,
+    //       omitMetadata: false,
+    //     })
+    //     for (const nft of nfts.nfts) {
+    //       res.push(nft)
+    //     }
+    //   }),
+    // )
 
     // Sequential
     // for (let i = 0; i < addresses.length; i++) {
@@ -210,7 +238,10 @@ export class NftService {
       const address = split[1]
       const tokenId = split[2]
       for (let j = 0; j < res.length; j++) {
-        if (res[j].contract.address === address && res[j].tokenId === tokenId) {
+        if (
+          res[j].asset_contract?.address === address &&
+          res[j].token_id === tokenId
+        ) {
           if (res[j].orders) {
             res[j].orders.push(orders[i])
           } else {
@@ -225,8 +256,8 @@ export class NftService {
     for (let i = 0; i < nativeOrders.length; i++) {
       for (let j = 0; j < res.length; j++) {
         if (
-          res[j].contract.address === nativeOrders[i].contract &&
-          res[j].tokenId === nativeOrders[i].tokenId.toString()
+          res[j].asset_contract?.address === nativeOrders[i].contract &&
+          res[j].token_id === nativeOrders[i].tokenId.toString()
         ) {
           if (res[j].nativeOrders) {
             res[j].nativeOrders.push(nativeOrders[i])
