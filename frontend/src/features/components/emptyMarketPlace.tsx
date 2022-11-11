@@ -157,16 +157,24 @@ interface Props {
 
 export function EmptyMarketPlace(props: Props) {
 
+  const backgorund = "rgba(21, 20, 20, 0.60)";
   return (
-    <Box style={{ backgroundColor: '#000000' }}>
+    <Box>
       <Stack spacing={0}>
-        <Box bg="#151414" padding="24px 32px 16px 32px">
+        <Box bg={backgorund} padding="24px 32px 16px 32px">
           <HStack gap={3}>
-            <Skeleton
+            {/* <Skeleton
               width='98px'
               height='98px'
               borderRadius='4px'
-            />
+            /> */}
+            <Box
+              bg="#383838"
+              width='98px'
+              height='98px'
+              borderRadius='4px'
+            >
+            </Box>
             <Grid height="98px" paddingLeft="72px" alignContent="end">
               <Grid templateColumns="1fr 1fr 1fr 1fr" color="#ffffff" gap="24px">
                 <Stack
@@ -240,7 +248,7 @@ export function EmptyMarketPlace(props: Props) {
             </Grid>
           </HStack>
         </Box>
-        <Box padding='0px 32px' bg="#151414">
+        <Box padding='0px 32px' bg={backgorund}>
           <Flex>
             <Box marginBottom='8px'>
               <Text as='b' fontSize='16px' color="#8f8f8f">
@@ -268,7 +276,7 @@ export function EmptyMarketPlace(props: Props) {
                 borderBottomWidth: "1px",
               }} 
               color="#ffffff" 
-              bg="#151414"
+              bg={backgorund}
             >
               <Tab 
                 _selected={{
@@ -284,7 +292,7 @@ export function EmptyMarketPlace(props: Props) {
                 </Text>
               </Tab>
             </TabList>
-            <TabPanels style={{ padding: '96px 36px 0px 36px' }}>
+            <TabPanels bg="#000000" style={{ padding: '96px 36px 0px 36px' }}>
               <TabPanel
                 style={{ padding: '0' }}
                 height="1vh"
