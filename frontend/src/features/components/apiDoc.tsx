@@ -129,9 +129,6 @@ export function ApiDoc() {
                     <br></br> &nbsp; &nbsp;”name”: ”Ether”,
                     <br></br> &nbsp; &nbsp;”symbol”: ”ETH”,
                     <br></br> &nbsp; &nbsp;”decimals”: 18 ｝,
-                    <br></br> &nbsp; &nbsp;”amount”: ｛<br></br> &nbsp; &nbsp; ”raw”:
-                    ”42000000000000000000”,
-                    <br></br> &nbsp; &nbsp; ”decimal”: 42, <br></br> &nbsp; &nbsp; ”usd”: null,
                   </Text>
                 </Box>
               </Box>
