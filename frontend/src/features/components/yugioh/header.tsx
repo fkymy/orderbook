@@ -11,6 +11,7 @@ import MainLogo from './assets/mainLogo.png';
 interface headerIcon {
   icon: string
   name: string
+  selected: boolean
 }
 
 function HeaderIcon(props: headerIcon) {
@@ -36,7 +37,7 @@ function HeaderIcon(props: headerIcon) {
             <NextImage src={img} />
           </Center>
         </Box>
-        <Text color='#ffffff'>{props.name}</Text>
+        <Text color={props.selected ? '#ffffff' : '#d8d8d8'} as={props.selected ? 'b' : 'a'}>{props.name}</Text>
       </Stack>
     </Box>
   )
@@ -51,9 +52,9 @@ export function YugidamaHeader() {
         paddingBottom='8px'
       >
         <Grid templateColumns='repeat(7, 1fr)' justifyItems='space-evenly'>
-          <HeaderIcon name='ランク戦' icon='rankBattle' />
-          <HeaderIcon name='フリー戦' icon='freeBattle' />
-          <HeaderIcon name='フレンド対戦' icon='friend' />
+          <HeaderIcon name='ランク戦' selected={false} icon='rankBattle' />
+          <HeaderIcon name='フリー戦' selected={false} icon='freeBattle' />
+          <HeaderIcon name='フレンド対戦' selected={false} icon='friend' />
           <Center>
             <NextImage
               src={MainLogo}
@@ -62,9 +63,9 @@ export function YugidamaHeader() {
             />
             {/* <Text color='#ffffff'>遊戯王</Text> */}
           </Center>
-          <HeaderIcon name='ショップ' icon='shop' />
-          <HeaderIcon name='マイデッキ' icon='deck' />
-          <HeaderIcon name='カード検索' icon='search' />
+          <HeaderIcon name='ショップ' selected={true} icon='shop' />
+          <HeaderIcon name='マイデッキ' selected={false} icon='deck' />
+          <HeaderIcon name='カード検索' selected={false} icon='search' />
         </Grid>
       </Box>
     </>

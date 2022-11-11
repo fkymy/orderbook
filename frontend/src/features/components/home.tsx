@@ -12,6 +12,7 @@ import qs from 'qs'
 import { SkeletonMarketPlace } from './skeltonMarketPlace'
 import Logo from './assets/logo.png';
 import { ApiDoc } from './apiDoc'
+import { EmptyMarketPlace } from './emptyMarketPlace'
 
 
 export function ConnectedTop() {
@@ -204,13 +205,23 @@ export function ConnectedTop() {
                           serviceName: serviceName
                         }}
                       />
-                    : <SkeletonMarketPlace
-                        collectionData={collectionData}
-                        style={{
-                          collectionDescription: collectionDescription,
-                          serviceName: serviceName
-                        }}
-                      />
+                    : (
+                        serviceName === ''
+                          ? <EmptyMarketPlace
+                              collectionData={collectionData}
+                              style={{
+                                collectionDescription: collectionDescription,
+                                serviceName: serviceName
+                              }}
+                            />
+                          : <SkeletonMarketPlace
+                              collectionData={collectionData}
+                              style={{
+                                collectionDescription: collectionDescription,
+                                serviceName: serviceName
+                              }}
+                            />
+                      )
                 ) : (
                   <ApiDoc/>
                 )
