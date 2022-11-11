@@ -158,6 +158,8 @@ export function CreateForm(props: Props) {
                   // backgroundColor: '#ffffff',
                   width: '100%',
                 }}
+                borderColor="#4d4d4d"
+                focusBorderColor="#fafafa"
                 value={props.serviceName}
                 onChange={(event) => {
                   // props.setIsGotCollectionData(false);
@@ -180,7 +182,7 @@ export function CreateForm(props: Props) {
                   height='40px'
                   borderRadius='6px'
                   borderWidth='1px'
-                  borderColor='white'
+                  borderColor='#8f8f8f'
                   marginBottom='8px'
                   paddingLeft='16px'
                 >
@@ -218,6 +220,8 @@ export function CreateForm(props: Props) {
                 _placeholder={{
                   color: '#4D4D4D',
                 }}
+                borderColor="#4d4d4d"
+                focusBorderColor="#fafafa"
                 value={inputAddress}
                 onChange={(event) => {
                   // props.setIsGotCollectionData(false);
@@ -291,12 +295,15 @@ export function CreateForm(props: Props) {
                   // backgroundColor: '#ffffff',
                   borderRadius: '10px',
                 }}
+                focusBorderColor="#fafafa"
                 min={0}
                 max={100}
                 step={1}
                 precision={0}
               >
-                <NumberInputField />
+                <NumberInputField
+                  borderColor="#4d4d4d"
+                />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
                   <NumberDecrementStepper />

@@ -52,6 +52,9 @@ export function StorePriceCard(props: StorePriceCardProps) {
       borderColor='#4D4762'
       borderWidth='1px'
       padding='16px 18.5px'
+      _hover={{
+        backgroundColor: "#353052"
+      }}
     >
       <Grid templateColumns='52px 1fr'>
         <Box height='52px'>

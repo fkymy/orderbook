@@ -130,20 +130,64 @@ interface Props {
   }
 }
 
-export function SkeletonMarketPlace(props: Props) {
+export function EmptyMarketPlace(props: Props) {
   const backgorund = 'rgba(21, 20, 20, 0.60)'
   return (
     <Box>
       <Stack spacing={0}>
         <Box bg={backgorund} padding='24px 32px 16px 32px'>
           <HStack gap={3}>
-            <Skeleton width='98px' height='98px' borderRadius='4px' />
+            {/* <Skeleton
+              width='98px'
+              height='98px'
+              borderRadius='4px'
+            /> */}
+            <Box bg='#383838' width='98px' height='98px' borderRadius='4px'></Box>
             <Grid height='98px' paddingLeft='72px' alignContent='end'>
               <Grid templateColumns='1fr 1fr 1fr 1fr' color='#ffffff' gap='24px'>
-                <Skeleton height='42px' width='58px' />
-                <Skeleton height='42px' width='58px' />
-                <Skeleton height='42px' width='58px' />
-                <Skeleton height='42px' width='58px' />
+                <Stack height='42px' width='58px' spacing='0'>
+                  <Center>
+                    <Text fontSize='14px'>アイテム</Text>
+                  </Center>
+                  <Center>
+                    <Text as='b' fontSize='20px'>
+                      {'-'}
+                    </Text>
+                  </Center>
+                </Stack>
+
+                <Stack height='42px' width='58px' spacing='0'>
+                  <Center>
+                    <Text fontSize='14px'>ボルダー</Text>
+                  </Center>
+                  <Center>
+                    <Text as='b' fontSize='20px'>
+                      {'-'}
+                    </Text>
+                  </Center>
+                </Stack>
+
+                <Stack height='42px' width='58px' spacing='0'>
+                  <Center>
+                    <Text fontSize='14px'>フロア</Text>
+                  </Center>
+                  <Center>
+                    <Text as='b' fontSize='20px'>
+                      {'-'}
+                    </Text>
+                  </Center>
+                </Stack>
+
+                <Stack height='42px' width='70px' spacing='0'>
+                  <Center>
+                    <Text fontSize='14px'>ボリューム</Text>
+                  </Center>
+                  <Center>
+                    <Text as='b' fontSize='20px'>
+                      {'-'}
+                    </Text>
+                  </Center>
+                </Stack>
               </Grid>
             </Grid>
           </HStack>
@@ -151,14 +195,11 @@ export function SkeletonMarketPlace(props: Props) {
         <Box padding='0px 32px' bg={backgorund}>
           <Flex>
             <Box marginBottom='8px'>
-              <Text as='b' fontSize='32px' color='#ffffff'>
-                {props.style.serviceName}
+              <Text as='b' fontSize='16px' color='#8f8f8f'>
+                {'コレクション'}
               </Text>
             </Box>
             <Spacer />
-            <Button bg='#ffffff' color='#000000'>
-              ウォレットに接続
-            </Button>
           </Flex>
           {props.style.collectionDescription != '' ? (
             <Box>
@@ -168,7 +209,7 @@ export function SkeletonMarketPlace(props: Props) {
             <></>
           )}
         </Box>
-        <Box minHeight='calc(100vh - 141px - 142px)'>
+        <Box bg='black' minHeight='calc(100vh - 141px - 142px)'>
           <Tabs variant='line'>
             <TabList
               style={{
@@ -188,24 +229,14 @@ export function SkeletonMarketPlace(props: Props) {
               >
                 <Text color='#ffffff'>すべて</Text>
               </Tab>
-              <Tab
-                _selected={{
-                  fontWeight: 'bold',
-                }}
-              >
-                My NFTs
-              </Tab>
             </TabList>
-            <TabPanels bg='#000000' style={{ padding: '24px 36px 0px 36px' }}>
-              <TabPanel
-                style={{ padding: '0' }}
-                maxWidth={`${props.collectionData?.data?.assets?.length * 230}px`}
-              >
-                <SimpleGrid minChildWidth='200px' spacing='24px'>
-                  {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((v, i) => {
-                    return <ItemCard key={i} idx={i} />
-                  })}
-                </SimpleGrid>
+            <TabPanels bg='#000000' style={{ padding: '96px 36px 0px 36px' }}>
+              <TabPanel style={{ padding: '0' }} height='1vh'>
+                <Center>
+                  <Text as='b' color='#8f8f8f'>
+                    {'コレクションが見つかりません'}
+                  </Text>
+                </Center>
               </TabPanel>
               <TabPanel>My NFTs</TabPanel>
             </TabPanels>
