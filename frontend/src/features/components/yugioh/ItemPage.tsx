@@ -417,6 +417,12 @@ export function YuGiOhItem(props: Props) {
                           borderRadius="12px" 
                           bg="#4114C2" 
                           onClick={onOpen}
+                          _hover={{
+                            backgroundColor: "#5446EC"
+                          }}
+                          _active={{
+                            backgroundColor: "#5446EC"
+                          }}
                         >
                           出品
                         </Button>
@@ -461,6 +467,12 @@ export function YuGiOhItem(props: Props) {
                         width='100%' 
                         margin='24px 0px 36px 0px'
                         onClick={() => purchaseItem(props?.nftAllData?.nativeOrders?.at(0)?.decimalAmount, props?.nftAllData?.nativeOrders?.at(0)?.id)}
+                        _hover={{
+                          backgroundColor: "#5446EC"
+                        }}
+                        _active={{
+                          backgroundColor: "#5446EC"
+                        }}
                       >
                         今すぐ購入
                       </Button>
@@ -674,6 +686,12 @@ export function YuGiOhItem(props: Props) {
                     bg="#4114C2" 
                     borderRadius="12px" 
                     onClick={() => listingItem(price)}
+                    _hover={{
+                      backgroundColor: "#5446EC"
+                    }}
+                    _active={{
+                      backgroundColor: "#5446EC"
+                    }}
                   >
                     出品開始
                   </Button>

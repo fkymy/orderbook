@@ -22,7 +22,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Nft } from 'alchemy-sdk'
-import orderData from './yugioh/assets/demoOrderData.json';
+import orderData from './yugioh/assets/testOrderData.json'
 import { useState, useEffect } from 'react'
 import NextImage, { StaticImageData } from 'next/image'
 
@@ -42,7 +42,6 @@ export function getStoreIcon(store: 'seaport' | 'looks-rare' | 'orderbook') {
   }
 }
 
-
 const OverflowEllipsis = ({ children }: { children: string }) => (
   <div style={{ display: 'table', width: '100%' }}>
     <p
@@ -60,119 +59,119 @@ const OverflowEllipsis = ({ children }: { children: string }) => (
 )
 
 interface ItemCardProps {
-  nftData: any,
+  nftData: any
   idx: number
 }
 
 function ItemCard(props: ItemCardProps) {
   // console.log("order", props?.nftData?.order?.orders);
-  const [mode, setMode] = useState('card');
+  const [mode, setMode] = useState('card')
 
   if (mode === 'listing') {
     return (
       <Box
-        bg='#000000' 
-        maxWidth='510px' 
-        // shadow='md' 
-        rounded='8px' 
-        borderWidth="1px" 
-        borderColor="#4D4D4D" 
-        color="#ffffff"
+        bg='#000000'
+        maxWidth='510px'
+        // shadow='md'
+        rounded='8px'
+        borderWidth='1px'
+        borderColor='#4D4D4D'
+        color='#ffffff'
         key={props.idx}
         style={{
           // backgroundColor: "red",
-          height: "100%"
+          height: '100%',
         }}
       >
-        <Grid templateRows="34px 1fr 36px" height="100%">
-          <Center borderBottomWidth="1px" borderBottomColor="#4d4d4d">
-            <Box width="100%" paddingLeft="10px">
-              <Text as="b" fontSize="14px">
+        <Grid templateRows='34px 1fr 36px' height='100%'>
+          <Center borderBottomWidth='1px' borderBottomColor='#4d4d4d'>
+            <Box width='100%' paddingLeft='10px'>
+              <Text as='b' fontSize='14px'>
                 すべてのリスティング
               </Text>
             </Box>
           </Center>
-          <Stack padding="8px" marginTop="0px" gap="6px">
-            {
-              props.nftData?.order?.orders?.map((orderData, idx) => {
-                // console.log(orderData);
-                return (
-                  <Box padding="4px 8px" bg="#4D4D4D" borderRadius="4px" key={idx}>
-                    <Box>
-                      <Flex>
-                        <Text w="54px" fontSize="10px" color="#D8D8D8">
-                          <OverflowEllipsis>
-                            {orderData?.maker}
-                          </OverflowEllipsis>
-                        </Text>
-                        <Spacer/>
-                        <Text fontSize="10px" color="#FAFAFA">
-                          {`あと${2}日${3}時間`}
-                        </Text>
-                      </Flex>
-                      <Box marginTop="2px">
-                        <HStack>
-                          <NextImage
-                            src={getStoreIcon(orderData?.kind)}
-                            width="14px"
-                            height="14px"
-                          />
-                          <Box marginLeft="6px">
-                            <Text fontSize="14px">
-                              <b>{`${(orderData?.price?.amount?.decimal).toFixed(2)} ETH`}</b><span style={{fontSize: "10px"}}>{` (${(orderData?.price?.amount?.decimal * 242000).toFixed(2)}円)`}</span>
-                            </Text>
-                          </Box>
-                        </HStack>
-                      </Box>
+          <Stack padding='8px' marginTop='0px' gap='6px'>
+            {props.nftData?.order?.orders?.map((orderData, idx) => {
+              // console.log(orderData);
+              return (
+                <Box padding='4px 8px' bg='#4D4D4D' borderRadius='4px' key={idx}>
+                  <Box>
+                    <Flex>
+                      <Text w='54px' fontSize='10px' color='#D8D8D8'>
+                        <OverflowEllipsis>{orderData?.maker}</OverflowEllipsis>
+                      </Text>
+                      <Spacer />
+                      <Text fontSize='10px' color='#FAFAFA'>
+                        {`あと${2}日${3}時間`}
+                      </Text>
+                    </Flex>
+                    <Box marginTop='2px'>
+                      <HStack>
+                        <NextImage src={getStoreIcon(orderData?.kind)} width='14px' height='14px' />
+                        <Box marginLeft='6px'>
+                          <Text fontSize='14px'>
+                            <b>{`${(orderData?.price?.amount?.decimal).toFixed(2)} ETH`}</b>
+                            <span style={{ fontSize: '10px' }}>{` (${(
+                              orderData?.price?.amount?.decimal * 242000
+                            ).toFixed(2)}円)`}</span>
+                          </Text>
+                        </Box>
+                      </HStack>
                     </Box>
-                    <Button color="#000000" borderRadius="4px" fontSize="10px" bg="#D8D8D8" height="22px" width="100%">
-                      購入
-                    </Button>
                   </Box>
-                )
-              })
-            }
+                  <Button
+                    color='#000000'
+                    borderRadius='4px'
+                    fontSize='10px'
+                    bg='#D8D8D8'
+                    height='22px'
+                    width='100%'
+                  >
+                    購入
+                  </Button>
+                </Box>
+              )
+            })}
           </Stack>
-          <Box borderTopWidth="1px" borderTopColor="#4d4d4d" padding="7px">
+          <Box borderTopWidth='1px' borderTopColor='#4d4d4d' padding='7px'>
             {/* <Button>閉じる</Button> */}
-            <Center 
-              borderRadius="8px" 
-              borderWidth="1px" 
-              borderColor="#8F8F8F" 
-              as="button" 
-              w="100%" 
-              h="100%" 
+            <Center
+              borderRadius='8px'
+              borderWidth='1px'
+              borderColor='#8F8F8F'
+              as='button'
+              w='100%'
+              h='100%'
               onClick={() => {
                 setMode('card')
               }}
             >
-              <Text as="b" fontSize="10px">
+              <Text as='b' fontSize='10px'>
                 閉じる
               </Text>
             </Center>
           </Box>
         </Grid>
       </Box>
-    );
+    )
   }
   return (
-    <Box 
-      bg='#000000' 
-      maxWidth='510px' 
-      // shadow='md' 
-      rounded='8px' 
-      borderWidth="1px" 
-      borderColor="#4D4D4D" 
+    <Box
+      bg='#000000'
+      maxWidth='510px'
+      // shadow='md'
+      rounded='8px'
+      borderWidth='1px'
+      borderColor='#4D4D4D'
       key={props.idx}
     >
-      <Stack spacing="0px">
-        <Box width="100%" justifyContent="center" padding="auto">
-          <Center padding="10px" width="100%">
-            <Box margin="auto" width="95%">
-              <Text as='b' fontSize="14px" textAlign="left" color="#ffffff">
-                <OverflowEllipsis>
-                  {props.nftData?.name}
-                </OverflowEllipsis>
+      <Stack spacing='0px'>
+        <Box width='100%' justifyContent='center' padding='auto'>
+          <Center padding='10px' width='100%'>
+            <Box margin='auto' width='95%'>
+              <Text as='b' fontSize='14px' textAlign='left' color='#ffffff'>
+                <OverflowEllipsis>{props.nftData?.name}</OverflowEllipsis>
               </Text>
             </Box>
           </Center>
@@ -200,57 +199,54 @@ function ItemCard(props: ItemCardProps) {
           />
         </Box>
         <Box>
-          <Grid templateColumns="1fr 1fr" padding="6px">
-            <Box padding="4px 8px">
+          <Grid templateColumns='1fr 1fr' padding='6px'>
+            <Box padding='4px 8px'>
               <Box>
-                <Text color="#D8D8D8" fontSize="10px">
+                <Text color='#D8D8D8' fontSize='10px'>
                   オファー(42)
                 </Text>
               </Box>
-              <Box marginTop="2px">
-                <Text as="b" fontSize="12px" color="#ffffff">
-                  {(props.nftData?.order?.orders?.at(0)?.price?.amount?.native - 0.13)?.toFixed(2)} ETH
+              <Box marginTop='2px'>
+                <Text as='b' fontSize='12px' color='#ffffff'>
+                  {(props.nftData?.order?.orders?.at(0)?.price?.amount?.native - 0.13)?.toFixed(2)}{' '}
+                  ETH
                 </Text>
               </Box>
             </Box>
-            <Box padding="4px 8px" as="button" onClick={() => {
-              // console.log('click listing')
-              setMode('listing')
-            }}>
+            <Box
+              padding='4px 8px'
+              as='button'
+              onClick={() => {
+                // console.log('click listing')
+                setMode('listing')
+              }}
+            >
               <Box>
-                <Text 
-                  color="#D8D8D8" 
-                  fontSize="10px"
-                >
+                <Text color='#D8D8D8' fontSize='10px'>
                   リスティング({props.nftData?.order?.orders?.length})
                 </Text>
               </Box>
-              <Box marginTop="2px">
-                <Text as="b" fontSize="12px" color="#ffffff">
-                  {(props.nftData?.order?.orders?.at(0)?.price?.amount?.native)?.toFixed(2)} ETH
+              <Box marginTop='2px'>
+                <Text as='b' fontSize='12px' color='#ffffff'>
+                  {props.nftData?.order?.orders?.at(0)?.price?.amount?.native?.toFixed(2)} ETH
                 </Text>
               </Box>
             </Box>
           </Grid>
         </Box>
-        <Box padding="8px">
-          <Grid templateColumns="1fr 1fr" gap="8px">
+        <Box padding='8px'>
+          <Grid templateColumns='1fr 1fr' gap='8px'>
             <Button
-              fontSize="12px"
-              bg="#000000"
-              color="#ffffff"
-              borderColor="#8F8F8F"
-              borderWidth="1px"
-              borderRadius="12px"
+              fontSize='12px'
+              bg='#000000'
+              color='#ffffff'
+              borderColor='#8F8F8F'
+              borderWidth='1px'
+              borderRadius='12px'
             >
               オファー
             </Button>
-            <Button
-              fontSize="12px"
-              bg="#F9FFD5"
-              borderRadius="12px"
-              color="#000000"
-            >
+            <Button fontSize='12px' bg='#F9FFD5' borderRadius='12px' color='#000000'>
               購入
             </Button>
           </Grid>
@@ -269,14 +265,14 @@ function ItemCard(props: ItemCardProps) {
         </Container> */}
       </Stack>
     </Box>
-  );
+  )
 }
 
 interface Props {
   // mainColor: string;
   collectionData: any
   style: {
-    serviceName: string,
+    serviceName: string
     collectionDescription: string
   }
 }
@@ -284,10 +280,10 @@ interface Props {
 export function MarketPlace(props: Props) {
   // console.log("icon", props.collectionData?.data);
   // console.log("icon", props.collectionData?.data?.nfts[0]?.metadata?.image);
-  const [sortedArray, setSortedArray] = useState<any>([]);
-  const [floorPrice, setFloorPrice] = useState(0);
-  const [totalVolume, setTotalVolume] = useState(0);
-  const [collectionNameList, setCollectionNameList] = useState([]);
+  const [sortedArray, setSortedArray] = useState<any>([])
+  const [floorPrice, setFloorPrice] = useState(0)
+  const [totalVolume, setTotalVolume] = useState(0)
+  const [collectionNameList, setCollectionNameList] = useState([])
 
   const width: any = {
     sm: '100%',
@@ -295,65 +291,71 @@ export function MarketPlace(props: Props) {
     lg: '33%',
     xl: '25%',
   }
-  console.log("preview market", props.collectionData?.data?.assets);
+  console.log('preview market', props.collectionData?.data?.assets)
   // console.log(props.collectionData?.data?.nfts?.at(0)?.media[0]?.gateway)
 
-  let tmpFloorPrice = 99999999999;
-  let tmpTotalVolume = 0;
+  let tmpFloorPrice = 99999999999
+  let tmpTotalVolume = 0
 
   useEffect(() => {
-    let parsedArray = props.collectionData?.data?.assets;
+    let parsedArray = props.collectionData?.data?.assets
     if (parsedArray) {
       let tmpCollectionNameList = []
       for (let i = 0; i < parsedArray.length; i++) {
         // console.log(i, parsedArray[i])
-        const name = parsedArray?.at(i)?.asset_contract?.name;
+        const name = parsedArray?.at(i)?.asset_contract?.name
         if (tmpCollectionNameList.indexOf(name) === -1) {
-          tmpCollectionNameList.push(name);
+          tmpCollectionNameList.push(name)
         }
-        parsedArray.at(i).order = orderData.filter((nft, idx) => {
-          return parsedArray?.at(i)?.asset_contract?.address === nft?.contract?.address && parsedArray?.at(i)?.token_id === nft?.tokenId
-        })?.at(0)
+        parsedArray.at(i).order = orderData
+          .filter((nft, idx) => {
+            return (
+              parsedArray?.at(i)?.asset_contract?.address === nft?.contract?.address &&
+              parsedArray?.at(i)?.token_id === nft?.tokenId
+            )
+          })
+          ?.at(0)
         if (parsedArray.at(i).order) {
-          let tmp = parsedArray.at(i)?.order?.orders?.at(0)?.price?.amount?.native;
+          let tmp = parsedArray.at(i)?.order?.orders?.at(0)?.price?.amount?.native
           if (tmp) {
             // console.log("navigate", tmp);
             if (tmp < tmpFloorPrice) {
-              tmpFloorPrice = tmp;
+              tmpFloorPrice = tmp
             }
-            tmpTotalVolume += tmp;
+            tmpTotalVolume += tmp
           }
         }
       }
       tmpCollectionNameList.sort()
-      console.log(tmpCollectionNameList);
-      setCollectionNameList(tmpCollectionNameList);
-      setFloorPrice(tmpFloorPrice);
-      setTotalVolume(tmpTotalVolume);
+      console.log(tmpCollectionNameList)
+      setCollectionNameList(tmpCollectionNameList)
+      setFloorPrice(tmpFloorPrice)
+      setTotalVolume(tmpTotalVolume)
       // console.log("parsedArray", parsedArray);
 
       parsedArray.sort((a, b) => {
         const f = (v) => {
           // console.log("v", v?.order?.orders?.at(0)?.price?.amount?.native);
-          let tmp = v?.order?.orders?.at(0)?.price?.amount?.native;
+          let tmp = v?.order?.orders?.at(0)?.price?.amount?.native
           if (!tmp) {
-            return 999999999;
+            return 999999999
           }
-          return tmp;
+          return tmp
         }
-        let aOrder = f(a);
-        let bOrder = f(b);
+        let aOrder = f(a)
+        let bOrder = f(b)
         // console.log("ab", aOrder, bOrder)
-        return aOrder - bOrder;
-      });
-      setSortedArray(parsedArray);
+        return aOrder - bOrder
+      })
+      setSortedArray(parsedArray)
     }
   }, [props.collectionData])
 
+  const backgorund = 'rgba(21, 20, 20, 0.60)'
   return (
-    <Box style={{ backgroundColor: '#000000' }}>
+    <Box>
       <Stack spacing={0}>
-        <Box bg="#151414" padding="24px 32px 16px 32px">
+        <Box bg={backgorund} padding='24px 32px 16px 32px'>
           <HStack gap={3}>
             <Image
               width='98px'
@@ -366,37 +368,29 @@ export function MarketPlace(props: Props) {
               alt='card image'
               // src={`${props.collectionData?.data?.nfts[0]?.metadata?.image}`}
             />
-            <Grid height="98px" paddingLeft="72px" alignContent="end">
-              <Grid templateColumns="1fr 1fr 1fr 1fr" color="#ffffff" gap="24px">
-                <Box textAlign="center">
-                  <Text fontSize="14px">
-                    アイテム
-                  </Text>
-                  <Text as="b" fontSize="20px">
+            <Grid height='98px' paddingLeft='72px' alignContent='end'>
+              <Grid templateColumns='1fr 1fr 1fr 1fr' color='#ffffff' gap='24px'>
+                <Box textAlign='center'>
+                  <Text fontSize='14px'>アイテム</Text>
+                  <Text as='b' fontSize='20px'>
                     {props.collectionData?.data?.assets?.length}
                   </Text>
                 </Box>
-                <Box textAlign="center">
-                  <Text fontSize="14px">
-                    オーナー
-                  </Text>
-                  <Text as="b" fontSize="20px">
+                <Box textAlign='center'>
+                  <Text fontSize='14px'>オーナー</Text>
+                  <Text as='b' fontSize='20px'>
                     {parseInt(`${props.collectionData?.data?.assets?.length * 0.8}`)}
                   </Text>
                 </Box>
-                <Box textAlign="center">
-                  <Text fontSize="14px">
-                    フロア
-                  </Text>
-                  <Text as="b" fontSize="20px">
+                <Box textAlign='center'>
+                  <Text fontSize='14px'>フロア</Text>
+                  <Text as='b' fontSize='20px'>
                     {floorPrice.toFixed(2)}
                   </Text>
                 </Box>
-                <Box textAlign="center">
-                  <Text fontSize="14px">
-                    ボリューム
-                  </Text>
-                  <Text as="b" fontSize="20px">
+                <Box textAlign='center'>
+                  <Text fontSize='14px'>ボリューム</Text>
+                  <Text as='b' fontSize='20px'>
                     {totalVolume.toFixed(2)}
                   </Text>
                 </Box>
@@ -404,82 +398,71 @@ export function MarketPlace(props: Props) {
             </Grid>
           </HStack>
         </Box>
-        <Box padding='0px 32px' bg="#151414">
+        <Box padding='0px 32px' bg={backgorund}>
           <Flex>
             <Box marginBottom='8px'>
-              <Text as='b' fontSize='32px' color="#ffffff">
+              <Text as='b' fontSize='32px' color='#ffffff'>
                 {/* {props.collectionData?.data?.nfts[0]?.contractMetadata?.name} */}
                 {props.style.serviceName}
               </Text>
             </Box>
-            <Spacer/>
-            <Button bg="#ffffff" color="#000000">
+            <Spacer />
+            <Button bg='#ffffff' color='#000000'>
               ウォレットに接続
             </Button>
           </Flex>
-          {
-            props.style.collectionDescription != '' ? (
-              <Box>
-                <Text color='gray'>{props.style.collectionDescription}</Text>
-              </Box>
-            ) : (
-              <></>
-            )
-          }
+          {props.style.collectionDescription != '' ? (
+            <Box>
+              <Text color='gray'>{props.style.collectionDescription}</Text>
+            </Box>
+          ) : (
+            <></>
+          )}
         </Box>
         <Box minHeight='calc(100vh - 141px - 142px)'>
           {/* item list, my Item */}
-          <Tabs variant="line">
-            <TabList 
+          <Tabs variant='line'>
+            <TabList
               style={{
                 paddingLeft: '30px',
-                borderBottomColor: "#4C4C4C",
-                borderBottomWidth: "1px",
-              }} 
-              color="#ffffff" 
-              bg="#151414"
+                borderBottomColor: '#4C4C4C',
+                borderBottomWidth: '1px',
+              }}
+              color='#ffffff'
+              bg={backgorund}
+              // bg="#151414"
             >
-              <Tab 
+              <Tab
                 _selected={{
-                  fontWeight: "bold",
-                  borderBottomColor: "#ffffff"
+                  fontWeight: 'bold',
+                  borderBottomColor: '#ffffff',
                 }}
-                style={{
-                  
-                }}
+                style={{}}
               >
-                <Text color="#ffffff">
-                  すべて
-                </Text>
+                <Text color='#ffffff'>すべて</Text>
               </Tab>
-              {
-                collectionNameList.map((name, idx) => {
-                  return (
-                    <Tab key={idx} _selected={{
-                      fontWeight: "bold"
-                    }}>
-                      {name}
-                    </Tab>
-                  )
-                })
-              }
+              {collectionNameList.map((name, idx) => {
+                return (
+                  <Tab
+                    key={idx}
+                    _selected={{
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {name}
+                  </Tab>
+                )
+              })}
             </TabList>
-            <TabPanels style={{ padding: '24px 36px 0px 36px' }}>
+            <TabPanels bg='#000000' style={{ padding: '24px 36px 0px 36px' }}>
               <TabPanel
                 style={{ padding: '0' }}
                 maxWidth={`${props.collectionData?.data?.assets?.length * 230}px`}
               >
-                <SimpleGrid minChildWidth='200px' spacing="24px">
-                  {
-                    sortedArray?.map((nft, n) => {
-                      return (
-                        <ItemCard
-                          idx={n}
-                          nftData={nft}
-                        />
-                      )
-                    })
-                  }
+                <SimpleGrid minChildWidth='200px' spacing='24px'>
+                  {sortedArray?.map((nft, n) => {
+                    return <ItemCard key={n} idx={n} nftData={nft} />
+                  })}
                   {/* {props.collectionData?.data?.assets?.map((nft: any, n: number) => {
                     return (
                       <Box 
